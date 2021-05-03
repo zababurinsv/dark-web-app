@@ -1,10 +1,10 @@
-# Subsocial Privacy Policy
+# Darkdot Privacy Policy
 
-Subsocial is committed to protecting and respecting your privacy.
+Darkdot is committed to protecting and respecting your privacy.
 
-This Privacy Policy applies to your use of the Website [subsocial.network](http://subsocial.network) and any services we provide on the Website, and doesn’t apply to third-party software, even if we promote the use of this software.
+This Privacy Policy applies to your use of the Website [darkdot.network](http://darkdot.network) and any services we provide on the Website, and doesn’t apply to third-party software, even if we promote the use of this software.
 
-This document explains that we don’t collect, process and store any of your personal data. It also explains how IPFS protocol is related to Subsocial and allows people to add and retrieve data to and from Subsocial network. By using the Website, you accept and agree on the terms of this Privacy Policy. Should you disagree, you are free to stop using the Website.
+This document explains that we don’t collect, process and store any of your personal data. It also explains how IPFS protocol is related to Darkdot and allows people to add and retrieve data to and from Darkdot network. By using the Website, you accept and agree on the terms of this Privacy Policy. Should you disagree, you are free to stop using the Website.
 
 In this document, terms have the same meaning as provided in [Terms of Use](/legal/terms).
 
@@ -18,16 +18,16 @@ Processing of the data means any action performed with your personal data, for e
 
 We know you care about how your personal data is used and we take your privacy seriously. That is why, in general, we don’t collect and process any of your personal data.
 
-However, until Subsocial network is under active development and testing, we may run our own IPFS nodes. It’s necessary for enabling you to upload and post any text, visual or audiovisual content (User Generated Content) to Subsocial network. This means, if we run our own IPFS nodes we may collect and process any User Generated Content or other details that you upload to the space or profile.
+However, until Darkdot network is under active development and testing, we may run our own IPFS nodes. It’s necessary for enabling you to upload and product any text, visual or audiovisual content (User Generated Content) to Darkdot network. This means, if we run our own IPFS nodes we may collect and process any User Generated Content or other details that you upload to the storefront or profile.
 
-Please note that we don’t guarantee the running of our own IPFS nodes permanently. We may do so only if we consider it necessary to provide data availability on Subsocial network.
+Please note that we don’t guarantee the running of our own IPFS nodes permanently. We may do so only if we consider it necessary to provide data availability on Darkdot network.
 
 
 ## Use of personal information
 
-Please note that any User Generated Content you upload and post to the space or profile, including your personal information, will be publicly available forever. It means that others will have read access to your personal information that you unload to the Subsocial network, and we can not control how others may use your personal information.
+Please note that any User Generated Content you upload and product to the storefront or profile, including your personal information, will be publicly available forever. It means that others will have read access to your personal information that you unload to the Darkdot network, and we can not control how others may use your personal information.
 
-The fact is that with IPFS the small parts of User Generated Content are stored on nodes spread across the globe. A cryptographic hash is computed from User Generated Content then gets stored on Subsocial blockchain. When someone wants to view this content, its hash is used to load the actual data from IPFS. At this point, the small parts are retrieved simultaneously from numerous nearby IPFS nodes. As your User Generated Content is stored in parts on nodes it means it can be publicly available forever.
+The fact is that with IPFS the small parts of User Generated Content are stored on nodes spread across the globe. A cryptographic hash is computed from User Generated Content then gets stored on Darkdot blockchain. When someone wants to view this content, its hash is used to load the actual data from IPFS. At this point, the small parts are retrieved simultaneously from numerous nearby IPFS nodes. As your User Generated Content is stored in parts on nodes it means it can be publicly available forever.
 
 
 ## Third-party processing
@@ -42,18 +42,18 @@ We do not collect your private key or other details and do not transfer any of y
 
 ### IPFS integration
 
-InterPlanetary File System is a peer-to-peer network for storing and sharing data. We use this third-party network for enabling you to upload and post any text, visual or audiovisual content (User Generated Content) to Subsocial.
+InterPlanetary File System is a peer-to-peer network for storing and sharing data. We use this third-party network for enabling you to upload and product any text, visual or audiovisual content (User Generated Content) to Darkdot.
 
-As above-mentioned, any User Generated Content you upload or post to the space or profile using Subsocial is then publicly available and accessible to everyone participating in IPFS Network. This User-Generated Content will be stored on your local IPFS node. Also, this content will be distributed and co-hosted on other users’ local IPFS nodes. If you want to remove some User Generated Content, you can do it only from your local IPFS node. IPFS protocol does not guarantee that User Generated Content removed from your local node will be removed from IPFS Network completely. It may remain stored on other users’ local IPFS nodes.
+As above-mentioned, any User Generated Content you upload or product to the storefront or profile using Darkdot is then publicly available and accessible to everyone participating in IPFS Network. This User-Generated Content will be stored on your local IPFS node. Also, this content will be distributed and co-hosted on other users’ local IPFS nodes. If you want to remove some User Generated Content, you can do it only from your local IPFS node. IPFS protocol does not guarantee that User Generated Content removed from your local node will be removed from IPFS Network completely. It may remain stored on other users’ local IPFS nodes.
 
-Thus, all content shared with the IPFS Network is public by default. This means your User Generated Content that you have uploaded or posted will be accessible to everyone who queries the data on the IPFS Network. If you want to share certain User Generated Content privately, you must encrypt such content before uploading or posting it to the IPFS Network.
+Thus, all content shared with the IPFS Network is public by default. This means your User Generated Content that you have uploaded or producted will be accessible to everyone who queries the data on the IPFS Network. If you want to share certain User Generated Content privately, you must encrypt such content before uploading or producting it to the IPFS Network.
 
 
 ## Links to third-party websites
 
-Subsocial is not responsible for the content of any referred third-party products or services. Any third-party products or services are independent of Subsocial. Subsocial has no control over them. The use of any third-party product or service is subject to its terms of service and privacy policy or other legal documentation.
+Darkdot is not responsible for the content of any referred third-party products or services. Any third-party products or services are independent of Darkdot. Darkdot has no control over them. The use of any third-party product or service is subject to its terms of service and privacy policy or other legal documentation.
 
-In no event shall any reference to any third-party product or service be construed as an approval or endorsement by Subsocial of that third party or of any product or service provided by a third party. A recommendation to use any third-party product or service does not imply that we endorse or accept any responsibility for the content or use of such product or service as well as will not be a party to or in any way monitor any transaction involving any third-party providers of products or services.
+In no event shall any reference to any third-party product or service be construed as an approval or endorsement by Darkdot of that third party or of any product or service provided by a third party. A recommendation to use any third-party product or service does not imply that we endorse or accept any responsibility for the content or use of such product or service as well as will not be a party to or in any way monitor any transaction involving any third-party providers of products or services.
 
 
 ## European Economic Area (EEA) residents
@@ -72,23 +72,23 @@ If your personal information is publicly available and stored on other users’ 
 
 **Right to data portability.** If we run our own IPFS nodes and process your personal data, you may request to receive your personal information in a structured, commonly used and machine-readable format. You may also ask us to transfer your personal information directly to another controller, where technically feasible, unless exercise of this right adversely affects the rights and freedoms of others. 
 
-**Right to restriction of the processing.** If we run our own IPFS nodes and process your personal data, you have the right to restrict the processing of your personal information. It means that in some cases, prescribed by law, you may restrict the way of processing your personal information. For example, if you contest the accuracy of your personal data being processed or in case Subsocial is not interested in the processing of your personal data any longer, but you want Subsocial to do this on different reasons (to exercise or defense of legal claims) and, instead of the erasure of information, its processing will be just restricted.
+**Right to restriction of the processing.** If we run our own IPFS nodes and process your personal data, you have the right to restrict the processing of your personal information. It means that in some cases, prescribed by law, you may restrict the way of processing your personal information. For example, if you contest the accuracy of your personal data being processed or in case Darkdot is not interested in the processing of your personal data any longer, but you want Darkdot to do this on different reasons (to exercise or defense of legal claims) and, instead of the erasure of information, its processing will be just restricted.
 
 **Right to object to the processing.** Where the processing of your personal information is based on consent, contract or legitimate interests you may object, at any time, to the processing of your personal information as permitted by applicable law. We can continue to process your personal information if it is necessary for the defense of legal claims, or for any other exceptions permitted by applicable law.
 
-**How to exercise your rights?** To exercise any of your rights, or if you have any other questions about our use of your personal data, please contact us at [subsocial@pm.me](mailto:subsocial@pm.me). We are committed to responding to any user within a reasonable time. Please note that we may take steps to verify your identity before complying with the request, to protect your privacy and security.
+**How to exercise your rights?** To exercise any of your rights, or if you have any other questions about our use of your personal data, please contact us at [darkdot@pm.me](mailto:darkdot@pm.me). We are committed to responding to any user within a reasonable time. Please note that we may take steps to verify your identity before complying with the request, to protect your privacy and security.
 
 
 ## Changes to our Privacy Policy
 
-Subsocial network is still under development and testing, and we’re continually improving this product. So, we may amend or update this Privacy Policy from time to time. When we do, we will update the date at the top of this Privacy Policy and will also post a new version on the Website.
+Darkdot network is still under development and testing, and we’re continually improving this product. So, we may amend or update this Privacy Policy from time to time. When we do, we will update the date at the top of this Privacy Policy and will also product a new version on the Website.
 
 Please periodically check this page to ensure that you’re satisfied with any changes. Your further use of the Website will confirm your acceptance of the new Privacy Policy and all of the amendments made. Should you disagree with this document, you have to stop using the Website.
 
 
 ## Our contact information
 
-If you have any questions regarding this Privacy Policy, please do not hesitate to contact us at [subsocial@pm.me](mailto:subsocial@pm.me).
+If you have any questions regarding this Privacy Policy, please do not hesitate to contact us at [darkdot@pm.me](mailto:darkdot@pm.me).
 
 ---
 

@@ -1,36 +1,38 @@
-import React from 'react'
-import { isDef } from '@subsocial/utils'
-import { LoadMoreFn } from './NotificationUtils'
-import { PostWithAllDetails } from '@subsocial/types'
-import PostPreview from '../posts/view-post/PostPreview'
-import { LoadMoreProps, ActivityProps } from './types'
-import { SubsocialApi } from '@subsocial/api/subsocial'
+import React from 'react';
+import { isDef } from '@darkpay/dark-utils';
+import { LoadMoreFn } from './NotificationUtils';
+import { ProductWithAllDetails } from '@darkpay/dark-types';
+import ProductPreview from '../products/view-product/ProductPreview';
+import { LoadMoreProps, ActivityProps } from './types';
+import { DarkdotApi } from '@darkpay/dark-api/darkdot';
 import BN from 'bn.js'
-import { InnerActivities } from './InnerActivities'
+import { InnerActivities } from './InnerActivities';
 
-const postsFromActivity = async (subsocial: SubsocialApi, postIds: BN[]): Promise<PostWithAllDetails[]> => {
-  const posts = await subsocial.findPublicPostsWithAllDetails(postIds)
+const productsFromActivity = async (darkdot: DarkdotApi, productIds: BN[]): Promise<ProductWithAllDetails[]> => {
+  const products = await darkdot.findPublicProductsWithAllDetails(productIds)
 
-  return posts.filter(x => isDef(x.space))
+  return products.filter(x => isDef(x.storefront))
 }
 
-export const getLoadMoreFeedFn = (getActivity: LoadMoreFn, keyId: 'post_id' | 'comment_id') =>
+export const getLoadMoreFeedFn = (getActivity: LoadMoreFn, keyId: 'product_id' | 'comment_id') =>
   async (props: LoadMoreProps) => {
-    const { subsocial, address, page, size } = props
+    const { darkdot, address, page, size } = props
 
     if (!address) return []
 
     const offset = (page - 1) * size
     const activity = await getActivity(address, offset, size) || []
-    const postIds = activity.map(x => new BN(x[keyId]))
+    const productIds = activity
+      .filter(x => x[keyId] !== undefined)
+      .map(x => new BN(x[keyId] as string))
 
-    return postsFromActivity(subsocial, postIds)
+    return productsFromActivity(darkdot, productIds)
   }
 
-export const FeedActivities = (props: ActivityProps<PostWithAllDetails>) => <InnerActivities
+export const FeedActivities = (props: ActivityProps<ProductWithAllDetails>) => <InnerActivities
   {...props}
-  renderItem={(x: PostWithAllDetails) =>
-    <PostPreview key={x.post.struct.id.toString()} postDetails={x} withActions />}
+  renderItem={(x: ProductWithAllDetails) =>
+    <ProductPreview key={x.product.struct.id.toString()} productDetails={x} withActions />}
 />
 
 

@@ -1,16 +1,17 @@
 import React, { useState } from 'react'
 import { Input, Form, Button } from 'antd'
 import { OnlySudo } from 'src/components/auth/OnlySudo'
+import { HeadMeta } from 'src/components/utils/HeadMeta'
+import { Section } from 'src/components/utils/Section'
 import { DfForm, DfFormButtons } from 'src/components/forms'
 import { showErrorMessage, showSuccessMessage } from 'src/components/utils/Message'
-import useSubsocialEffect from 'src/components/api/useSubsocialEffect'
+import useDarkdotEffect from 'src/components/api/useDarkdotEffect'
 import { Balance } from '@polkadot/types/interfaces'
-import { nonEmptyStr, pluralize, newLogger } from '@subsocial/utils'
+import { nonEmptyStr, pluralize, newLogger } from '@darkpay/dark-utils'
 import { formatBalance } from '@polkadot/util'
 import { FormatBalance } from 'src/components/profiles/address-views/utils/Balance'
 import BN from 'bn.js'
-import { SubmittableExtrinsic } from '@polkadot/api/promise/types'
-import { PageContent } from 'src/components/main/PageWrapper'
+import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 
 type FormValues = Partial<{
   accounts: string
@@ -40,7 +41,7 @@ function RenderBalances ({ balances, title }: {
         const css = x.balance.gtn(0) ? 'text-success' : 'text-danger'
         return <li key={x.account.toString()}>
           <code className={css + ' mr-3'}>{x.account.toString()} </code>
-          {<FormatBalance value={x.balance} />}
+          <FormatBalance value={x.balance} />
         </li>
       })}
     </ol>
@@ -57,12 +58,12 @@ function InnerForm (props: FormProps) {
   const [ batchTx, setBatchTx ] = useState<SubmittableExtrinsic>()
   const [ freeTokensPerAccount, setFreeTokensPerAccount ] = useState<BN>(new BN(0))
 
-  useSubsocialEffect(({ substrate }) => {
-    let unsub: (() => void) | undefined
+  useDarkdotEffect(({ substrate }) => {
+    let unsub: (() => void) | undefined;
     let isSubscribe = true
 
     const sub = async () => {
-      const api = await substrate.api
+      const api = await substrate.api;
       const sudo = await api.query.sudo.key()
 
       // WARN: do not move this code to global level: here we need Substrate API ready.
@@ -123,7 +124,7 @@ function InnerForm (props: FormProps) {
       <Form.Item
         label='Free tokens per account'
       >
-        {<FormatBalance value={freeTokensPerAccount} />}
+        <FormatBalance value={freeTokensPerAccount} />
       </Form.Item>
 
       <Form.Item
@@ -134,7 +135,7 @@ function InnerForm (props: FormProps) {
           placeholder='Account address per line'
           rows={6}
           style={{
-            fontFamily: 'monospace',
+            fontFamily: 'monostorefront',
             fontSize: '1rem'
           }}
         />
@@ -180,9 +181,10 @@ function InnerForm (props: FormProps) {
 export function Page (props: FormProps) {
   const title = 'Sudo / forceTransfer'
   return <OnlySudo>
-    <PageContent className='EditEntityBox' meta={{ title }} title={title}>
+    <HeadMeta title={title} />
+    <Section className='EditEntityBox' title={title}>
       <InnerForm {...props} />
-    </PageContent>
+    </Section>
   </OnlySudo>
 }
 

@@ -1,24 +1,19 @@
-import { AnyText, stringifyText } from '../substrate'
-import { nonEmptyStr, nonEmptyArr } from '@subsocial/utils'
-import { BareProps } from '../utils/types'
-import copy from 'copy-to-clipboard'
-import { showInfoMessage } from '../utils/Message'
-import { appBaseUrl } from '../utils/env'
+import { AnyText, stringifyText } from '../substrate';
+import { nonEmptyStr, nonEmptyArr } from '@darkpay/dark-utils';
+import { BareProps } from '../utils/types';
+import copy from 'copy-to-clipboard';
+import { showInfoMessage } from '../utils/Message';
 
-export const openNewWindow = (url: string) =>
-  window.open(url, '_blank', 'toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=400,height=400')
+export const openNewWindow = (url: string) => window.open(url, '_blank', 'toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=400,height=400');
 
-/**
- * Stringify a space's handle by prepending it with '@' char.
- * Example: if a space's handle is 'sport', then its slugified version will be '@sport'.
- */
-export function slugifyHandle (text?: AnyText): string | undefined {
-  let slug = stringifyText(text)
-
-  if (slug && !slug.startsWith('@')) {
-    slug = '@' + slug
+export function slugify (text?: AnyText): string | undefined {
+  let slug: string | undefined
+  if (nonEmptyStr(text)) {
+    slug = stringifyText(text)
+    if (slug && !slug.startsWith('@')) {
+      slug = '@' + slug
+    }
   }
-
   return slug
 }
 
@@ -65,14 +60,3 @@ export const Copy = ({ text, message, children }: CopyProps) => <BlackLink
     showInfoMessage(message)
   }}
 >{children}</BlackLink>
-
-export const innerFullUrl = (appBaseUrl: string, relative: string) => {
-  if (relative.startsWith(appBaseUrl)) return relative
-
-  const base = appBaseUrl.endsWith('/') ? appBaseUrl : appBaseUrl + '/'
-  const pathname = relative.startsWith('/') ? relative.substr(1) : relative
-
-  return base + pathname
-} 
-
-export const fullUrl = (relative: string) => innerFullUrl(appBaseUrl, relative)

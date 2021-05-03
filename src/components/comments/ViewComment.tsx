@@ -1,44 +1,47 @@
-import React, { FunctionComponent, useState } from 'react'
-import { /* CaretDownOutlined, CaretUpOutlined, */ CommentOutlined, NotificationOutlined } from '@ant-design/icons'
-import { Comment, Button, Tag } from 'antd'
-import { PostWithSomeDetails } from '@subsocial/types/dto'
-import { CommentContent } from '@subsocial/types'
-import { AuthorPreview } from '../profiles/address-views/AuthorPreview'
-import { Space, Post } from '@subsocial/types/substrate/interfaces'
-import Link from 'next/link'
-import { pluralize } from '../utils/Plularize'
-import { formatUnixDate, IconWithLabel, isHidden, ONE, ZERO, resolveBn } from '../utils'
-import dayjs from 'dayjs'
-import { EditComment } from './UpdateComment'
+import React, { FunctionComponent, useState } from 'react';
+import { /* CaretDownOutlined, CaretUpOutlined, */ CommentOutlined, NotificationOutlined } from '@ant-design/icons';
+import { Comment, Button, Tag } from 'antd';
+import { ProductWithSomeDetails } from '@darkpay/dark-types/dto';
+import { CommentContent } from '@darkpay/dark-types';
+import { AuthorPreview } from '../profiles/address-views/AuthorPreview';
+import { Storefront } from '@darkpay/dark-types/substrate/interfaces';
+import Link from 'next/link';
+import { pluralize } from '../utils/Plularize';
+import { formatUnixDate, IconWithLabel, isHidden, ONE, ZERO, resolveBn } from '../utils';
+import moment from 'moment-timezone';
+import { EditComment } from './UpdateComment';
 import { CommentsTree } from './CommentTree'
-import { NewComment } from './CreateComment'
-import { VoterButtons } from '../voting/VoterButtons'
-import { PostDropDownMenu } from '../posts/view-post'
-import { CommentBody } from './helpers'
-import { equalAddresses } from '../substrate'
-import { postUrl } from '../urls'
-import { ShareDropdown } from '../posts/share/ShareDropdown'
+import { NewComment } from './CreateComment';
+import { VoterButtons } from '../voting/VoterButtons';
+import { ProductDropDownMenu } from '../products/view-product';
+import { CommentBody } from './helpers';
+import { equalAddresses } from '../substrate';
+import { productUrl } from '../urls';
+import { ShareDropdown } from '../products/share/ShareDropdown';
+import { ProposerTag } from '../kusama/KusamaProposalDesc';
 
 type Props = {
-  rootPost?: Post,
-  space: Space,
-  comment: PostWithSomeDetails,
-  replies?: PostWithSomeDetails[],
+  rootProduct?: ProductWithSomeDetails,
+  storefront: Storefront,
+  comment: ProductWithSomeDetails,
+  replies?: ProductWithSomeDetails[],
   withShowReplies?: boolean
 }
 
 export const ViewComment: FunctionComponent<Props> = ({
-  rootPost, comment, space = { id: 0 } as any as Space, replies, withShowReplies = true
+  rootProduct, comment, storefront = { id: 0 } as any as Storefront, replies, withShowReplies = true
 }) => {
   const {
-    post: {
+    product: {
       struct,
       content
     },
     owner
   } = comment
 
-  if (isHidden(comment.post)) return null
+  if (isHidden(comment.product) || !rootProduct) return null
+
+  const { product: { struct: rootProductStruct, content: rootProductContent } } = rootProduct
 
   const {
     id,
@@ -48,16 +51,16 @@ export const ViewComment: FunctionComponent<Props> = ({
     replies_count
   } = struct
 
-  const [ showEditForm, setShowEditForm ] = useState(false)
-  const [ showReplyForm, setShowReplyForm ] = useState(false)
-  const [ showReplies ] = useState(withShowReplies)
+  const [ showEditForm, setShowEditForm ] = useState(false);
+  const [ showReplyForm, setShowReplyForm ] = useState(false);
+  const [ showReplies ] = useState(withShowReplies);
   const [ repliesCount, setRepliesCount ] = useState(resolveBn(replies_count))
 
   const isFake = id.toString().startsWith('fake')
-  const commentLink = postUrl(space, comment.post)
+  const commentLink = productUrl(storefront, struct)
 
-  const isRootPostOwner = equalAddresses(
-    rootPost?.owner,
+  const isRootProductOwner = equalAddresses(
+    rootProductStruct?.owner,
     struct.owner
   )
 
@@ -80,7 +83,7 @@ export const ViewComment: FunctionComponent<Props> = ({
   const ChildPanel = isShowChildren ? <div>
     {showReplyForm &&
     <NewComment
-      post={struct}
+      product={struct}
       callback={(id) => {
         setShowReplyForm(false)
         id && setRepliesCount(repliesCount.add(ONE))
@@ -88,7 +91,7 @@ export const ViewComment: FunctionComponent<Props> = ({
       withCancel
     />}
     {/* {isReplies && <ViewRepliesLink />} */}
-    {showReplies && <CommentsTree rootPost={rootPost} parent={struct} replies={replies} space={space} />}
+    {showReplies && <CommentsTree rootProduct={rootProduct} parent={struct} replies={replies} storefront={storefront} />}
   </div> : null
 
   const actionCss = 'DfCommentAction'
@@ -97,11 +100,11 @@ export const ViewComment: FunctionComponent<Props> = ({
     <Comment
       className='DfNewComment'
       actions={isFake ? [] : [
-        <VoterButtons key={`voters-of-comments-${id}`} post={struct} className={actionCss} />,
+        <VoterButtons key={`voters-of-comments-${id}`} product={struct} className={actionCss} />,
         <Button key={`reply-comment-${id}`} className={actionCss} onClick={() => setShowReplyForm(true)}>
           <IconWithLabel icon={<CommentOutlined />} label='Reply' />
         </Button>,
-        <ShareDropdown key={`dropdown-comment-${id}`} postDetails={comment} space={space} className={actionCss} />
+        <ShareDropdown key={`dropdown-menu-of-comment-${id}`} productDetails={comment} storefront={storefront} className={actionCss} />
       ]}
       author={<div className='DfAuthorBlock'>
         <AuthorPreview
@@ -110,30 +113,33 @@ export const ViewComment: FunctionComponent<Props> = ({
           isShort={true}
           isPadded={false}
           size={32}
-          afterName={isRootPostOwner
-            ? <Tag color='blue'><NotificationOutlined /> Post author</Tag>
-            : undefined
+          afterName={<>
+            <ProposerTag address={commentOwnerAddress} proposalIndex={rootProductContent?.ext?.proposal?.proposalIndex} />
+            {isRootProductOwner
+              ? <Tag color='blue'><NotificationOutlined /> Product author</Tag>
+              : undefined}
+            </>
           }
           details={
             <span>
-              <Link href='/[spaceId]/[slug]' as={commentLink}>
-                <a className='DfGreyLink'>{dayjs(formatUnixDate(time)).fromNow()}</a>
+              <Link href='/[storefrontId]/products/[productId]' as={commentLink}>
+                <a className='DfGreyLink'>{moment(formatUnixDate(time)).fromNow()}</a>
               </Link>
               {' · '}
               {pluralize(score, 'Point')}
             </span>
           }
         />
-        <PostDropDownMenu key={`comment-dropdown-menu-${id}`} post={comment.post} space={space} />
+        <ProductDropDownMenu key={`comment-dropdown-menu-${id}`} productDetails={comment} storefront={storefront} />
       </div>}
       content={showEditForm
         ? <EditComment struct={struct} content={content as CommentContent} callback={() => setShowEditForm(false)}/>
-        : <CommentBody comment={comment.post} />
+        : <CommentBody comment={comment.product} />
       }
     >
       {ChildPanel}
     </Comment>
   </div>
-}
+};
 
-export default ViewComment
+export default ViewComment;

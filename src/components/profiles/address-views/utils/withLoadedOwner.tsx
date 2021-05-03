@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import { newLogger } from '@subsocial/utils'
-import useSubsocialEffect from 'src/components/api/useSubsocialEffect'
-import { ProfileData } from '@subsocial/types'
+import { newLogger } from '@darkpay/dark-utils';
+import useDarkdotEffect from 'src/components/api/useDarkdotEffect';
+import { ProfileData } from '@darkpay/dark-types';
 import { ExtendedAddressProps } from './types'
-import { Loading } from '../../../utils'
-import { useMyAccount } from 'src/components/auth/MyAccountContext'
+import { Loading } from '../../../utils';
+import { useMyAccount } from 'src/components/auth/MyAccountContext';
 
 const log = newLogger(withLoadedOwner.name)
 
@@ -23,14 +23,14 @@ export function withLoadedOwner<P extends Props> (Component: React.ComponentType
     const [ owner, setOwner ] = useState<ProfileData>()
     const [ loaded, setLoaded ] = useState(true)
 
-    useSubsocialEffect(({ subsocial }) => {
+    useDarkdotEffect(({ darkdot }) => {
       if (!address) return
 
       setLoaded(false)
       let isSubscribe = true
 
       const loadContent = async () => {
-        const owner = await subsocial.findProfile(address)
+        const owner = await darkdot.findProfile(address)
         isSubscribe && setOwner(owner)
         setLoaded(true)
       }

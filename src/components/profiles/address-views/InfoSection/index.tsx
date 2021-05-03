@@ -1,12 +1,12 @@
-import React from 'react'
+import React from 'react';
 import { Descriptions as AntdDesc } from 'antd'
-import { useResponsiveSize } from 'src/components/responsive'
-import { BareProps } from 'src/components/utils/types'
-import Section from 'src/components/utils/Section'
+import { useResponsiveSize } from 'src/components/responsive';
+import { BareProps } from 'src/components/utils/types';
+import Section from 'src/components/utils/Section';
 import styles from './index.module.sass'
 
 export type DescItem = {
-  label?: React.ReactNode,
+  label: React.ReactNode,
   value: React.ReactNode
 }
 

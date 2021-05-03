@@ -2,27 +2,30 @@ export default {
   imageShouldBeLessThanTwoMB: 'Image should be less than 2 MB',
   notifications: {
     AccountFollowed: 'followed your account',
-    SpaceFollowed: 'followed your space',
-    SpaceCreated: 'created a new space',
-    CommentCreated: 'commented on your post',
+    StorefrontFollowed: 'followed your storefront',
+    StorefrontCreated: 'created a new storefront',
+    CommentCreated: 'commented on your product',
     CommentReplyCreated: 'replied to your comment on',
-    PostShared: 'shared your post',
-    CommentShared: 'shared your comment on',
-    PostReactionCreated: 'reacted to your post',
-    CommentReactionCreated: 'reacted to your comment on',
+    ProductShared: 'shared your product',
+    CommentShared: 'shared your comment',
+    ProductReactionCreated: 'reacted to your product',
+    CommentReactionCreated: 'reacted to your comment',
   },
   activities: {
-    AccountFollowed: 'followed the account',
-    SpaceFollowed: 'followed the space',
-    SpaceCreated: 'created the space',
-    PostCreated: 'created the post',
-    PostSharing: 'shared the post',
-    PostShared: 'shared the post',
-    CommentCreated: 'commented on the post',
-    CommentShared: 'shared a comment on',
+    AccountFollowed: 'followed a account',
+    StorefrontFollowed: 'followed a storefront',
+    StorefrontCreated: 'created a storefront',
+    CommentCreated: 'commented on a product',
     CommentReplyCreated: 'replied to a comment on',
-    PostReactionCreated: 'reacted to the post',
-    CommentReactionCreated: 'reacted to a comment on',
+    ProductSharing: 'shared a product',
+    ProductShared: 'shared a product',
+    CommentShared: 'shared a comment',
+    ProductReactionCreated: 'reacted to a product',
+    CommentReactionCreated: 'reacted to a comment',
+    ProductCreated: 'created a product'
   },
-  connectingToNetwork: 'Connecting to the network...'
+  kusama: {
+    verifiedIdentity: 'Kusama verified identity',
+    unverifiedIdetity: 'Kusama identity'
+  }
 }

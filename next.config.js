@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 // const withBundleAnalyzer = require('@next/bundle-analyzer')
+const withImages = require('next-images')
 const withPlugins = require('next-compose-plugins')
 const path = require('path')
 const Dotenv = require('dotenv-webpack')
@@ -68,42 +69,28 @@ const nextConfig = {
   }
 }
 
-module.exports = withPlugins([],
+module.exports = withPlugins([
+    withImages
+  ],
   {
   ...nextConfig,
-  async redirects () {
-    const spaceId = ':spaceId(\\d{1,}|@.*)'
-    const slug = ':slug(.*\\d{1,})*'
-    const spacePage = '/:spaceId*'
-    const postPage = '/:spaceId/:slug*'
-
-    // Redirects for all URL formats. DO NOT REMOVE!
+  async redirects() {
     return [
       {
-        source: '/spaces/all',
-        destination: '/spaces',
+        source: '/storefronts/:storefrontId(@.*)/:details*',
+        destination: '/:storefrontId/:details*',
         permanent: true,
       },
       {
-        source: `/spaces/${spaceId}/posts/${slug}`,
-        destination: postPage,
-        permanent: true,
-      },
-      {
-        source: `/spaces/${spaceId}/about`,
-        destination: `${spacePage}/about`,
-        permanent: true,
-      },
-      {
-        source: `/spaces/${spaceId}`,
-        destination: spacePage,
-        permanent: true,
-      },
-      {
-        source: `/${spaceId}/posts/${slug}`,
-        destination: postPage,
+        source: '/storefronts/:storefrontId(\\d{1,})/:details*',
+        destination: '/:storefrontId/:details*',
         permanent: true,
       }
+      // {
+      //   source: '/storefronts/:storefrontId/:details*',
+      //   destination: '/:storefrontId/:details*',
+      //   permanent: true,
+      // }
     ]
   }
 })

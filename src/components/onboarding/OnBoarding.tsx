@@ -1,12 +1,12 @@
 import React from 'react'
-import { Steps } from 'antd'
-import { useAuth, StepsEnum } from '../auth/AuthContext'
-import { SignInButton } from '../auth/AuthButtons'
-import ButtonLink from '../utils/ButtonLink'
-import { CreateSpaceButton } from '../spaces/helpers'
-import { isMobileDevice } from 'src/config/Size.config'
+import { Steps } from 'antd';
+import { useAuth, StepsEnum } from '../auth/AuthContext';
+import { SignInButton } from '../auth/AuthButtons';
+import ButtonLink from '../utils/ButtonLink';
+import { CreateStorefrontButton } from '../storefronts/helpers';
+import { isMobileDevice } from 'src/config/Size.config';
 
-const { Step } = Steps
+const { Step } = Steps;
 
 export type CurrentStep = {
   currentStep: StepsEnum
@@ -18,7 +18,7 @@ type Props = {
   progressDot?: boolean
 }
 
-const getMobilyFriendlyText = (text: string, mobileText?: string) => (isMobileDevice && mobileText) ? mobileText : text
+const getMobilyFriendlyText = (text: string, mobileText?: string) => (isMobileDevice && mobileText) ? mobileText : text;
 
 type StepItem = {
   title: string,
@@ -43,7 +43,7 @@ export const OnBoardingButton = (props: ActionButtonProps) => {
   switch (step) {
     case StepsEnum.Login: return <SignInButton isPrimary />
     case StepsEnum.GetTokens: return <ButtonLink block={block} type={asLink ? 'link' : 'primary'} href='/faucet' as='/faucet'>{title}</ButtonLink>
-    case StepsEnum.CreateSpace: return <CreateSpaceButton block={block} type={asLink ? 'link' : 'primary'} ghost={false}>{title}</CreateSpaceButton>
+    case StepsEnum.CreateStorefront: return <CreateStorefrontButton block={block} type={asLink ? 'link' : 'primary'} ghost={false}>{title}</CreateStorefrontButton>
     default: return null
   }
 }
@@ -60,8 +60,8 @@ export const stepItems: StepItem[] = [
     content: 'Get first tokens'
   },
   {
-    title: getMobilyFriendlyText('Create my space', 'Create space'),
-    key: 'spaces',
+    title: getMobilyFriendlyText('Create my storefront', 'Create storefront'),
+    key: 'storefronts',
     content: 'Get first tokens'
   }
 ]
@@ -85,7 +85,7 @@ export const OnBoardingView = ({ direction = 'vertical', size = 'default', progr
         {steps}
       </Steps>
     </div>
-  )
+  );
 }
 
 export const OnBoarding = (props: Props) => {

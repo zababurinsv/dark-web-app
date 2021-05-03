@@ -1,6 +1,6 @@
 import React from 'react'
 import AntdButton from 'antd/lib/button'
-import { newLogger } from '@subsocial/utils'
+import { newLogger } from '@darkpay/dark-utils'
 
 import { isClientSide } from '.'
 import { useStorybookContext } from './StorybookContext'

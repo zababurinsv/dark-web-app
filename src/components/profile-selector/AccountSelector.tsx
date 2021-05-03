@@ -1,13 +1,13 @@
 import React, { useState, useCallback } from 'react'
-import keyring from '@polkadot/ui-keyring'
-import useSubsocialEffect from '../api/useSubsocialEffect'
-import { ProfileData } from '@subsocial/types'
-import { SelectAddressPreview, ProfilePreviewWithOwner } from '../profiles/address-views'
-import { Button, Avatar } from 'antd'
-import { useMyAccount, useMyAddress } from '../auth/MyAccountContext'
-import { isWeb3Injected } from '@polkadot/extension-dapp'
-import { useAuth } from '../auth/AuthContext'
-import SubTitle from '../utils/SubTitle'
+import keyring from '@polkadot/ui-keyring';
+import useDarkdotEffect from '../api/useDarkdotEffect';
+import { ProfileData } from '@darkpay/dark-types';
+import { SelectAddressPreview, ProfilePreviewWithOwner } from '../profiles/address-views';
+import { Button, Avatar } from 'antd';
+import { useMyAccount, useMyAddress } from '../auth/MyAccountContext';
+import { isWeb3Injected } from '@polkadot/extension-dapp';
+import { useAuth } from '../auth/AuthContext';
+import SubTitle from '../utils/SubTitle';
 
 import styles from './AccountSelector.module.sass'
 
@@ -98,14 +98,13 @@ export const AccountSelectorView = ({ currentAddress = '', extensionAddresses, l
           owner={profilesByAddressMap.get(currentAddress)}
           size={60}
           className='justify-content-center'
-          mini
         />
       </div>
     </>
   }, [ currentAddress ])
 
   const AccountPanel = useCallback(({ accounts, kind }: AccountsPanelProps) => {
-    const count = accounts.length
+    const count = accounts.length;
 
     if (!count) return null
 
@@ -156,7 +155,7 @@ export const useAccountSelector = ({ injectedAddresses }: AccountSelectorProps) 
   const [ profilesByAddressMap ] = useState(new Map<string, ProfileData>())
   const currentAddress = useMyAddress()
 
-  useSubsocialEffect(({ subsocial }) => {
+  useDarkdotEffect(({ darkdot }) => {
     const accounts = keyring.getAccounts()
     if (!accounts) return
 
@@ -166,7 +165,7 @@ export const useAccountSelector = ({ injectedAddresses }: AccountSelectorProps) 
       const localAddresses: string[] = []
 
       const addresses = accounts.map(account => {
-        const { address, meta } = account
+        const { address, meta } = account;
 
         if (address === currentAddress) return address
 
@@ -186,7 +185,7 @@ export const useAccountSelector = ({ injectedAddresses }: AccountSelectorProps) 
       setLocalAddresses(localAddresses)
       setDevelopAddresses(developAddresses)
 
-      const profiles = await subsocial.findProfiles(addresses)
+      const profiles = await darkdot.findProfiles(addresses)
 
       profiles.forEach((item) => {
         const address = item.profile?.created.account.toString()

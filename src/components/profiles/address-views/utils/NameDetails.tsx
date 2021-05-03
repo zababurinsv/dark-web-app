@@ -1,17 +1,18 @@
-import { toShortAddress } from 'src/components/utils'
-import { ProfileData } from '@subsocial/types'
-import { nonEmptyStr } from '@subsocial/utils'
-import dynamic from 'next/dynamic'
-import React from 'react'
-import { isMyAddress } from 'src/components/auth/MyAccountContext'
-import MyEntityLabel from 'src/components/utils/MyEntityLabel'
-import { AddressProps } from './types'
-import { CopyAddress, useExtensionName } from '.'
-import Name from '../Name'
-import { InfoPanel } from '../InfoSection'
-import { Balance } from './Balance'
+import { toShortAddress } from 'src/components/utils';
+import { ProfileData } from '@darkpay/dark-types';
+import { nonEmptyStr } from '@darkpay/dark-utils';
+import dynamic from 'next/dynamic';
+import React from 'react';
+import { isMyAddress } from 'src/components/auth/MyAccountContext';
+import MyEntityLabel from 'src/components/utils/MyEntityLabel';
+import { AddressProps } from './types';
+import { CopyAddress, useExtensionName } from '.';
+import Name from '../Name';
+import { KusamaRolesTags } from 'src/components/kusama/KusamaRoles';
+import { InfoPanel } from '../InfoSection';
+import { Balance } from './Balance';
 
-const FollowAccountButton = dynamic(() => import('../../../utils/FollowAccountButton'), { ssr: false })
+const FollowAccountButton = dynamic(() => import('../../../utils/FollowAccountButton'), { ssr: false });
 
 type Props = AddressProps & {
   withFollowButton?: boolean,
@@ -41,9 +42,12 @@ export const NameDetails = ({
   }
 
   return <>
-    <div className='header DfAccountTitle'>
-      <Name owner={owner} address={address} />
-      {withLabel && <MyEntityLabel isMy={isMyAccount}>Me</MyEntityLabel>}
+    <div className='header d-flex justify-content-between'>
+      <span>
+        <Name owner={owner} address={address} />
+        {withLabel && <MyEntityLabel isMy={isMyAccount}>Me</MyEntityLabel>}
+        <KusamaRolesTags address={address} />
+      </span>
       {withFollowButton && <FollowAccountButton address={address} className='ml-3 float-right' />}
     </div>
     {extensionName && <div className='DfPopup-handle'>{extensionName}</div>}
@@ -65,4 +69,4 @@ export const NameDetails = ({
   </>
 }
 
-export default NameDetails
+export default NameDetails;

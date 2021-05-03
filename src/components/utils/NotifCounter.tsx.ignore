@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react'
 import { offchainWs } from './env'
 import { useMyAddress } from '../auth/MyAccountContext';
-import { newLogger } from '@subsocial/utils';
+import { newLogger } from '@darkpay/dark-utils';
 
 export type NotifCounterContextProps = {
   unreadCount: number

@@ -1,8 +1,8 @@
-import React from 'react'
-import Button, { ButtonSize, ButtonType } from 'antd/lib/button'
-import { useAuth, ModalKind } from './AuthContext'
-import { useMyAccount } from './MyAccountContext'
-import { useSubsocialApi } from '../utils/SubsocialApiContext'
+import React from 'react';
+import Button, { ButtonSize, ButtonType } from 'antd/lib/button';
+import { useAuth, ModalKind } from './AuthContext';
+import { useMyAccount } from './MyAccountContext';
+import { useDarkdotApi } from '../utils/DarkdotApiContext';
 
 type InnerAuthButtonProps = {
   type?: ButtonType
@@ -22,7 +22,7 @@ export function OpenAuthButton ({
   kind = 'OnBoarding',
   className
 }: OpenAuthButton) {
-  const { isApiReady } = useSubsocialApi()
+  const { isApiReady } = useDarkdotApi()
   const { openSignInModal } = useAuth()
 
   return <Button

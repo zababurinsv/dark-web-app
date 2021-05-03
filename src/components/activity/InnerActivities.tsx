@@ -1,12 +1,12 @@
-import { InnerActivitiesProps } from './types'
-import { useSubsocialApi } from '../utils/SubsocialApiContext'
-import { useState, useEffect, useCallback } from 'react'
-import { notDef } from '@subsocial/utils'
-import { InfiniteListByPage } from '../lists/InfiniteList'
-import { Loading } from '../utils'
+import { InnerActivitiesProps } from "./types"
+import { useDarkdotApi } from "../utils/DarkdotApiContext"
+import { useState, useEffect, useCallback } from "react"
+import { notDef } from "@darkpay/dark-utils"
+import { InfiniteListByPage } from "../lists/InfiniteList"
+import { Loading } from "../utils"
 
 export function InnerActivities<T> ({ address, title, getCount, totalCount, noDataDesc, loadingLabel, loadMore, ...otherProps }: InnerActivitiesProps<T>) {
-  const { subsocial, isApiReady } = useSubsocialApi()
+  const { darkdot, isApiReady } = useDarkdotApi()
   const [ total, setTotalCount ] = useState<number | undefined>(totalCount)
 
   useEffect(() => {
@@ -21,7 +21,7 @@ export function InnerActivities<T> ({ address, title, getCount, totalCount, noDa
 
   const Activities = useCallback(() => <InfiniteListByPage
     {...otherProps}
-    loadMore={(page, size) => loadMore({ subsocial, address, page, size})}
+    loadMore={(page, size) => loadMore({ darkdot, address, page, size})}
     loadingLabel={loadingLabel}
     title={title ? `${title} (${total})` : null}
     noDataDesc={noDataDesc}

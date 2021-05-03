@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const base = require('@subsocial/config/eslintrc')
+const base = require('@darkpay/dark-config/eslintrc')
 
 // add override for any (a metric ton of them, initial conversion)
 module.exports = {
@@ -11,12 +11,10 @@ module.exports = {
     'react/prop-types': 'off',
     'quotes': [ 'warn', 'single' ],
     'array-bracket-spacing' : [ 'warn', 'always' ],
-    'no-multi-spaces': 'error',
-    'space-before-function-paren': [ 'warn', 'always' ],
+    'no-multi-storefronts': 'error',
+    'storefront-before-function-paren': [ 'warn', 'always' ],
     'non-nullish value': 'off',
     'react/display-name': 'off',
-    '@typescript-eslint/ban-types': 'off',
-    'react-hooks/exhaustive-deps': 'off',
-    '@typescript-eslint/no-explicit-any': 'off'
+    '@typescript-eslint/ban-types': 'off'
   }
 }

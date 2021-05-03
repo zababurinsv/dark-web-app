@@ -1,10 +1,10 @@
-import { CommentsState } from './slices/replyIdsByPostIdSlice'
-import { PostState } from './slices/postByIdSlice'
-import { PostWithAllDetails, PostWithSomeDetails } from '@subsocial/types'
+import { CommentsState } from './slices/replyIdsByProductIdSlice';
+import { ProductState } from './slices/productByIdSlice';
+import { ProductWithAllDetails, ProductWithSomeDetails } from '@darkpay/dark-types';
 
 export type Store = {
-  replyIdsByPostId: CommentsState
-  postById: PostState
+  replyIdsByProductId: CommentsState
+  productById: ProductState
 }
 
-export type PostsStoreType = PostWithAllDetails | PostWithSomeDetails | (PostWithAllDetails | PostWithSomeDetails)[]
+export type ProductsStoreType = ProductWithAllDetails | ProductWithSomeDetails | (ProductWithAllDetails | ProductWithSomeDetails)[]

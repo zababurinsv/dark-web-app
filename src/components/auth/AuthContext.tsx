@@ -1,23 +1,22 @@
-import React, { useState, createContext, useContext, useEffect } from 'react'
-import { useIsSignedIn, useMyAddress } from 'src/components/auth/MyAccountContext'
-import useSubsocialEffect from '../api/useSubsocialEffect'
+import React, { useState, createContext, useContext, useEffect } from 'react';
+import { useIsSignedIn, useMyAddress } from 'src/components/auth/MyAccountContext';
+import useDarkdotEffect from '../api/useDarkdotEffect';
 import store from 'store'
-import SignInModal from './SignInModal'
-import { useRouter } from 'next/router'
+import SignInModal from './SignInModal';
+import { useRouter } from 'next/router';
 
 const ONBOARDED_ACCS = 'df.onboarded'
 
 export type CompletedSteps = {
   isSignedIn: boolean
   hasTokens: boolean
-  hasOwnSpaces: boolean
+  hasOwnStorefronts: boolean
 }
 
 export type AuthState = {
   showOnBoarding: boolean
   currentStep: number
-  completedSteps: CompletedSteps,
-  canReserveHandle: boolean
+  completedSteps: CompletedSteps
 }
 
 function functionStub () {
@@ -39,10 +38,9 @@ const contextStub: AuthContextProps = {
     completedSteps: {
       isSignedIn: false,
       hasTokens: false,
-      hasOwnSpaces: false
+      hasOwnStorefronts: false
     },
-    showOnBoarding: false,
-    canReserveHandle: false
+    showOnBoarding: false
   },
   openSignInModal: functionStub,
   hideSignInModal: functionStub,
@@ -53,7 +51,7 @@ export enum StepsEnum {
   Disabled = -1,
   Login,
   GetTokens,
-  CreateSpace
+  CreateStorefront
 }
 
 export const AuthContext = createContext<AuthContextProps>(contextStub)
@@ -67,31 +65,30 @@ export function AuthProvider (props: React.PropsWithChildren<any>) {
 
   const noOnBoarded = !address || !onBoardedAccounts.includes(address)
   const [ showOnBoarding, setShowOnBoarding ] = useState(noOnBoarded)
-  const [ canReserveHandle, setCanReserveHandle ] = useState(false)
-  const [ showModal, setShowModal ] = useState<boolean>(false)
+  const [ showModal, setShowModal ] = useState<boolean>(false);
   const [ kind, setKind ] = useState<ModalKind>()
   const [ hasTokens, setTokens ] = useState(false)
-  const [ hasOwnSpaces, setSpaces ] = useState(false)
+  const [ hasOwnStorefronts, setStorefronts ] = useState(false)
   const isSignedIn = useIsSignedIn()
 
-  useSubsocialEffect(({ substrate, consts: { handleDeposit } }) => {
+  useDarkdotEffect(({ substrate }) => {
     if (!isSignedIn) {
       return setCurrentStep(0)
     }
 
     let unsubBalance: (() => void) | undefined
-    let unsubSpace: (() => void) | undefined
+    let unsubStorefront: (() => void) | undefined
 
-    const subSpace = async (isBalanse: boolean) => {
+    const subStorefront = async (isBalanse: boolean) => {
       const api = await substrate.api
-      unsubSpace = await api.query.spaces.spaceIdsByOwner(address, (data) => {
+      unsubStorefront = await api.query.storefronts.storefrontIdsByOwner(address, (data) => {
         if (data.isEmpty) {
-          setSpaces(false)
+          setStorefronts(false)
           if (isBalanse) {
-            step = StepsEnum.CreateSpace
+            step = StepsEnum.CreateStorefront
           }
         } else if (step === StepsEnum.Disabled) {
-          setSpaces(true)
+          setStorefronts(true)
           setShowModal(false)
           noOnBoarded && store.set(ONBOARDED_ACCS, address)
         }
@@ -101,30 +98,28 @@ export function AuthProvider (props: React.PropsWithChildren<any>) {
       })
     }
 
-    let step = StepsEnum.Disabled
+    let step = StepsEnum.Disabled;
     const subBalance = async () => {
       if (!address) return
 
       const api = await substrate.api
-      
-      unsubBalance = await api.derive.balances.all(address, ({ freeBalance }) => {
-        setCanReserveHandle(!!handleDeposit && freeBalance.gt(handleDeposit))
-
-        const isEmptyBalanse = freeBalance.eqn(0)
+      unsubBalance = await api.derive.balances.all(address, (data) => {
+        const balance = data.freeBalance.toString()
+        const isEmptyBalanse = balance === '0'
         if (isEmptyBalanse) {
           setTokens(false)
           step = StepsEnum.GetTokens
         } else {
           setTokens(true)
         }
-        subSpace(!isEmptyBalanse)
-      })
+        subStorefront(!isEmptyBalanse)
+      });
     }
 
-    subBalance()
+    subBalance();
 
     return () => {
-      unsubSpace && unsubSpace()
+      unsubStorefront && unsubStorefront()
       unsubBalance && unsubBalance()
     }
   }, [ address, isSignedIn, currentStep ])
@@ -138,9 +133,8 @@ export function AuthProvider (props: React.PropsWithChildren<any>) {
       completedSteps: {
         isSignedIn,
         hasTokens,
-        hasOwnSpaces
-      },
-      canReserveHandle
+        hasOwnStorefronts
+      }
     },
     openSignInModal: (kind?: ModalKind) => {
       setKind(kind || 'OnBoarding')

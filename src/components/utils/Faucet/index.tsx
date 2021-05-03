@@ -2,6 +2,7 @@ import styles from './index.module.sass'
 import React, { useState } from 'react'
 import { Steps, Button } from 'antd'
 import { PageContent } from 'src/components/main/PageWrapper'
+import HeadMeta from '../HeadMeta'
 import Section from '../Section'
 import { Step1ButtonName, Step1Content } from './Step1'
 import { Step2ButtonName, Step2Content } from './Step2'
@@ -12,7 +13,7 @@ const { Step } = Steps
 
 const steps = [
   {
-    title: 'Follow Subsocial',
+    title: 'Follow Darkdot',
     button: Step1ButtonName,
     content: <Step1Content />
   },
@@ -28,7 +29,6 @@ const steps = [
   }
 ]
 
-/** Deprecated: Old Telegram faucet. */
 export const Faucet = () => {
   const [ current, setCurrent ] = useState(0)
 
@@ -40,14 +40,10 @@ export const Faucet = () => {
     setCurrent(current + 1)
   }
 
-  const title = 'Subsocial Token Faucet (SMN)'
+  const title = 'Darkdot Token Faucet (SMN)'
 
-  return <PageContent
-    meta={{
-      title,
-      desc: 'Get free tokens for a decentralized social network.'
-    }}
-  >
+  return <PageContent>
+    <HeadMeta title={title} desc='Get free tokens for a decentralized social network.' />
     <Section className={`DfContentPage ${styles.Faucet}`} title={title}>
       <Steps current={current} className='mt-3'>
         {steps.map(item => (

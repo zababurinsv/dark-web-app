@@ -1,36 +1,41 @@
-import React, { useState, useEffect } from 'react'
-import { NextPage } from 'next'
-import { getSubsocialApi } from '../utils/SubsocialConnect'
-import { LatestSpaces } from './LatestSpaces'
-import { LatestPosts } from './LatestPosts'
-import { SpaceData, PostWithAllDetails } from '@subsocial/types'
-import { DEFAULT_DESC, DEFAULT_TITLE, PageContent } from './PageWrapper'
-import partition from 'lodash.partition'
-import { isComment } from '../posts/view-post'
-import { useIsSignedIn } from '../auth/MyAccountContext'
-import { getLastNSpaceIds, getLastNIds } from '../utils/getIds'
-import { Tabs } from 'antd'
-import Section from '../utils/Section'
-import MyFeed from '../activity/MyFeed'
-import { uiShowFeed } from '../utils/env'
+import React, { useState, useEffect } from 'react';
+import { NextPage } from 'next';
+import { getDarkdotApi } from '../utils/DarkdotConnect';
+import { HeadMeta } from '../utils/HeadMeta';
+import { LatestStorefronts } from './LatestStorefronts';
+import { LatestProducts } from './LatestProducts';
+import { StorefrontData, ProductWithAllDetails } from '@darkpay/dark-types';
+import { PageContent } from './PageWrapper';
+import partition from 'lodash.partition';
+import { isComment } from '../products/view-product';
+import { useIsSignedIn } from '../auth/MyAccountContext';
+import { getLastNStorefrontIds, getLastNIds } from '../utils/getIds';
+import { Tabs } from 'antd';
+import Section from '../utils/Section';
+import MyFeed from '../activity/MyFeed';
+import { uiShowFeed } from '../utils/env';
 
 const { TabPane } = Tabs
 
 type Props = {
-  spacesData: SpaceData[]
-  canHaveMoreSpaces: boolean
-  postsData: PostWithAllDetails[]
-  commentData: PostWithAllDetails[]
+  storefrontsData: StorefrontData[]
+  canHaveMoreStorefronts: boolean
+  productsData: ProductWithAllDetails[]
+  commentData: ProductWithAllDetails[]
 }
 
 const LatestUpdate = (props: Props) => {
-  const { spacesData, postsData, commentData } = props
+  const { storefrontsData, productsData, commentData } = props;
 
   return (
-    <PageContent meta={{ title: DEFAULT_TITLE, desc: DEFAULT_DESC }}>
-      <LatestPosts {...props} postsData={postsData} type='post' />
-      <LatestPosts {...props} postsData={commentData} type='comment' />
-      <LatestSpaces {...props} spacesData={spacesData} />
+    <PageContent>
+      <HeadMeta
+        title='Latest products and storefronts'
+        desc='Darkdot is an open decentralized social network'
+      />
+      <LatestProducts {...props} productsData={productsData} type='product' />
+      <LatestProducts {...props} productsData={commentData} type='comment' />
+      <LatestStorefronts {...props} storefrontsData={storefrontsData} />
     </PageContent>
   )
 }
@@ -63,30 +68,30 @@ const HomePage: NextPage<Props> = (props) => <Section className='m-0'>
 const LAST_ITEMS_SIZE = 5
 
 HomePage.getInitialProps = async (): Promise<Props> => {
-  const subsocial = await getSubsocialApi()
-  const { substrate } = subsocial
-  const nextSpaceId = await substrate.nextSpaceId()
-  const nextPostId = await substrate.nextPostId()
+  const darkdot = await getDarkdotApi();
+  const { substrate } = darkdot
+  const nextStorefrontId = await substrate.nextStorefrontId()
+  const nextProductId = await substrate.nextProductId()
 
-  const latestSpaceIds = getLastNSpaceIds(nextSpaceId, 3 * LAST_ITEMS_SIZE)
-  const publicSpacesData = await subsocial.findPublicSpaces(latestSpaceIds) as SpaceData[]
-  const spacesData = publicSpacesData.slice(0, LAST_ITEMS_SIZE)
-  const canHaveMoreSpaces = publicSpacesData.length >= LAST_ITEMS_SIZE
+  const latestStorefrontIds = getLastNStorefrontIds(nextStorefrontId, 3 * LAST_ITEMS_SIZE);
+  const publicStorefrontsData = await darkdot.findPublicStorefronts(latestStorefrontIds) as StorefrontData[]
+  const storefrontsData = publicStorefrontsData.slice(0, LAST_ITEMS_SIZE)
+  const canHaveMoreStorefronts = publicStorefrontsData.length >= LAST_ITEMS_SIZE
 
-  const latestPostIds = getLastNIds(nextPostId, 6 * LAST_ITEMS_SIZE)
-  const allPostsData = await subsocial.findPublicPostsWithAllDetails(latestPostIds)
-  const [ publicCommentData, publicPostsData ] =
-    partition(allPostsData, (x) => isComment(x.post.struct.extension))
+  const latestProductIds = getLastNIds(nextProductId, 6 * LAST_ITEMS_SIZE);
+  const allProductsData = await darkdot.findPublicProductsWithAllDetails(latestProductIds);
+  const [ publicCommentData, publicProductsData ] =
+    partition(allProductsData, (x) => isComment(x.product.struct.extension))
 
-  const postsData = publicPostsData.slice(0, LAST_ITEMS_SIZE)
+  const productsData = publicProductsData.slice(0, LAST_ITEMS_SIZE)
   const commentData = publicCommentData.slice(0, LAST_ITEMS_SIZE)
 
   return {
-    spacesData,
-    postsData,
+    storefrontsData,
+    productsData,
     commentData,
-    canHaveMoreSpaces
+    canHaveMoreStorefronts
   }
 }
 
-export default HomePage
+export default HomePage;

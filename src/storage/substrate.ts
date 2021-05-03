@@ -1,5 +1,5 @@
 import { newStore } from './store'
-import { newLogger, isEmptyStr } from '@subsocial/utils'
+import { newLogger, isEmptyStr } from '@darkpay/dark-utils'
 import { ApiPromise } from '@polkadot/api'
 
 const storeName = 'substrate'

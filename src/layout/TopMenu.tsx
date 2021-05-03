@@ -15,7 +15,8 @@ const InnerMenu = () => {
   const { isNotMobile, isMobile } = useResponsiveSize()
   const [ show, setShow ] = useState(false)
 
-  const logoImg = '/subsocial-logo.svg'
+  const logoImg = '/darkbay-logo2.svg'
+  const menuImg = '/darkdot-sign.svg'
 
   return isMobile && show
     ? <div className='DfTopBar DfTopBar--search'>
@@ -25,11 +26,12 @@ const InnerMenu = () => {
     : <div className='DfTopBar'>
       <div className='DfTopBar--leftContent'>
         <Button type='link' onClick={toggle} /* onMouseEnter={open} */ className='DfBurgerIcon'>
-          <MenuOutlined style={{ fontSize: '20px', color: '#999' }} />
+          {/* <MenuOutlined style={{ fontSize: '20px', color: '#999' }} /> */}
+          <img src={menuImg} alt='Darkdot' width= '32' height='32'/>
         </Button>
         <Link href='/' as='/'>
           <a className='DfBrand'>
-            <img src={logoImg} alt='Subsocial' />
+            <img src={logoImg} alt='Darkdot' />
           </a>
         </Link>
       </div>

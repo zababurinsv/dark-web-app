@@ -1,6 +1,6 @@
 import React from 'react'
-import { AnyAccountId } from '@subsocial/types/substrate'
-import { ProfileData } from '@subsocial/types'
+import { AnyAccountId } from '@darkpay/dark-types/substrate'
+import { ProfileData } from '@darkpay/dark-types'
 
 export type AddressProps = {
   className?: string

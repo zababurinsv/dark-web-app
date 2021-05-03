@@ -1,47 +1,47 @@
-import { Post, Space } from '@subsocial/types/substrate/interfaces'
-import { PostWithSomeDetails } from '@subsocial/types'
+import { Product, Storefront } from '@darkpay/dark-types/substrate/interfaces';
+import { ProductWithSomeDetails } from '@darkpay/dark-types';
 import React, { useState, useCallback } from 'react'
-import { nonEmptyArr, newLogger } from '@subsocial/utils'
-import ViewComment from './ViewComment'
-import { useSelector, useDispatch } from 'react-redux'
-import { getComments } from 'src/redux/slices/replyIdsByPostIdSlice'
-import { Store } from 'src/redux/types'
-import { useSetReplyToStore } from './utils'
-import useSubsocialEffect from '../api/useSubsocialEffect'
-import { LoadingOutlined } from '@ant-design/icons'
-import { MutedDiv } from '../utils/MutedText'
-import { isFakeId } from './helpers'
-import DataList from '../lists/DataList'
-import { ZERO, resolveBn } from '../utils'
+import { nonEmptyArr, newLogger } from '@darkpay/dark-utils';
+import ViewComment from './ViewComment';
+import { useSelector, useDispatch } from 'react-redux';
+import { getComments } from 'src/redux/slices/replyIdsByProductIdSlice';
+import { Store } from 'src/redux/types';
+import { useSetReplyToStore } from './utils';
+import useDarkdotEffect from '../api/useDarkdotEffect';
+import { LoadingOutlined } from '@ant-design/icons';
+import { MutedDiv } from '../utils/MutedText';
+import { isFakeId } from './helpers';
+import DataList from '../lists/DataList';
+import { ZERO, resolveBn } from '../utils';
 
 const log = newLogger('CommentTree')
 
 type LoadProps = {
-  rootPost?: Post,
-  parent: Post,
-  space: Space,
-  replies?: PostWithSomeDetails[]
+  rootProduct?: ProductWithSomeDetails,
+  parent: Product,
+  storefront: Storefront,
+  replies?: ProductWithSomeDetails[]
 }
 
 type CommentsTreeProps = {
-  rootPost?: Post,
-  space: Space,
-  comments: PostWithSomeDetails[]
+  rootProduct?: ProductWithSomeDetails,
+  storefront: Storefront,
+  comments: ProductWithSomeDetails[]
 }
 
-const ViewCommentsTree: React.FunctionComponent<CommentsTreeProps> = ({ comments, rootPost, space }) => {
+const ViewCommentsTree: React.FunctionComponent<CommentsTreeProps> = ({ comments, rootProduct, storefront }) => {
   return nonEmptyArr(comments) ? <DataList
     dataSource={comments}
     renderItem={(item) => {
-      const { post: { struct } } = item
+      const { product: { struct } } = item;
       const key = `comment-${struct.id.toString()}`
-      return <ViewComment key={key} space={space} rootPost={rootPost} comment={item} withShowReplies/>
+      return <ViewComment key={key} storefront={storefront} rootProduct={rootProduct} comment={item} withShowReplies/>
     }}
-  /> : null
+  /> : null;
 }
 
 export const DynamicCommentsTree = (props: LoadProps) => {
-  const { rootPost, parent: { id: parentId }, space, replies } = props
+  const { rootProduct, parent: { id: parentId }, storefront, replies } = props;
   const parentIdStr = parentId.toString()
 
   if (isFakeId(props.parent)) return null
@@ -49,18 +49,18 @@ export const DynamicCommentsTree = (props: LoadProps) => {
   const dispatch = useDispatch()
 
   const [ isLoading, setIsLoading ] = useState(true)
-  const [ replyComments, setComments ] = useState(replies || [])
+  const [ replyComments, setComments ] = useState(replies || []);
 
   const hasComments = nonEmptyArr(replyComments)
 
-  useSubsocialEffect(({ subsocial, substrate }) => {
-    if (!isLoading) return
+  useDarkdotEffect(({ darkdot, substrate }) => {
+    if (!isLoading) return;
 
     let isSubscribe = true
 
     const loadComments = async () => {
-      const replyIds = await substrate.getReplyIdsByPostId(parentId)
-      const comments = await subsocial.findPostsWithAllDetails({ ids: replyIds }) || []
+      const replyIds = await substrate.getReplyIdsByProductId(parentId);
+      const comments = await darkdot.findProductsWithAllDetails({ ids: replyIds }) || [];
       const replyIdsStr = replyIds.map(x => x.toString())
       const reply = { replyId: replyIdsStr, parentId: parentIdStr }
 
@@ -71,7 +71,7 @@ export const DynamicCommentsTree = (props: LoadProps) => {
     }
 
     if (hasComments) {
-      const replyIds = replyComments.map(x => x.post.struct.id.toString())
+      const replyIds = replyComments.map(x => x.product.struct.id.toString())
       useSetReplyToStore(dispatch, { reply: { replyId: replyIds, parentId: parentIdStr }, comment: replyComments })
     } else {
       loadComments()
@@ -81,27 +81,27 @@ export const DynamicCommentsTree = (props: LoadProps) => {
 
     return () => { isSubscribe = false }
 
-  }, [ false ])
+  }, [ false ]);
 
   return isLoading && !hasComments
     ? <MutedDiv className='mt-2 mb-2'><LoadingOutlined className='mr-1' /> Loading replies...</MutedDiv>
-    : <ViewCommentsTree space={space} rootPost={rootPost} comments={replyComments} />
+    : <ViewCommentsTree storefront={storefront} rootProduct={rootProduct} comments={replyComments} />
 }
 
 export const CommentsTree = (props: LoadProps) => {
-  const { parent: { id: parentId, replies_count } } = props
+  const { parent: { id: parentId, replies_count } } = props;
 
   const count = resolveBn(replies_count)
   const parentIdStr = parentId.toString()
 
-  const comments = useSelector((store: Store) => getComments(store, parentIdStr))
+  const comments = useSelector((store: Store) => getComments(store, parentIdStr));
   const hasComments = nonEmptyArr(comments)
 
   const Tree = useCallback(() => nonEmptyArr(comments)
   ? <ViewCommentsTree {...props} comments={comments} />
   : <DynamicCommentsTree {...props} />, [ comments.length, parentIdStr, count.toString() ])
 
-  if (count.eq(ZERO) && !hasComments) return null
+  if (count.eq(ZERO) && !hasComments) return null;
 
   return <Tree />
 }

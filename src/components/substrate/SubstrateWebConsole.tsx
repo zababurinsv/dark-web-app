@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { newLogger } from '@subsocial/utils'
+import { newLogger } from '@darkpay/dark-utils'
 import { useSubstrate } from './useSubstrate'
 import { ApiPromise } from '@polkadot/api'
 import { Keyring } from '@polkadot/ui-keyring'
@@ -47,7 +47,7 @@ export function SubstrateWebConsole () {
       substrate.util = require('@polkadot/util')
       log.info('Exported window.substrate.util')
 
-      substrate.crypto = require('@polkadot/util-crypto')
+      substrate.crypto = require('@polkadot/util-crypto');
       log.info('Exported window.substrate.crypto')
     }
   }

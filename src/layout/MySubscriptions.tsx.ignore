@@ -1,44 +1,44 @@
-// import { SpaceId } from '@subsocial/types/substrate/interfaces';
-// import { isEmptyArray, newLogger } from '@subsocial/utils';
+// import { StorefrontId } from '@darkpay/dark-types/substrate/interfaces';
+// import { isEmptyArray, newLogger } from '@darkpay/dark-utils';
 // import React, { useCallback, useMemo, useState } from 'react';
-// import useSubsocialEffect from '../api/useSubsocialEffect';
+// import useDarkdotEffect from '../api/useDarkdotEffect';
 // import { useMyAddress } from 'src/components/auth/MyAccountContext';
 // import { useSidebarCollapsed } from 'src/components/utils/SideBarCollapsedContext';
 // import { InfiniteList } from '../lists/InfiniteList';
 // import { Loading } from '../utils';
 // import { getPageOfIds } from '../utils/getIds';
-// import { useSubsocialApi } from '../utils/SubsocialApiContext';
-// import { AllSpacesLink } from './helpers';
-// import { buildFollowedItems } from './ListFollowingSpaces';
+// import { useDarkdotApi } from '../utils/DarkdotApiContext';
+// import { AllStorefrontsLink } from './helpers';
+// import { buildFollowedItems } from './ListFollowingStorefronts';
 
 // const log = newLogger(MySubscriptions.name)
 
 // function MySubscriptions () {
-//   const [ followedSpaceIds, setFollowedSpacesIds ] = useState<SpaceId[]>([]);
+//   const [ followedStorefrontIds, setFollowedStorefrontsIds ] = useState<StorefrontId[]>([]);
 //   const [ loaded, setLoaded ] = useState(false);
 //   const { state: { collapsed } } = useSidebarCollapsed();
-//   const { subsocial, isApiReady } = useSubsocialApi()
+//   const { darkdot, isApiReady } = useDarkdotApi()
 //   const myAddress = useMyAddress();
 
-//   useSubsocialEffect(({ subsocial, substrate: { api } }) => {
+//   useDarkdotEffect(({ darkdot, substrate: { api } }) => {
 //     if (!myAddress) return;
 
 //     let isSubscribe = true;
 //     let unsub: () => any;
 
-//     const subLoadSpacesData = async () => {
+//     const subLoadStorefrontsData = async () => {
 //       setLoaded(false);
 //       const readyApi = await api;
-//       unsub = await readyApi.query.spaceFollows.spacesFollowedByAccount(myAddress, async ids => {
+//       unsub = await readyApi.query.storefrontFollows.storefrontsFollowedByAccount(myAddress, async ids => {
 //         if (isSubscribe) {
-//           setFollowedSpacesIds(ids as unknown as SpaceId[]);
+//           setFollowedStorefrontsIds(ids as unknown as StorefrontId[]);
 //           setLoaded(true);
 //         }
 //       })
 //     };
 
-//     subLoadSpacesData().catch(err =>
-//       log.error(`Failed to load spaces followed by the current user. ${err}`))
+//     subLoadStorefrontsData().catch(err =>
+//       log.error(`Failed to load storefronts followed by the current user. ${err}`))
 
 //     return () => {
 //       isSubscribe = false;
@@ -49,16 +49,16 @@
 //   const getNextPage = useCallback(async (page: number, size: number) => {
 //     if (!isApiReady) return [];
 
-//     const idsOfPage = getPageOfIds(followedSpaceIds, { page, size } as unknown as ParsedUrlQuery)
-//     const spacesData = await subsocial.findPublicSpaces(idsOfPage);
+//     const idsOfPage = getPageOfIds(followedStorefrontIds, { page, size } as unknown as ParsedUrlQuery)
+//     const storefrontsData = await darkdot.findPublicStorefronts(idsOfPage);
 
-//     return spacesData
-//   }, [ followedSpaceIds, isApiReady ])
+//     return storefrontsData
+//   }, [ followedStorefrontIds, isApiReady ])
 
-//   if (isEmptyArray(followedSpaceIds)) {
+//   if (isEmptyArray(followedStorefrontIds)) {
 //     return collapsed ? null : (
 //       <div className='text-center m-2'>
-//         <AllSpacesLink title='Exlore Spaces' />
+//         <AllStorefrontsLink title='Exlore Storefronts' />
 //       </div>
 //     )
 //   }
@@ -71,5 +71,5 @@
 //           ? <>{buildFollowedItems(dataSource).map(renderPageLink)}</>
 //           : <div className='text-center m-2'><Loading /></div>}
 //       }
-//   />, [ followedSpaceIds.length, myAddress ] )
+//   />, [ followedStorefrontIds.length, myAddress ] )
 // }

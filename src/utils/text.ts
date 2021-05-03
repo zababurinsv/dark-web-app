@@ -1,22 +1,14 @@
-import { isEmptyStr } from '@subsocial/utils'
+import { isEmptyStr } from '@darkpay/dark-utils'
 import truncate from 'lodash.truncate'
 
 const DEFAULT_SUMMARY_LEN = 300
 
 const SEPARATOR = /[.,:;!?()[\]{}\s]+/
 
-type SummarizeOpt = {
-  limit?: number,
-  omission?: string;
-}
-
 /** Shorten a plain text up to `limit` chars. Split by separators. */
 export const summarize = (
   text: string,
-  {
-    limit = DEFAULT_SUMMARY_LEN,
-    omission = '...'
-  }: SummarizeOpt
+  limit: number = DEFAULT_SUMMARY_LEN
 ): string => {
   if (isEmptyStr(text)) return ''
 
@@ -26,7 +18,6 @@ export const summarize = (
     ? text
     : truncate(text, {
       length: limit,
-      separator: SEPARATOR,
-      omission
+      separator: SEPARATOR
     })
 }

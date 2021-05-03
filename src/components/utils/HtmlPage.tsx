@@ -1,5 +1,6 @@
 import React from 'react'
 import { PageContent } from 'src/components/main/PageWrapper'
+import HeadMeta from './HeadMeta'
 
 type Props = {
   title: string
@@ -8,7 +9,8 @@ type Props = {
 
 /** Use this component carefully and not to oftern, because it allows to inject a dangerous HTML. */
 export const HtmlPage = ({ title, html }: Props) =>
-  <PageContent meta={{ title }}>
+  <PageContent>
+    <HeadMeta title={title} />
     <div dangerouslySetInnerHTML={{ __html: html }} />
   </PageContent>
 

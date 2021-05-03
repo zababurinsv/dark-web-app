@@ -1,7 +1,7 @@
-import { SpaceContent, PostContent, NamedLink } from '@subsocial/types'
-import { nonEmptyStr } from '@subsocial/utils'
+import { StorefrontContent, ProductContent, NamedLink } from "@darkpay/dark-types"
+import { nonEmptyStr } from "@darkpay/dark-utils"
 
-export const getNonEmptySpaceContent = (content: SpaceContent): SpaceContent => {
+export const getNonEmptyStorefrontContent = (content: StorefrontContent): StorefrontContent => {
   const { tags, links, ...rest } = content
   return {
     tags: getNonEmptyStrings(tags),
@@ -10,7 +10,7 @@ export const getNonEmptySpaceContent = (content: SpaceContent): SpaceContent => 
   }
 }
 
-export const getNonEmptyPostContent = (content: PostContent): PostContent => {
+export const getNonEmptyProductContent = (content: ProductContent): ProductContent => {
   const { tags, ...rest } = content
   return {
     tags: getNonEmptyStrings(tags),

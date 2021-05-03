@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { isEmptyStr } from '@subsocial/utils'
+import { isEmptyStr } from '@darkpay/dark-utils'
 
 const remark = require('remark')
 const strip = require('strip-markdown')

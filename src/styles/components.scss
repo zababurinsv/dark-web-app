@@ -23,14 +23,13 @@
 }
 
 .ui--AddressComponents-address {
-  width: 100%;
   text-align: left;
   &.activity {
     width: initial;
     font-weight: bold;
   }
   &.withAddr {
-    font-family: monospace;
+    font-family: monostorefront;
   }
 
   &.withName {

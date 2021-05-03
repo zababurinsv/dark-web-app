@@ -1,15 +1,15 @@
-@import 'src/styles/subsocial-vars.scss'
+@import 'src/styles/darkdot-vars.scss'
 
-$_padding: $space_normal
+$_padding: $storefront_normal
 $_border: 1px solid $color_warn_border
 
 .DfEntityStatus
   display: block
-  margin-bottom: $space_normal
+  margin-bottom: $storefront_normal
 
   \:global .ant-btn
     background-color: transparent
-    margin-left: $space_tiny
+    margin-left: $storefront_tiny
 
 .DfEntityStatusOnPage
   padding-top: $_padding
@@ -18,15 +18,15 @@ $_border: 1px solid $color_warn_border
   border-radius: $border_radius_normal
 
   \:global .ant-alert-icon
-    margin-top: $space_tiny
+    margin-top: $storefront_tiny
 
 .RadiusesForPreview
   border-top-left-radius: $border_radius_normal
   border-top-right-radius: $border_radius_normal
 
 .SpacingForPreview
-  margin: -$space_normal
-  margin-bottom: $space_normal
+  margin: -$storefront_normal
+  margin-bottom: $storefront_normal
 
 .DfEntityStatusInPreview
   @extend .SpacingForPreview

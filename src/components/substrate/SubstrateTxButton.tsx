@@ -7,7 +7,7 @@ import { AddressOrPair } from '@polkadot/api/submittable/types'
 import { web3FromSource } from '@polkadot/extension-dapp'
 import { isFunction } from '@polkadot/util'
 
-import { newLogger, isEmptyStr, nonEmptyArr, nonEmptyStr } from '@subsocial/utils'
+import { newLogger, isEmptyStr, nonEmptyArr, nonEmptyStr } from '@darkpay/dark-utils'
 import { useSubstrate } from '.'
 import useToggle from './useToggle'
 import { Message, showSuccessMessage, showErrorMessage, controlledMessage } from '../utils/Message'
@@ -80,7 +80,7 @@ export function TxButton ({
     icon: <LoadingOutlined />
   })
 
-  let unsub: VoidFn | undefined
+  let unsub: VoidFn | undefined;
 
   const isAuthRequired = !accountId || !hasTokens
   const buttonLabel = label || children

@@ -28,7 +28,7 @@ export const isPageLink = (item: MenuItem): item is PageLink =>
 export const DefaultMenu: MenuItem[] = [
   {
     name: 'Explore',
-    page: [ '/spaces' ],
+    page: [ '/storefronts/all' ],
     icon: <GlobalOutlined />
   },
   {
@@ -38,18 +38,18 @@ export const DefaultMenu: MenuItem[] = [
     hidden: !uiShowAdvanced,
     isAdvanced: true
   }
-]
+];
 
 export const buildAuthorizedMenu = (myAddress: string): MenuItem[] => {
   const account = { address: myAddress }
 
   const notificationsItem = uiShowNotifications
-    ? [ {
+    ? [{
         name: 'My notifications',
         page: [ '/notifications', '/notifications' ],
         icon: <BellOutlined />,
         isNotifications: true
-      } ]
+      }]
     : []
 
   return [
@@ -65,13 +65,13 @@ export const buildAuthorizedMenu = (myAddress: string): MenuItem[] => {
       icon: <UserOutlined />
     },
     {
-      name: 'My spaces',
-      page: [ '/accounts/[address]/spaces', accountUrl(account, 'spaces') ],
+      name: 'My storefronts',
+      page: [ '/accounts/[address]/storefronts', accountUrl(account, 'storefronts') ],
       icon: <BookOutlined />
     },
     {
-      name: 'New space',
-      page: [ '/spaces/new', '/spaces/new' ],
+      name: 'New storefront',
+      page: [ '/storefronts/new', '/storefronts/new' ],
       icon: <PlusOutlined />
     },
     Divider,

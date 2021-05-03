@@ -1,25 +1,21 @@
 import BN from 'bn.js'
 import { Text, GenericAccountId, Option } from '@polkadot/types'
 import { AccountId } from '@polkadot/types/interfaces'
-import AbstractInt from '@polkadot/types/codec/AbstractInt'
 import { AddressProps } from 'src/components/profiles/address-views/utils/types'
 import { toShortAddress, resolveBn } from 'src/components/utils'
 import { Codec } from '@polkadot/types/types'
-import { SubstrateId, AnyAccountId } from '@subsocial/types'
+import { SubstrateId, AnyAccountId } from '@darkpay/dark-types'
 import { SubmittableResult } from '@polkadot/api'
-import { getSubsocialApi } from 'src/components/utils/SubsocialConnect'
-import { SubsocialApi } from '@subsocial/api/subsocial'
-import { asAccountId } from '@subsocial/api/utils'
+import { getDarkdotApi } from 'src/components/utils/DarkdotConnect';
+import { DarkdotApi } from '@darkpay/dark-api/darkdot';
+import { asAccountId } from '@darkpay/dark-api/utils'
+import { AbstractInt } from '@polkadot/types/codec/AbstractInt'
 export * from './getTxParams'
 export * from './queryToProps'
-export { isEqual } from './isEqual'
-export { triggerChange } from './triggerChange'
+export { isEqual } from './isEqual';
+export { triggerChange } from './triggerChange';
 
-function toString<DFT> (
-  value?: { toString: () => string },
-  _default?: DFT
-): string | DFT | undefined {
-
+function toString<DFT> (value?: { toString: () => string }, _default?: DFT): string | DFT | undefined {
   return value && typeof value.toString === 'function'
     ? value.toString()
     : _default
@@ -42,7 +38,7 @@ export function stringifyAny<DFT> (value?: any, _default?: DFT): string | DFT | 
   return _default
 }
 
-export function stringifyText<DFT extends string> (value?: AnyText, _default?: DFT): string | DFT | undefined {
+export function stringifyText<DFT> (value?: AnyText, _default?: DFT): string | DFT | undefined {
   return stringifyAny(value, _default)
 }
 
@@ -54,52 +50,54 @@ export function stringifyAddress<DFT> (value?: AnyAddress, _default?: DFT): stri
   return stringifyAny(value, _default)
 }
 
-export const getSpaceId = async (idOrHandle: string, subsocial?: SubsocialApi): Promise<BN | undefined> => {
+export const getStorefrontId = async (idOrHandle: string, darkdot?: DarkdotApi): Promise<BN | undefined> => {
   if (idOrHandle.startsWith('@')) {
-    // Drop '@' char and lowercase handle before searching for its space.
+    // Drop '@' char and lowercase handle before searching for its storefront.
     const handle = idOrHandle.substring(1).toLowerCase()
-    const { substrate } = subsocial || await getSubsocialApi()
-    return substrate.getSpaceIdByHandle(handle)
+    const { substrate } = darkdot || await getDarkdotApi()
+    return substrate.getStorefrontIdByHandle(handle)
   } else {
     return resolveBn(idOrHandle)
   }
 }
 
 export function getNewIdFromEvent (txResult: SubmittableResult): BN | undefined {
-  let id: BN | undefined
+  let id: BN | undefined;
 
   txResult.events.find(event => {
-    const { event: { data, method } } = event
-    if (method.indexOf('Created') >= 0) {
-      const [ /* owner */, newId ] = data.toArray()
-      id = newId as unknown as BN
-      return true
+    const {
+      event: { data, method }
+    } = event;
+    if (method.indexOf(`Created`) >= 0) {
+      const [ /* owner */, newId ] = data.toArray();
+      id = newId as unknown as BN;
+      return true;
     }
-    return false
-  })
+    return false;
+  });
 
-  return id
+  return id;
 }
 
 export const getAccountId = async (addressOrHandle: string): Promise<AnyAccountId | undefined> => {
   if (addressOrHandle.startsWith('@')) {
     const handle = addressOrHandle.substring(1) // Drop '@' char.
-    const { substrate } = await getSubsocialApi()
+    const { substrate } = await getDarkdotApi()
     return substrate.getAccountIdByHandle(handle)
   } else {
     return addressOrHandle
   }
 }
 
-type MaybeAccAddr = undefined | AnyAccountId
+type MaybeAccAddr = undefined | string | GenericAccountId
 
-export function equalAddresses (addr1: MaybeAccAddr, addr2: MaybeAccAddr) {
+export function equalAddresses (addr1: MaybeAccAddr, addr2: MaybeAccAddr): boolean {
   if (addr1 === addr2) {
     return true
   } else if (!addr1 || !addr2) {
     return false
   } else {
-    return true === asAccountId(addr1)?.eq(asAccountId(addr2))
+    return asAccountId(addr1)?.eq(asAccountId(addr2)) || false
   }
 }
 
@@ -117,7 +115,7 @@ export const getProfileName = (options: GetNameOptions) => {
 
 export const unwrapSubstrateId = (optId?: Option<Codec>): SubstrateId | undefined => {
   if (optId instanceof Option) {
-    return optId.unwrapOr(undefined) as SubstrateId | undefined
+    return optId.unwrapOr(undefined) as any
   }
 
   return optId && optId as SubstrateId

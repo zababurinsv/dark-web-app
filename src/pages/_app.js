@@ -1,16 +1,22 @@
 // TODO remove global import of all AntD CSS, use modular LESS loading instead.
 // See .babelrc options: https://github.com/ant-design/babel-plugin-import#usage
-import 'src/styles/antd.css'
+
+
+// import 'src/styles/antd.css'
+
+// import 'src/styles/antd.compact.css'
 
 import 'src/styles/bootstrap-utilities-4.3.1.css'
 import 'src/styles/components.scss'
 import 'src/styles/github-markdown.css'
 import 'easymde/dist/easymde.min.css'
 
-// Subsocial custom styles:
-import 'src/styles/subsocial.scss'
+// Darkdot custom styles:
+import 'src/styles/darkdot.scss'
 import 'src/styles/utils.scss'
-import 'src/styles/subsocial-mobile.scss'
+import 'src/styles/darkdot-mobile.scss'
+
+import 'src/styles/antd.dark.css'
 
 import React from 'react'
 import App from 'next/app'
@@ -18,12 +24,6 @@ import Head from 'next/head'
 import MainPage from '../layout/MainPage'
 import { Provider } from 'react-redux'
 import store from 'src/redux/store'
-
-import dayjs from 'dayjs'
-import relativeTime from 'dayjs/plugin/relativeTime'
-import localizedFormat from 'dayjs/plugin/localizedFormat'
-dayjs.extend(relativeTime)
-dayjs.extend(localizedFormat)
 
 function MyApp (props) {
   const { Component, pageProps } = props
@@ -55,4 +55,4 @@ MyApp.getInitialProps = async (appContext) => {
   return { ...appProps }
 }
 
-export default MyApp
+export default MyApp;

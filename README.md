@@ -1,14 +1,14 @@
-# Subsocial Web UI by [DappForce](https://github.com/dappforce)
+# Darkdot DeCommerce Web UI
 
-Subsocial is a set of Substrate pallets with web UI that allows anyone to launch their own decentralized censorship-resistant social network aka community. Every community can be a separate Substrate chain and connect with other communities via a Polkadot-based relay chain.
+Darkdot is a set of Substrate pallets with web UI that allows anyone to launch their own decentralized censorship-resistant e-commerce shop aka storefront. 
+Darkdot developers aim to bring a real decentralized and easy to use e-commerce system people may enjoy.
+Darkdot chain aims to become a parachain and wishes to connect with other communities via Polkadot relay chain.
 
-You can think of this as decentralized versions of Reddit, Stack Exchange or Medium, where subreddits or communities of Stack Exchange or blogs on Medium run on their own chain. At the same time, users of these decentralized communities should be able to share their reputation or transfer coins and other values from one community to another via Polkadot relay chain.
-
-To learn more about Subsocial, please visit [Subsocial Network](http://subsocial.network).
+To learn more about Darkdot, please visit [Darkdot Network](http://darkdot.network).
 
 ## Video demo
 
-[![Subsocial demo #4, 2019-11-28](http://i3.ytimg.com/vi/pFGvlKpJdss/maxresdefault.jpg)](https://www.youtube.com/watch?v=pFGvlKpJdss)
+Incoming
 
 ## Run locally
 
@@ -84,8 +84,10 @@ If you want to build docker image from your local repository (it takes a while..
 docker build -f docker/Dockerfile -t [your_nickname]/subsocial-ui .
 ```
 
-### Start all parts of Subsocial at once with [Subsocial Starter](https://github.com/dappforce/dappforce-subsocial-starter).
+### Start all parts of Subsocial at once with [Subsocial Starter](https://github.com/dappforce/dark-starter).
 
 ## License
 
-Subsocial is [GPL 3.0](./LICENSE) licensed.
+Darkdot is forked from the great Subsocial project by [DappForce](https://github.com/dappforce)
+
+Darkdot is [GPL 3.0](./LICENSE) licensed.

@@ -3,7 +3,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import { Tag, Input, Tooltip, AutoComplete } from 'antd';
 import { ErrorMessage } from 'formik';
 import { SelectValue } from 'antd/lib/select';
-import { nonEmptyStr } from '@subsocial/utils';
+import { nonEmptyStr } from '@darkpay/dark-utils';
 
 type Props = {
   name: string,

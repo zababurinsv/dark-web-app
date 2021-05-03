@@ -1,9 +1,9 @@
-import { ParsedPaginationQuery } from '../utils/getIds'
-import { SubsocialApi } from '@subsocial/api/subsocial'
-import { ActivityStore } from './NotificationUtils'
+import { ParsedPaginationQuery } from "../utils/getIds"
+import { DarkdotApi } from "@darkpay/dark-api/darkdot"
+import { ActivityStore } from "./NotificationUtils"
 
 export type LoadMoreProps = ParsedPaginationQuery & {
-  subsocial: SubsocialApi
+  darkdot: DarkdotApi
   address?: string,
   activityStore?: ActivityStore
 }

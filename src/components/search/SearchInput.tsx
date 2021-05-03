@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Input } from 'antd'
-import { nonEmptyStr } from '@subsocial/utils'
+import { nonEmptyStr } from '@darkpay/dark-utils'
 import { useRouter } from 'next/router'
 import { isMobileDevice } from 'src/config/Size.config'
 
@@ -33,7 +33,7 @@ const SearchInput = () => {
   return (
     <div className={'DfSearch'}>
       <Search
-        placeholder="Search for spaces, posts or comments"
+        placeholder="Search for storefronts, products or comments"
         onSearch={onSearch}
         value={searchValue}
         autoFocus={isMobileDevice}

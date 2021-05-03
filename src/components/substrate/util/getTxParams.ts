@@ -1,13 +1,13 @@
-import { newLogger } from '@subsocial/utils'
-import { CommonContent } from '@subsocial/types'
-import { IpfsCid } from '@subsocial/types/substrate/interfaces'
-import { SubsocialIpfsApi } from '@subsocial/api/ipfs'
+import { newLogger } from '@darkpay/dark-utils';
+import { CommonContent } from '@darkpay/dark-types';
+import { IpfsCid } from '@darkpay/dark-types/substrate/interfaces';
+import { DarkdotIpfsApi } from '@darkpay/dark-api/ipfs';
 
 const log = newLogger('BuildTxParams')
 
 // TODO rename setIpfsCid -> setIpfsCid
 type Params<C extends CommonContent> = {
-  ipfs: SubsocialIpfsApi
+  ipfs: DarkdotIpfsApi
   json: C
   setIpfsCid: (cid: IpfsCid) => void
   buildTxParamsCallback: (cid: IpfsCid) => any[]

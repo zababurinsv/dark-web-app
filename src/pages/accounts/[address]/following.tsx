@@ -1,3 +1,3 @@
-import { ListFollowingSpacesPage } from '../../../components/spaces/ListFollowingSpaces'
+import { ListFollowingStorefrontsPage } from '../../../components/storefronts/ListFollowingStorefronts';
 
-export default ListFollowingSpacesPage
+export default ListFollowingStorefrontsPage;

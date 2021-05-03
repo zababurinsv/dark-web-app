@@ -1,20 +1,19 @@
 import React from 'react'
-import dayjs from 'dayjs'
-import { ViewSpace } from '../spaces/ViewSpace'
-import { Pluralize } from '../utils/Plularize'
-import { ProfileData, SpaceData, PostData, Activity, PostContent, EventsName, CommonStruct, AnySubsocialData, AnyAccountId } from '@subsocial/types'
+import moment from 'moment-timezone';
+import { ViewStorefront } from '../storefronts/ViewStorefront';
+import { Pluralize } from '../utils/Plularize';
+import { ProfileData, StorefrontData, ProductData, Activity, ProductContent, EventsName, CommonStruct, AnyDarkdotData, AnyAccountId } from '@darkpay/dark-types';
 import BN from 'bn.js'
-import Link from 'next/link'
-import { nonEmptyStr } from '@subsocial/utils'
-import { postUrl, spaceUrl, accountUrl } from '../urls'
-import { NotifActivitiesType } from './Notifications'
+import Link from 'next/link';
+import { isDef, nonEmptyStr, notDef } from '@darkpay/dark-utils';
+import { productUrl, storefrontUrl, accountUrl } from '../urls';
+import { NotifActivitiesType } from './Notifications';
 import messages from '../../messages'
-import { summarize } from 'src/utils'
-import { isSharedPost } from '../posts/view-post'
-import { SocialAccount, Post } from '@subsocial/types/substrate/interfaces'
-import { SubsocialApi } from '@subsocial/api/subsocial'
-import { Name } from '../profiles/address-views/Name'
-import { equalAddresses } from '../substrate'
+import { summarize } from 'src/utils';
+import { isSharedProduct } from '../products/view-product';
+import { SocialAccount, Product } from '@darkpay/dark-types/substrate/interfaces';
+import { DarkdotApi } from '@darkpay/dark-api/darkdot';
+import { Name } from '../profiles/address-views/Name';
 
 export type LoadMoreFn = (
   myAddress: string,
@@ -42,8 +41,8 @@ export type NotificationType = PathLinks & {
 }
 
 export type ActivityStore = {
-  spaceById: Map<string, SpaceData>,
-  postById: Map<string, PostData>,
+  storefrontById: Map<string, StorefrontData>,
+  productById: Map<string, ProductData>,
   ownerById: Map<string, ProfileData>
 }
 
@@ -61,7 +60,7 @@ type Struct = Exclude<CommonStruct, SocialAccount>
 const fillArray = <T extends string | BN>(
   id: T,
   structIds: T[],
-  structByIdMap: Map<string, AnySubsocialData>
+  structByIdMap: Map<string, AnyDarkdotData>
 ) => {
   const struct = structByIdMap.get(id.toString())
 
@@ -77,38 +76,38 @@ type InnerNotificationsProps = {
 }
 
 type LoadNotificationsProps = InnerNotificationsProps & {
-  subsocial: SubsocialApi,
+  darkdot: DarkdotApi,
   activities: Activity[],
 }
 
 export const loadNotifications = async ({
-  subsocial,
+  darkdot,
   activities,
   activityStore,
   type,
   myAddress
 }: LoadNotificationsProps) => {
-  const { spaceById, postById, ownerById } = activityStore
+  const { storefrontById, productById, ownerById } = activityStore
 
   const ownerIds: string[] = []
-  const spaceIds: BN[] = []
-  const postIds: BN[] = []
+  const storefrontIds: BN[] = []
+  const productIds: BN[] = []
 
-  activities.forEach(({ account, following_id, space_id, post_id, comment_id }) => {
+  activities.forEach(({ account, following_id, storefront_id, product_id, comment_id }) => {
     nonEmptyStr(account) && fillArray(account, ownerIds, ownerById)
     nonEmptyStr(following_id) && fillArray(following_id, ownerIds, ownerById)
-    nonEmptyStr(space_id) && fillArray(new BN(space_id), spaceIds, spaceById)
-    nonEmptyStr(post_id) && fillArray(new BN(post_id), postIds, postById)
-    nonEmptyStr(comment_id) && fillArray(new BN(comment_id), postIds, postById)
+    nonEmptyStr(storefront_id) && fillArray(new BN(storefront_id), storefrontIds, storefrontById)
+    nonEmptyStr(product_id) && fillArray(new BN(product_id), productIds, productById)
+    nonEmptyStr(comment_id) && fillArray(new BN(comment_id), productIds, productById)
   })
 
-  const ownersData = await subsocial.findProfiles(ownerIds)
-  const postsData = await subsocial.findPublicPosts(postIds)
+  const ownersData = await darkdot.findProfiles(ownerIds)
+  const productsData = await darkdot.findPublicProducts(productIds)
 
-  function fillMap<T extends AnySubsocialData> (
+  function fillMap<T extends AnyDarkdotData> (
     data: T[],
-    structByIdMap: Map<string, AnySubsocialData>,
-    structName?: 'profile' | 'post'
+    structByIdMap: Map<string, AnyDarkdotData>,
+    structName?: 'profile' | 'product'
   ) {
     data.forEach(x => {
       let id
@@ -118,11 +117,11 @@ export const loadNotifications = async ({
           id = (x as ProfileData).profile?.created.account
           break
         }
-        case 'post': {
-          const struct = (x.struct as Post)
+        case 'product': {
+          const struct = (x.struct as Product)
           id = struct.id
-          const spaceId = struct.space_id.unwrapOr(undefined)
-          spaceId && spaceIds.push(spaceId)
+          const storefrontId = struct.storefront_id.unwrapOr(undefined)
+          storefrontId && storefrontIds.push(storefrontId)
           break
         }
         default: {
@@ -136,41 +135,41 @@ export const loadNotifications = async ({
     })
   }
 
-  fillMap(postsData, postById, 'post'),
+  fillMap(productsData, productById, 'product'),
   fillMap(ownersData, ownerById, 'profile')
 
-  // Only at this point we have ids of spaces that should be loaded:
-  const spacesData = await subsocial.findPublicSpaces(spaceIds)
-  fillMap(spacesData, spaceById)
+  // Only at this point we have ids of storefronts that should be loaded:
+  const storefrontsData = await darkdot.findPublicStorefronts(storefrontIds)
+  fillMap(storefrontsData, storefrontById)
 
   return activities
     .map(activity => getNotification({ activity, activityStore, myAddress, type }))
     .filter(x => x !== undefined) as NotificationType[]
 }
 
-const renderSubjectPreview = (content?: PostContent, href = '') => {
+const renderSubjectPreview = (content?: ProductContent, href = '') => {
   if (!content) return null
 
   const { title, body } = content
-  const name = summarize(title || body || 'link', { limit: SUMMARIZE_LIMIT })
+  const name = summarize(title || body || 'link', SUMMARIZE_LIMIT)
   return nonEmptyStr(name) || nonEmptyStr(href) ?
-  <Link href='/[spaceId]/[slug]' as={href}><a>{name}</a></Link>
+  <Link href='/[storefrontId]/products/[productId]' as={href}><a>{name}</a></Link>
   : null
 }
 
 
-const getSpacePreview = (spaceId: BN, map: Map<string, SpaceData>): PreviewNotification | undefined => {
-  const data = map.get(spaceId.toString())
+const getStorefrontPreview = (storefrontId: BN, map: Map<string, StorefrontData>): PreviewNotification | undefined => {
+  const data = map.get(storefrontId.toString())
 
   if (!data) return undefined
 
   return {
-    preview: <ViewSpace spaceData={data} nameOnly withLink />,
+    preview: <ViewStorefront storefrontData={data} nameOnly withLink />,
     image: data?.content?.image,
     owner: data?.struct.owner,
     links: {
-      href: '/[spaceId]',
-      as: data && spaceUrl(data?.struct)
+      href: '/[storefrontId]',
+      as: data && storefrontUrl(data?.struct)
     }
   }
 }
@@ -189,123 +188,123 @@ const getAccountPreview = (accountId: string, map: Map<string, ProfileData>): Pr
   }
 }
 
-type GetPostPreviewProsp = {
-  postId: BN,
+type GetProductPreviewProsp = {
+  productId: BN,
   event: EventsName,
-  spaceMap: Map<string, SpaceData>,
-  postMap: Map<string, PostData>
+  storefrontMap: Map<string, StorefrontData>,
+  productMap: Map<string, ProductData>
 }
 
-const getPostPreview = ({ postId, postMap, spaceMap, event } :GetPostPreviewProsp): PreviewNotification | undefined => {
-  const data = postMap.get(postId.toString())
+const getProductPreview = ({ productId, productMap, storefrontMap, event } :GetProductPreviewProsp): PreviewNotification | undefined => {
+  const data = productMap.get(productId.toString())
 
   if (!data) return undefined
 
-  const isShared = isSharedPost(data.struct.extension)
+  const isShared = isSharedProduct(data.struct.extension)
 
-  if (event === 'PostCreated' && isShared) {
-    const msg = messages['activities'].PostSharing
-    const sharedPostId = data.struct.extension.asSharedPost
-    const postPreview = getPostPreview({ postId: sharedPostId, spaceMap, postMap, event })
-    return postPreview
-      ? { ...postPreview, msg }
+  if (event === 'ProductCreated' && isShared) {
+    const msg = messages['activities'].ProductSharing
+    const sharedProductId = data.struct.extension.asSharedProduct
+    const productPreview = getProductPreview({ productId: sharedProductId, storefrontMap, productMap, event })
+    return productPreview
+      ? { ...productPreview, msg }
       : undefined
   }
 
-  const spaceId = data?.struct.space_id.unwrapOr(undefined)
-  const space = spaceId && spaceMap.get(spaceId.toString())?.struct
-  const postLink = space && data && postUrl(space, data)
+  const storefrontId = data?.struct.storefront_id.unwrapOr(undefined)
+  const storefront = storefrontId && storefrontMap.get(storefrontId.toString())?.struct
+  const productLink = storefront && data && productUrl(storefront, data.struct)
 
-  if (!postLink) return undefined
+  if (!productLink) return undefined
 
-  const preview = renderSubjectPreview(data?.content, postLink)
-  const image = data?.content?.image
+  const preview = renderSubjectPreview(data?.content, productLink)
+  const image = data?.content?.image;
   return {
     preview,
     image,
     owner: data.struct.owner,
     links: {
-      href: '/[spaceId]/[slug]',
-      as: postLink
+      href: '/[storefrontId]/products/[productId]',
+      as: productLink
     }
   }
 }
 
-const getCommentPreview = (commentId: BN, spaceMap: Map<string, SpaceData>, postMap: Map<string, PostData>): PreviewNotification | undefined => {
+const getCommentPreview = (commentId: BN, storefrontMap: Map<string, StorefrontData>, productMap: Map<string, ProductData>): PreviewNotification | undefined => {
   const commetIdStr = commentId.toString()
-  const comment = postMap.get(commetIdStr)
-  const commentStruct = comment?.struct
+  const comment = productMap.get(commetIdStr);
+  const commentStruct = comment?.struct;
   const isComment = commentStruct?.extension.isComment
-  if (comment && commentStruct && isComment) {
-    const { root_post_id } = commentStruct.extension.asComment
+  if (commentStruct && isComment) {
+    const { root_product_id } = commentStruct.extension.asComment
 
     /* if (parent_id.isSome) {
       const msg = eventsMsg.CommentReactionCreated
       // const commentBody = comment?.content?.body || '';
       // const commentTitle = summarize(commentBody, 40)
-      // const commentPreview = renderSubjectPreview(commentTitle, `/comment?postId=${commentStruct.post_id}&commentId=${commentStruct.id}`)
-      // const { preview: postPreview, image } = getPostPreview(postId, postMap);
-      // const preview = <>{commentPreview} in {postPreview}</>
-      return { ...getPostPreview(root_post_id, spaceMap, postMap), msg }
+      // const commentPreview = renderSubjectPreview(commentTitle, `/comment?productId=${commentStruct.product_id}&commentId=${commentStruct.id}`)
+      // const { preview: productPreview, image } = getProductPreview(productId, productMap);
+      // const preview = <>{commentPreview} in {productPreview}</>
+      return { ...getProductPreview(root_product_id, storefrontMap, productMap), msg }
     } */
-    const data = postMap.get(root_post_id.toString())
+    const data = productMap.get(root_product_id.toString())
 
     if (!data) return undefined
 
-    const spaceId = data?.struct.space_id.unwrapOr(undefined)
-    const space = spaceId && spaceMap.get(spaceId.toString())?.struct
-    const postLink = space && data && postUrl(space, comment)
+    const storefrontId = data?.struct.storefront_id.unwrapOr(undefined)
+    const storefront = storefrontId && storefrontMap.get(storefrontId.toString())?.struct
+    const productLink = storefront && data && productUrl(storefront, commentStruct)
 
-    if (!postLink) return undefined
+    if (!productLink) return undefined
 
-    const preview = renderSubjectPreview(data?.content, postLink)
-    const image = data?.content?.image
+    const preview = renderSubjectPreview(data?.content, productLink)
+    const image = data?.content?.image;
     return {
       preview,
       image,
       owner: data.struct.owner,
       links: {
-        href: '/[spaceId]/[slug]',
-        as: postLink
+        href: '/[storefrontId]/products/[productId]',
+        as: productLink
       }
     }
 
   }
-  return undefined
+  return undefined;
 }
 
 const getAtivityPreview = (activity: Activity, store: ActivityStore, type: NotifActivitiesType) => {
-  const { event, space_id, post_id, comment_id, following_id } = activity
-  const { spaceById, postById, ownerById } = store
+  const { event, storefront_id, product_id, comment_id, following_id } = activity;
+  const { storefrontById, productById, ownerById } = store;
   const eventName = event as EventsName
 
   const getCommentPreviewWithMaps = (comment_id: string) =>
-    getCommentPreview(new BN(comment_id), spaceById, postById)
+    getCommentPreview(new BN(comment_id), storefrontById, productById)
 
-  const getPostPreviewWithMaps = (post_id: string) =>
-    getPostPreview({
-      postId: new BN(post_id),
-      spaceMap: spaceById,
-      postMap: postById,
+  const getProductPreviewWithMaps = (product_id: string) =>
+    getProductPreview({
+      productId: new BN(product_id),
+      storefrontMap: storefrontById,
+      productMap: productById,
       event: eventName
     })
 
-  const getSpacePreviewWithMaps = (space_id: string) =>
-    getSpacePreview(new BN(space_id), spaceById)
+  const getStorefrontPreviewWithMaps = (storefront_id: string) =>
+    getStorefrontPreview(new BN(storefront_id), storefrontById)
 
   const isActivity = type === 'activities'
 
   switch (eventName) {
-    case 'AccountFollowed': return getAccountPreview(following_id, ownerById)
-    case 'SpaceFollowed': return getSpacePreviewWithMaps(space_id)
-    case 'SpaceCreated': return getSpacePreviewWithMaps(space_id)
-    case 'CommentCreated': return getCommentPreviewWithMaps(comment_id)
-    case 'CommentReplyCreated': return getCommentPreviewWithMaps(comment_id)
-    case 'PostShared': return isActivity ? undefined : getPostPreviewWithMaps(post_id)
-    case 'CommentShared': return getCommentPreviewWithMaps(comment_id)
-    case 'PostReactionCreated': return getPostPreviewWithMaps(post_id)
-    case 'CommentReactionCreated': return getCommentPreviewWithMaps(comment_id)
-    case 'PostCreated': return isActivity ? getPostPreviewWithMaps(post_id) : undefined
+    case 'AccountFollowed': return isDef(following_id) && getAccountPreview(following_id, ownerById)
+    case 'StorefrontFollowed': return isDef(storefront_id) && getStorefrontPreviewWithMaps(storefront_id)
+    case 'StorefrontCreated': return isDef(storefront_id) && getStorefrontPreviewWithMaps(storefront_id)
+    case 'CommentCreated': return isDef(comment_id) && getCommentPreviewWithMaps(comment_id)
+    case 'CommentReplyCreated': return isDef(comment_id) && getCommentPreviewWithMaps(comment_id)
+    case 'ProductShared': return isActivity || notDef(product_id) ? undefined : getProductPreviewWithMaps(product_id)
+    case 'CommentShared': return isDef(comment_id) && getCommentPreviewWithMaps(comment_id)
+    case 'ProductReactionCreated': return isDef(product_id) && getProductPreviewWithMaps(product_id)
+    case 'CommentReactionCreated': return isDef(comment_id) && getCommentPreviewWithMaps(comment_id)
+    case 'ProductCreated': return isActivity && isDef(product_id) ? getProductPreviewWithMaps(product_id) : undefined
     default: return undefined
   }
 
@@ -313,10 +312,10 @@ const getAtivityPreview = (activity: Activity, store: ActivityStore, type: Notif
 
 const getNotificationMessage = (msg: string, aggregationCount: number, preview: JSX.Element | null, withAggregation: boolean) => {
   const aggregationMsg = withAggregation
-    ? aggregationCount > 0 && <>{' and'} <Pluralize count={aggregationCount} singularText='other person' pluralText='other people' /></>
+    ? aggregationCount > 0 && <>&nbsp;{'and'} <Pluralize count={aggregationCount} singularText='other person' pluralText='other people' /></>
     : undefined
 
-  return <span className="DfActivityMsg">{aggregationMsg} {msg} {preview}</span>
+  return <span className="DfActivityMsg">{aggregationMsg}&nbsp;{msg}&nbsp;{preview}</span>
 }
 
 type GetNotificationProps = InnerNotificationsProps & {
@@ -324,15 +323,15 @@ type GetNotificationProps = InnerNotificationsProps & {
 }
 
 export const getNotification = ({ type, activityStore, activity, myAddress }: GetNotificationProps): NotificationType | undefined => {
-  const { account, event, date, agg_count } = activity
-  const formatDate = dayjs(date).format('lll')
-  const creator = activityStore.ownerById.get(account)
+  const { account, event, date, agg_count } = activity;
+  const formatDate = moment(date).format('lll');
+  const creator = activityStore.ownerById.get(account);
   const activityPreview = getAtivityPreview(activity, activityStore, type)
 
-  if (!activityPreview) return undefined
+  if (!activityPreview) return undefined;
 
   const { preview, msg, owner, ...other } = activityPreview
-  const msgType: NotifActivitiesType = equalAddresses(myAddress, owner) ? type : 'activities'
+  const msgType: NotifActivitiesType = myAddress === owner.toString() ? 'notifications' : 'activities'
   const eventMsg = messages[msgType] as EventsMsg
 
   const notificationMessage = getNotificationMessage(msg || eventMsg[event as EventsName], agg_count - 1, preview, type === 'notifications')

@@ -4,16 +4,16 @@ import { web3Accounts, web3Enable } from '@polkadot/extension-dapp'
 import jsonrpc from '@polkadot/types/interfaces/jsonrpc'
 import { DefinitionRpcExt, RegistryTypes } from '@polkadot/types/types'
 import keyring, { Keyring } from '@polkadot/ui-keyring'
-import { registryTypes as SubsocialTypes } from '@subsocial/types'
-import { newLogger, isNum, isDef } from '@subsocial/utils'
+import { registryTypes as DarkdotTypes } from '@darkpay/dark-types'
+import { newLogger, isNum, isDef } from '@darkpay/dark-utils'
 import { appName, isDevMode, substrateUrl } from '../utils/env'
 import { cacheSubstrateMetadata, getSubstrateMetadataRecord as getCachedSubstrateMetadata } from '../../storage/substrate'
-import registry from '@subsocial/types/substrate/registry'
-import { formatBalance } from '@polkadot/util'
+import registry from '@darkpay/dark-types/substrate/registry'
+import { formatBalance } from '@polkadot/util';
 
-const DEFAULT_DECIMALS = registry.createType('u32', 12)
-const DEFAULT_SS58 = registry.createType('u32', 28)
-const DEFAULT_TOKEN = registry.createType('Text', 'SMN')
+const DEFAULT_DECIMALS = [ 12 ];
+const DEFAULT_TOKEN = [ 'SMN' ]
+const DEFAULT_SS58 = registry.createType('u32', 28);
 
 const log = newLogger('SubstrateContext')
 
@@ -50,7 +50,7 @@ export type State = {
 
 const INIT_STATE: State = {
   endpoint: substrateUrl,
-  types: SubsocialTypes,
+  types: DarkdotTypes,
   rpc: { ...jsonrpc }
 }
 
@@ -83,7 +83,7 @@ const reducer = (state: State, action: Action): State => {
       return { ...state, apiState: 'ERROR', apiError: err }
     }
     case 'SET_KEYRING': {
-      log.info('✅ Loaded accounts with Keyring')
+      log.info(`✅ Loaded accounts with Keyring`)
       return { ...state, keyring: action.payload, keyringState: 'READY' }
     }
     case 'KEYRING_ERROR': {
@@ -207,12 +207,13 @@ export const SubstrateProvider = (props: SubstrateProviderProps) => {
 
       registry.setChainProperties(properties)
 
-      const tokenSymbol = properties.tokenSymbol.unwrapOr(DEFAULT_TOKEN).toString()
-      const tokenDecimals = properties.tokenDecimals.unwrapOr(DEFAULT_DECIMALS).toNumber()
+      const tokenSymbol = properties.tokenSymbol.unwrapOr(undefined)?.map(x => x.toString()) || DEFAULT_TOKEN
+      const tokenDecimals = properties.tokenDecimals.unwrapOr(undefined)?.map(x => x.toNumber()) || DEFAULT_DECIMALS
+
       formatBalance.setDefaults({
         decimals: tokenDecimals,
         unit: tokenSymbol
-      })
+      });
 
       const ss58Format = properties.ss58Format.unwrapOr(undefined)
       ss58Format && setSs58Fromat(ss58Format.toNumber())

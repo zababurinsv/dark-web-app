@@ -1,8 +1,8 @@
-import axios from 'axios'
-import { offchainUrl } from './env'
-import { Activity, Counts } from '@subsocial/types/offchain'
-import { newLogger, nonEmptyStr } from '@subsocial/utils'
-import { ElasticQueryParams } from '@subsocial/types/offchain/search'
+import axios from 'axios';
+import { offchainUrl } from './env';
+import { Activity, Counts } from '@darkpay/dark-types/offchain';
+import { newLogger, nonEmptyStr } from '@darkpay/dark-utils';
+import { ElasticQueryParams } from '@darkpay/dark-types/offchain/search';
 
 const log = newLogger('OffchainRequests')
 
@@ -13,7 +13,7 @@ function getOffchainUrl (subUrl: string): string {
 const createActivitiesUrlByAddress = (address: string, entity: 'feed' | 'notifications' | 'activities') =>
   getOffchainUrl(`/${entity}/${address}`)
 
-type ActivityType = 'follows' | 'posts' | 'comments' | 'reactions' | 'spaces' | 'counts'
+type ActivityType = 'follows' | 'products' | 'comments' | 'reactions' | 'storefronts' | 'counts'
 
 const createNotificationsUrlByAddress = (address: string) => createActivitiesUrlByAddress(address, 'notifications')
 const createFeedUrlByAddress = (address: string) => createActivitiesUrlByAddress(address, 'feed')
@@ -24,12 +24,12 @@ const createActivityUrlByAddress = (address: string, activityType?: ActivityType
 
 const axiosRequest = async (url: string) => {
   try {
-    const res = await axios.get(url)
+    const res = await axios.get(url);
     if (res.status !== 200) {
       log.error('Failed request to offchain with status', res.status)
     }
 
-    return res
+    return res;
   } catch (err) {
       log.error('Failed request to offchain with error', err)
       return err
@@ -78,10 +78,10 @@ export const getCommentActivities = async (myAddress: string, offset: number, li
 export const getCommentActivitiesCount = async (myAddress: string) =>
   getCount(createActivityUrlByAddress(myAddress, 'comments'))
 
-export const getPostActivities = async (myAddress: string, offset: number, limit: number): Promise<Activity[]> =>
-  getActivity(createActivityUrlByAddress(myAddress, 'posts'), offset, limit)
-export const getPostActivitiesCount = async (myAddress: string) =>
-  getCount(createActivityUrlByAddress(myAddress, 'posts'))
+export const getProductActivities = async (myAddress: string, offset: number, limit: number): Promise<Activity[]> =>
+  getActivity(createActivityUrlByAddress(myAddress, 'products'), offset, limit)
+export const getProductActivitiesCount = async (myAddress: string) =>
+  getCount(createActivityUrlByAddress(myAddress, 'products'))
 
 export const getReactionActivities = async (myAddress: string, offset: number, limit: number): Promise<Activity[]> =>
   getActivity(createActivityUrlByAddress(myAddress, 'reactions'), offset, limit)
@@ -93,10 +93,10 @@ export const getFollowActivities = async (myAddress: string, offset: number, lim
 export const getFollowActivitiesCount = async (myAddress: string) =>
   getCount(createActivityUrlByAddress(myAddress, 'follows'))
 
-export const getSpaceActivities = async (myAddress: string, offset: number, limit: number): Promise<Activity[]> =>
-  getActivity(createActivityUrlByAddress(myAddress, 'spaces'), offset, limit)
-export const getSpaceActivitiesCount = async (myAddress: string) =>
-  getCount(createActivityUrlByAddress(myAddress, 'spaces'))
+export const getStorefrontActivities = async (myAddress: string, offset: number, limit: number): Promise<Activity[]> =>
+  getActivity(createActivityUrlByAddress(myAddress, 'storefronts'), offset, limit)
+export const getStorefrontActivitiesCount = async (myAddress: string) =>
+  getCount(createActivityUrlByAddress(myAddress, 'storefronts'))
 
 export const getActivityCounts = async (address: string): Promise<Counts> => {
   try {
@@ -107,9 +107,9 @@ export const getActivityCounts = async (address: string): Promise<Counts> => {
     log.error('Failed get count of activities from offchain with error', err)
     return {
       activitiesCount: 0,
-      postsCount: 0,
+      productsCount: 0,
       commentsCount: 0,
-      spacesCount: 0,
+      storefrontsCount: 0,
       reactionsCount: 0,
       followsCount: 0
     }
@@ -119,7 +119,7 @@ export const getActivityCounts = async (address: string): Promise<Counts> => {
 // TODO require refactor
 export const clearNotifications = async (myAddress: string): Promise<void> =>{
   try {
-    const res = await axios.post(getOffchainUrl(`/notifications/${myAddress}/readAll`))
+    const res = await axios.product(getOffchainUrl(`/notifications/${myAddress}/readAll`));
     if (res.status !== 200) {
       console.warn('Failed to mark all notifications as read for account:', myAddress, 'res.status:', res.status)
     }
@@ -130,7 +130,7 @@ export const clearNotifications = async (myAddress: string): Promise<void> =>{
 
 export const queryElasticSearch = async (params: ElasticQueryParams): Promise<any> => {
   try {
-    const res = await axios.get(getOffchainUrl('/search'), { params })
+    const res = await axios.get(getOffchainUrl(`/search`), { params })
     if (res.status === 200) {
       return res.data
     }

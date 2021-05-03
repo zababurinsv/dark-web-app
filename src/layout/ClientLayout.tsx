@@ -1,21 +1,22 @@
-import React from 'react'
-import { SubsocialApiProvider } from '../components/utils/SubsocialApiContext'
-import { MyAccountProvider } from '../components/auth/MyAccountContext'
+import React from 'react';
+import { DarkdotApiProvider } from '../components/utils/DarkdotApiContext';
+import { MyAccountProvider } from '../components/auth/MyAccountContext';
 import { Navigation } from './Navigation'
-import SidebarCollapsedProvider from '../components/utils/SideBarCollapsedContext'
-import { AuthProvider } from '../components/auth/AuthContext'
-import { SubstrateProvider, SubstrateWebConsole } from '../components/substrate'
-import { ResponsiveSizeProvider } from 'src/components/responsive'
-// import { KusamaProvider } from 'src/components/substrate/KusamaContext';
+import SidebarCollapsedProvider from '../components/utils/SideBarCollapsedContext';
+import { AuthProvider } from '../components/auth/AuthContext';
+import { SubstrateProvider, SubstrateWebConsole } from '../components/substrate';
+import { ResponsiveSizeProvider } from 'src/components/responsive';
+import { KusamaProvider } from 'src/components/kusama/KusamaContext';
+import { kusamaUrl } from 'src/components/utils/env';
 
 const ClientLayout: React.FunctionComponent = ({ children }) => {
   return (
     <ResponsiveSizeProvider >
       <SidebarCollapsedProvider>
         <SubstrateProvider>
-          {/* <KusamaProvider> */}
+          <KusamaProvider endpoint={kusamaUrl}>
           <SubstrateWebConsole />
-          <SubsocialApiProvider>
+          <DarkdotApiProvider>
             <MyAccountProvider>
               <AuthProvider>
                 <Navigation>
@@ -23,12 +24,12 @@ const ClientLayout: React.FunctionComponent = ({ children }) => {
                 </Navigation>
               </AuthProvider>
             </MyAccountProvider>
-          </SubsocialApiProvider>
-          {/* </KusamaProvider> */}
+          </DarkdotApiProvider>
+          </KusamaProvider>
         </SubstrateProvider>
       </SidebarCollapsedProvider>
     </ResponsiveSizeProvider>
   )
-}
+};
 
-export default ClientLayout
+export default ClientLayout;

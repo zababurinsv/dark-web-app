@@ -1,16 +1,18 @@
 import React from 'react'
-import { toShortAddress } from 'src/components/utils'
-import { AddressProps } from './utils/types'
-import { ProfileData } from '@subsocial/types'
-import { withLoadedOwner } from './utils/withLoadedOwner'
-import ViewProfileLink from '../ViewProfileLink'
-import { useExtensionName } from './utils'
-import { MutedSpan } from 'src/components/utils/MutedText'
+import { toShortAddress } from 'src/components/utils';
+import { AddressProps } from './utils/types';
+import { ProfileData } from '@darkpay/dark-types';
+import { withLoadedOwner } from './utils/withLoadedOwner';
+import ViewProfileLink from '../ViewProfileLink';
+import { useExtensionName } from './utils';
+import { MutedSpan } from 'src/components/utils/MutedText';
+import { KusamaIdentityTooltip } from 'src/components/kusama/KusamaIdentity';
 
 type Props = AddressProps & {
   isShort?: boolean,
   asLink?: boolean,
   withShortAddress?: boolean,
+  withKusama?: boolean,
   className?: string
 };
 
@@ -20,6 +22,7 @@ export const Name = ({
   isShort = true,
   asLink = true,
   withShortAddress,
+  withKusama = true,
   className
 }: Props) => {
 
@@ -30,16 +33,19 @@ export const Name = ({
   const addressString = isShort ? shortAddress : address.toString()
   const name = content?.name || useExtensionName(address)
   const title = name
-    ? <span className={withShortAddress ? 'd-flex justify-content-between' : ''}>
+    ? <span className={withShortAddress ? 'd-flex justify-content-between w-100' : ''}>
       {name}
       {withShortAddress && <MutedSpan><code>{shortAddress}</code></MutedSpan>}
     </span>
     : addressString
   const nameClass = `ui--AddressComponents-address ${className}`
 
-  return asLink
-    ? <ViewProfileLink account={{ address }} title={title} className={nameClass} />
-    : <>{title}</>
+  return <span className='d-flex align-items-center'>
+    {asLink
+      ? <ViewProfileLink account={{ address }} title={title} className={nameClass} />
+      : <>{title}</>}
+      {withKusama && <KusamaIdentityTooltip address={address} />}
+    </span>
 }
 
 export const NameWithOwner = withLoadedOwner(Name)

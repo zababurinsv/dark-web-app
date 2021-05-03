@@ -1,8 +1,8 @@
-import React from 'react'
+import React from 'react';
 // import { withMulti, withCalls } from '../substrate';
 // import { Modal, Comment as SuiComment, Button } from 'semantic-ui-react';
-// import { Post, Space, PostId, SpaceId, CommentId, Comment, SpaceHistoryRecord, CommentHistoryRecord, PostHistoryRecord, ProfileHistoryRecord, Profile, VecProfileHistoryRecord, SocialAccount, OptionText } from '@subsocial/types/substrate/interfaces/subsocial';
-// import { PostContent, SpaceContent, CommentContent, ProfileContent } from '../types';
+// import { Product, Storefront, ProductId, StorefrontId, CommentId, Comment, StorefrontHistoryRecord, CommentHistoryRecord, ProductHistoryRecord, ProfileHistoryRecord, Profile, VecProfileHistoryRecord, SocialAccount, OptionText } from '@darkpay/dark-types/substrate/interfaces/darkdot';
+// import { ProductContent, StorefrontContent, CommentContent, ProfileContent } from '../types';
 // import { socialQueryToProp } from './index';
 // import { Option } from '@polkadot/types';
 // import { DfMd } from './DfMd';
@@ -14,7 +14,7 @@ import React from 'react'
 // import { DfBgImg } from './DfBgImg';
 // import dynamic from 'next/dynamic';
 // import { AccountId } from '@polkadot/types/interfaces';
-export default <></>
+export default <></>;
 
 // const AddressComponents = dynamic(() => import('./AddressComponents'), { ssr: false });
 
@@ -23,7 +23,7 @@ export default <></>
 //   close: () => void
 // };
 
-// function fillHistory<T extends (SpaceHistoryRecord | ProfileHistoryRecord)[]> (historyLast: T) {
+// function fillHistory<T extends (StorefrontHistoryRecord | ProfileHistoryRecord)[]> (historyLast: T) {
 //   if (historyLast[0] === undefined) return;
 
 //   const stringForHandleOrUsername = /* historyLast[0] instanceof ProfileHistoryRecord ? 'username' : */ 'handle'; // TODO fix after run;
@@ -67,7 +67,7 @@ export default <></>
 //   }).reverse() as T;
 // }
 
-// function fillHistoryForPost<T extends PostHistoryRecord[]> (historyLast: T) {
+// function fillHistoryForProduct<T extends ProductHistoryRecord[]> (historyLast: T) {
 //   if (historyLast[0] === undefined) return;
 
 //   const history = [ ...historyLast ];
@@ -169,23 +169,23 @@ export default <></>
 //   )
 // );
 
-// type PropsPostFromHistory = {
-//   history: PostHistoryRecord,
+// type PropsProductFromHistory = {
+//   history: ProductHistoryRecord,
 //   current_data: {
 //     ipfs_hash: string
 //   }
 // };
 
-// const PostFromHistory = (props: PropsPostFromHistory) => {
+// const ProductFromHistory = (props: PropsProductFromHistory) => {
 //   const { history: { old_data, edited }, current_data } = props;
 //   const { ipfs_hash } = old_data;
-//   const [ content, setContent ] = useState({} as PostContent);
+//   const [ content, setContent ] = useState({} as ProductContent);
 //   const [ IpfsCid, setIpfsCid ] = useState('');
 
 //   useEffect(() => {
 //     ipfs_hash.isNone ? setIpfsCid(current_data.ipfs_hash) : setIpfsCid(ipfs_hash.unwrap().toString());
 //     const loadData = async () => {
-//       const data = await getJsonFromIpfs<PostContent>(IpfsCid);
+//       const data = await getJsonFromIpfs<ProductContent>(IpfsCid);
 //       setContent(data);
 //     };
 //     loadData().catch(err => new Error(err));
@@ -197,34 +197,34 @@ export default <></>
 //     </h1>
 //     <CreatedBy created={edited} dateLabel='Edited on' accountLabel='Edited by' />
 //     <div className='DfModal'>
-//       {content.image && <img src={content.image} className='DfPostImage' /* add onError handler */ />}
+//       {content.image && <img src={content.image} className='DfProductImage' /* add onError handler */ />}
 //       <DfMd source={content.body} />
 //       {/* TODO render tags */}
 //     </div>
 //   </div>);
 // };
 
-// type PostHistoryProps = ModalController & {
-//   id: PostId,
-//   postOpt?: Option<Post>
+// type ProductHistoryProps = ModalController & {
+//   id: ProductId,
+//   productOpt?: Option<Product>
 // };
 
-// const InnerPostHistoryModal = (props: PostHistoryProps) => {
-//   const { open, close, postOpt } = props;
+// const InnerProductHistoryModal = (props: ProductHistoryProps) => {
+//   const { open, close, productOpt } = props;
 
-//   if (postOpt === undefined) return <Modal><Loading /></Modal>;
-//   else if (postOpt.isNone) return <Modal><NoData description={<span>Post not found</span>} /></Modal>;
+//   if (productOpt === undefined) return <Modal><Loading /></Modal>;
+//   else if (productOpt.isNone) return <Modal><NoData description={<span>Product not found</span>} /></Modal>;
 
-//   const post = postOpt.unwrap();
-//   const { edit_history } = post;
+//   const product = productOpt.unwrap();
+//   const { edit_history } = product;
 
-//   const history = fillHistoryForPost<VecPostHistoryRecord>(edit_history);
+//   const history = fillHistoryForProduct<VecProductHistoryRecord>(edit_history);
 
-//   const renderPostHistory = () => {
-//     return history && history.map((x, index) => <PostFromHistory
+//   const renderProductHistory = () => {
+//     return history && history.map((x, index) => <ProductFromHistory
 //       history={x}
 //       key={index}
-//       current_data={{ ipfs_hash: post.ipfs_hash }}
+//       current_data={{ ipfs_hash: product.ipfs_hash }}
 //     />);
 //   };
 
@@ -236,7 +236,7 @@ export default <></>
 //     >
 //       <Modal.Header>Edit History</Modal.Header>
 //       <Modal.Content scrolling>
-//         {history && renderPostHistory()}
+//         {history && renderProductHistory()}
 //       </Modal.Content>
 //       <Modal.Actions>
 //         <Button content='Close' onClick={close} />
@@ -245,30 +245,30 @@ export default <></>
 //   );
 // };
 
-// export const PostHistoryModal = withMulti(
-//   InnerPostHistoryModal,
-//   withCalls<PostHistoryProps>(
-//     socialQueryToProp('postById', { paramName: 'id', propName: 'postOpt' })
+// export const ProductHistoryModal = withMulti(
+//   InnerProductHistoryModal,
+//   withCalls<ProductHistoryProps>(
+//     socialQueryToProp('productById', { paramName: 'id', propName: 'productOpt' })
 //   )
 // );
 
-// type SpaceHistoryProps = ModalController & {
-//   id: SpaceId,
-//   spaceOpt?: Option<Space>
+// type StorefrontHistoryProps = ModalController & {
+//   id: StorefrontId,
+//   storefrontOpt?: Option<Storefront>
 // };
 
-// type PropsSpaceFromHistory = {
-//   history: SpaceHistoryRecord,
+// type PropsStorefrontFromHistory = {
+//   history: StorefrontHistoryRecord,
 //   current_data: {
 //     ipfs_hash: string,
 //     handle: string
 //   }
 // };
 
-// const SpaceFromHistory = (props: PropsSpaceFromHistory) => {
+// const StorefrontFromHistory = (props: PropsStorefrontFromHistory) => {
 //   const { history: { old_data, edited }, current_data } = props;
 //   const { ipfs_hash, handle } = old_data;
-//   const [ content, setContent ] = useState({} as SpaceContent);
+//   const [ content, setContent ] = useState({} as StorefrontContent);
 //   const [ IpfsCid, setIpfsCid ] = useState('');
 //   const [ _handle, setHandle ] = useState('');
 
@@ -276,7 +276,7 @@ export default <></>
 //     ipfs_hash.isNone ? setIpfsCid(current_data.ipfs_hash) : setIpfsCid(ipfs_hash.unwrap().toString());
 //     handle.isNone ? setHandle(current_data.handle) : setHandle(handle.unwrap().toString());
 //     const loadData = async () => {
-//       const data = await getJsonFromIpfs<SpaceContent>(IpfsCid);
+//       const data = await getJsonFromIpfs<StorefrontContent>(IpfsCid);
 //       setContent(data);
 //     };
 //     loadData().catch(err => new Error(err));
@@ -284,7 +284,7 @@ export default <></>
 
 //   return (<div className='DfModal'>
 //     <div className='ui massive relaxed middle aligned list FullProfile'>
-//       <div className={`item ProfileDetails MySpace`}>
+//       <div className={`item ProfileDetails MyStorefront`}>
 //         {content.image
 //           ? <DfBgImg className='ui avatar image DfAvatar' src={content.image} size={40} rounded/>
 //           : <IdentityIcon className='image' value={edited.account} size={38} />
@@ -304,22 +304,22 @@ export default <></>
 //   </div>);
 // };
 
-// const InnerSpaceHistoryModal = (props: SpaceHistoryProps) => {
-//   const { open, close, spaceOpt } = props;
+// const InnerStorefrontHistoryModal = (props: StorefrontHistoryProps) => {
+//   const { open, close, storefrontOpt } = props;
 
-//   if (spaceOpt === undefined) return <Modal><Loading /></Modal>;
-//   else if (spaceOpt.isNone) return <Modal><NoData description={<span>Space not found</span>} /></Modal>;
+//   if (storefrontOpt === undefined) return <Modal><Loading /></Modal>;
+//   else if (storefrontOpt.isNone) return <Modal><NoData description={<span>Storefront not found</span>} /></Modal>;
 
-//   const space = spaceOpt.unwrap();
-//   const { edit_history } = space;
+//   const storefront = storefrontOpt.unwrap();
+//   const { edit_history } = storefront;
 
-//   const history = fillHistory<VecSpaceHistoryRecord>(edit_history);
+//   const history = fillHistory<VecStorefrontHistoryRecord>(edit_history);
 
-//   const renderSpaceHistory = () => {
-//     return history && history.map((x, index) => <SpaceFromHistory
+//   const renderStorefrontHistory = () => {
+//     return history && history.map((x, index) => <StorefrontFromHistory
 //       history={x}
 //       key={index}
-//       current_data={{ ipfs_hash: space.ipfs_hash, handle: space.handle.toString() }}
+//       current_data={{ ipfs_hash: storefront.ipfs_hash, handle: storefront.handle.toString() }}
 //     />);
 //   };
 
@@ -331,7 +331,7 @@ export default <></>
 //     >
 //       <Modal.Header>Edit History</Modal.Header>
 //       <Modal.Content scrolling>
-//         {edit_history.length > 0 && renderSpaceHistory()}
+//         {edit_history.length > 0 && renderStorefrontHistory()}
 //       </Modal.Content>
 //       <Modal.Actions>
 //         <Button content='Close' onClick={close} />
@@ -340,10 +340,10 @@ export default <></>
 //   );
 // };
 
-// export const SpaceHistoryModal = withMulti(
-//   InnerSpaceHistoryModal,
-//   withCalls<SpaceHistoryProps>(
-//     socialQueryToProp('spaceById', { paramName: 'id', propName: 'spaceOpt' })
+// export const StorefrontHistoryModal = withMulti(
+//   InnerStorefrontHistoryModal,
+//   withCalls<StorefrontHistoryProps>(
+//     socialQueryToProp('storefrontById', { paramName: 'id', propName: 'storefrontOpt' })
 //   )
 // );
 
@@ -382,7 +382,7 @@ export default <></>
 
 //   return (<div className='DfModal'>
 //     <div className='ui massive relaxed middle aligned list FullProfile'>
-//       <div className={`item ProfileDetails MySpace`}>
+//       <div className={`item ProfileDetails MyStorefront`}>
 //         {content.avatar
 //           ? <DfBgImg className='ui avatar image DfAvatar' src={content.avatar} size={40} rounded/>
 //           : <IdentityIcon className='image' value={edited.account} size={38} />

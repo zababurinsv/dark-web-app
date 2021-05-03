@@ -1,25 +1,23 @@
 import React, { useState } from 'react'
 import { Form, Input } from 'antd'
 import Router from 'next/router'
+import HeadMeta from '../utils/HeadMeta'
 import Section from '../utils/Section'
 import { getTxParams } from '../substrate'
 import { TxFailedCallback, TxCallback } from 'src/components/substrate/SubstrateTxButton'
-import { ProfileUpdate, OptionIpfsContent, IpfsContent } from '@subsocial/types/substrate/classes'
-import { IpfsCid } from '@subsocial/types/substrate/interfaces'
-import { ProfileContent, AnyAccountId, ProfileData } from '@subsocial/types'
-import { newLogger } from '@subsocial/utils'
-import { useSubsocialApi } from '../utils/SubsocialApiContext'
+import { ProfileUpdate, OptionIpfsContent, IpfsContent } from '@darkpay/dark-types/substrate/classes'
+import { IpfsCid } from '@darkpay/dark-types/substrate/interfaces'
+import { ProfileContent, AnyAccountId, ProfileData } from '@darkpay/dark-types'
+import { newLogger } from '@darkpay/dark-utils'
+import { useDarkdotApi } from '../utils/DarkdotApiContext'
 import { DfForm, DfFormButtons, minLenError, maxLenError } from '../forms'
 import DfMdEditor from '../utils/DfMdEditor'
 import { withMyProfile } from './address-views/utils/withLoadedOwner'
 import { accountUrl } from '../urls'
 import { NAME_MIN_LEN, NAME_MAX_LEN, DESC_MAX_LEN } from 'src/config/ValidationsConfig'
 import { UploadAvatar } from '../uploader'
-import { resolveCidOfContent } from '@subsocial/api/utils'
+import { resolveCidOfContent } from '@darkpay/dark-api/utils'
 import messages from 'src/messages'
-import { clearAutoSavedContent } from '../utils/DfMdEditor/client'
-import { PageContent } from '../main/PageWrapper'
-import { AutoSaveId } from '../utils/DfMdEditor/types'
 
 const log = newLogger('EditProfile')
 
@@ -46,15 +44,12 @@ function getInitialValues ({ owner }: FormProps): FormValues {
 
 export function InnerForm (props: FormProps) {
   const [ form ] = Form.useForm()
-  const { ipfs } = useSubsocialApi()
+  const { ipfs } = useDarkdotApi()
   const [ IpfsCid, setIpfsCid ] = useState<IpfsCid>()
 
   const { owner, address } = props
-  const profile = owner?.profile
+  const isProfile = owner?.profile
   const initialValues = getInitialValues(props)
-
-  // Auto save a profile's about only if we are on a "New Profile" form.
-  const autoSaveId: AutoSaveId | undefined = !profile ? 'profile' : undefined
 
   const getFieldValues = (): FormValues => {
     return form.getFieldsValue() as FormValues
@@ -74,13 +69,10 @@ export function InnerForm (props: FormProps) {
       return prevCid !== cid.toString() ? cid : undefined
     }
 
-    if (!profile) {
-      // If creating a new profile.
-      return [ new IpfsContent(cid) ]
+    if (!isProfile) {
+      return [ new IpfsContent(cid) ];
     } else {
-      // If updating the existing profile.
-
-      // TODO Update only dirty values.
+      // Update only dirty values.
 
       const update = new ProfileUpdate({
         content: new OptionIpfsContent(getCidIfChanged())
@@ -104,17 +96,15 @@ export function InnerForm (props: FormProps) {
 
   const goToView = () => {
     if (address) {
-      Router.push('/accounts/[address]', accountUrl({ address }))
-        .catch(err => log.error('Failed to redirect to "View Account" page:', err))
+      Router.push('/accounts/[address]', accountUrl({ address })).catch(err => log.error('Error while route:', err));
     }
-  }
+  };
 
   const onFailed: TxFailedCallback = () => {
     IpfsCid && ipfs.removeContent(IpfsCid).catch(err => new Error(err))
   }
 
   const onSuccess: TxCallback = () => {
-    clearAutoSavedContent('profile')
     goToView()
   }
 
@@ -158,16 +148,16 @@ export function InnerForm (props: FormProps) {
           { max: DESC_MAX_LEN, message: maxLenError('Description', DESC_MAX_LEN) }
         ]}
       >
-        <DfMdEditor autoSaveId={autoSaveId} onChange={onDescChanged} />
+        <DfMdEditor onChange={onDescChanged} />
       </Form.Item>
 
       <DfFormButtons
         form={form}
         txProps={{
-          label: profile
+          label: isProfile
             ? 'Update profile'
             : 'Create new profile',
-          tx: profile
+          tx: isProfile
             ? 'profiles.updateProfile'
             : 'profiles.createProfile',
           params: pinToIpfsAndBuildTxParams,
@@ -185,13 +175,14 @@ export function InnerForm (props: FormProps) {
 
 export function FormInSection (props: FormProps) {
   const { owner } = props
-  const title = owner?.profile ? 'Edit profile' : 'New profile'
+  const title = owner?.profile ? `Edit profile` : `New profile`
 
-  return <PageContent meta={{ title }}>
+  return <>
+    <HeadMeta title={title} />
     <Section className='EditEntityBox' title={title}>
       <InnerForm {...props} />
     </Section>
-  </PageContent>
+  </>
 }
 
 export const EditProfile = withMyProfile(FormInSection)

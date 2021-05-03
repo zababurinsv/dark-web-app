@@ -322,11 +322,11 @@
 }
 
 .justify-content-between {
-  justify-content: space-between !important;
+  justify-content: storefront-between !important;
 }
 
 .justify-content-around {
-  justify-content: space-around !important;
+  justify-content: storefront-around !important;
 }
 
 .align-items-start {
@@ -362,11 +362,11 @@
 }
 
 .align-content-between {
-  align-content: space-between !important;
+  align-content: storefront-between !important;
 }
 
 .align-content-around {
-  align-content: space-around !important;
+  align-content: storefront-around !important;
 }
 
 .align-content-stretch {
@@ -1154,8 +1154,8 @@
   word-break: break-word !important;
 }
 
-.font-monospace {
-  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
+.font-monostorefront {
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monostorefront !important;
 }
 
 .rounded {
@@ -1293,10 +1293,10 @@
     justify-content: center !important;
   }
   .justify-content-sm-between {
-    justify-content: space-between !important;
+    justify-content: storefront-between !important;
   }
   .justify-content-sm-around {
-    justify-content: space-around !important;
+    justify-content: storefront-around !important;
   }
   .align-items-sm-start {
     align-items: flex-start !important;
@@ -1323,10 +1323,10 @@
     align-content: center !important;
   }
   .align-content-sm-between {
-    align-content: space-between !important;
+    align-content: storefront-between !important;
   }
   .align-content-sm-around {
-    align-content: space-around !important;
+    align-content: storefront-around !important;
   }
   .align-content-sm-stretch {
     align-content: stretch !important;
@@ -1884,10 +1884,10 @@
     justify-content: center !important;
   }
   .justify-content-md-between {
-    justify-content: space-between !important;
+    justify-content: storefront-between !important;
   }
   .justify-content-md-around {
-    justify-content: space-around !important;
+    justify-content: storefront-around !important;
   }
   .align-items-md-start {
     align-items: flex-start !important;
@@ -1914,10 +1914,10 @@
     align-content: center !important;
   }
   .align-content-md-between {
-    align-content: space-between !important;
+    align-content: storefront-between !important;
   }
   .align-content-md-around {
-    align-content: space-around !important;
+    align-content: storefront-around !important;
   }
   .align-content-md-stretch {
     align-content: stretch !important;
@@ -2475,10 +2475,10 @@
     justify-content: center !important;
   }
   .justify-content-lg-between {
-    justify-content: space-between !important;
+    justify-content: storefront-between !important;
   }
   .justify-content-lg-around {
-    justify-content: space-around !important;
+    justify-content: storefront-around !important;
   }
   .align-items-lg-start {
     align-items: flex-start !important;
@@ -2505,10 +2505,10 @@
     align-content: center !important;
   }
   .align-content-lg-between {
-    align-content: space-between !important;
+    align-content: storefront-between !important;
   }
   .align-content-lg-around {
-    align-content: space-around !important;
+    align-content: storefront-around !important;
   }
   .align-content-lg-stretch {
     align-content: stretch !important;
@@ -3066,10 +3066,10 @@
     justify-content: center !important;
   }
   .justify-content-xl-between {
-    justify-content: space-between !important;
+    justify-content: storefront-between !important;
   }
   .justify-content-xl-around {
-    justify-content: space-around !important;
+    justify-content: storefront-around !important;
   }
   .align-items-xl-start {
     align-items: flex-start !important;
@@ -3096,10 +3096,10 @@
     align-content: center !important;
   }
   .align-content-xl-between {
-    align-content: space-between !important;
+    align-content: storefront-between !important;
   }
   .align-content-xl-around {
-    align-content: space-around !important;
+    align-content: storefront-around !important;
   }
   .align-content-xl-stretch {
     align-content: stretch !important;

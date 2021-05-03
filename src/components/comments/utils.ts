@@ -1,12 +1,12 @@
-import { addComments, removeComment } from 'src/redux/slices/replyIdsByPostIdSlice'
-import { addPost, removePost, editPost } from 'src/redux/slices/postByIdSlice'
-import { Dispatch } from '@reduxjs/toolkit'
-import { PostsStoreType } from 'src/redux/types'
-import { PostData, PostWithSomeDetails, CommentContent, PostContent, ProfileData } from '@subsocial/types'
-import { SubsocialIpfsApi } from '@subsocial/api/ipfs'
-import { IpfsCid } from '@subsocial/types/substrate/interfaces'
-import { TxFailedCallback, TxCallback } from 'src/components/substrate/SubstrateTxButton'
-import { FVoid } from '../utils/types'
+import { addComments, removeComment } from 'src/redux/slices/replyIdsByProductIdSlice';
+import { addProduct, removeProduct, editProduct } from 'src/redux/slices/productByIdSlice';
+import { Dispatch } from '@reduxjs/toolkit';
+import { ProductsStoreType } from 'src/redux/types';
+import { ProductData, ProductWithSomeDetails, CommentContent, ProductContent, ProfileData } from '@darkpay/dark-types';
+import { DarkdotIpfsApi } from '@darkpay/dark-api/ipfs';
+import { IpfsCid } from '@darkpay/dark-types/substrate/interfaces';
+import { TxFailedCallback, TxCallback } from 'src/components/substrate/SubstrateTxButton';
+import { FVoid } from '../utils/types';
 
 type Reply<T> = {
   replyId: T,
@@ -15,22 +15,22 @@ type Reply<T> = {
 
 type SetCommentStore<T> = {
   reply: Reply<T>,
-  comment: PostsStoreType
+  comment: ProductsStoreType
 }
 
 type EditCommentStore = {
   replyId: string,
-  comment: PostData
+  comment: ProductData
 }
 
 export const useRemoveReplyFromStore = (dispatch: Dispatch, reply: Reply<string>) => {
-  dispatch(removeComment(reply))
-  dispatch(removePost({ postId: reply.replyId }))
+  dispatch(removeComment(reply));
+  dispatch(removeProduct({ productId: reply.replyId }))
 }
 
 export const useSetReplyToStore = (dispatch: Dispatch, { reply, comment }: SetCommentStore<string | string[]>) => {
-  dispatch(addComments(reply))
-  dispatch(addPost({ posts: comment }))
+  dispatch(addComments(reply));
+  dispatch(addProduct({ products: comment }))
 }
 
 export const useChangeReplyToStore = (dispatch: Dispatch, oldReply: Reply<string>, newStore: SetCommentStore<string>) => {
@@ -39,7 +39,7 @@ export const useChangeReplyToStore = (dispatch: Dispatch, oldReply: Reply<string
 }
 
 export const useEditReplyToStore = (dispatch: Dispatch, { replyId, comment }: EditCommentStore) => {
-  dispatch(editPost({ postId: replyId, post: comment }))
+  dispatch(editProduct({ productId: replyId, product: comment }))
 }
 
 type MockComment = {
@@ -50,9 +50,9 @@ type MockComment = {
 }
 
 export type CommentTxButtonType = {
-  ipfs: SubsocialIpfsApi
+  ipfs: DarkdotIpfsApi
   setIpfsCid: (hash: IpfsCid) => void
-  json: CommentContent | PostContent,
+  json: CommentContent | ProductContent,
   fakeId?: string,
   disabled?: boolean,
   onClick?: FVoid,
@@ -63,7 +63,7 @@ export type CommentTxButtonType = {
 export const buildMockComment = ({ fakeId, address, owner, content }: MockComment) => {
   return {
     owner,
-    post: {
+    product: {
       struct: {
         id: fakeId,
         created: {
@@ -74,12 +74,12 @@ export const buildMockComment = ({ fakeId, address, owner, content }: MockCommen
         score: 0,
         shares_count: 0,
         direct_replies_count: 0,
-        space_id: null,
+        storefront_id: null,
         extension: { Comment: {} },
         content: { None: null },
         hidden: false
       },
       content: content
     }
-  } as any as PostWithSomeDetails
+  } as any as ProductWithSomeDetails
 }

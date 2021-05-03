@@ -2,13 +2,13 @@ import {
   configureStore,
   getDefaultMiddleware
 } from '@reduxjs/toolkit'
-import replyIdsByPostIdReducer from './slices/replyIdsByPostIdSlice'
-import postByIdReducer from './slices/postByIdSlice'
+import replyIdsByProductIdReducer from './slices/replyIdsByProductIdSlice';
+import productByIdReducer from './slices/productByIdSlice';
 
 export default configureStore({
   reducer: {
-    replyIdsByPostId: replyIdsByPostIdReducer,
-    postById: postByIdReducer
+    replyIdsByProductId: replyIdsByProductIdReducer,
+    productById: productByIdReducer
   },
   middleware: getDefaultMiddleware({
     serializableCheck: false
