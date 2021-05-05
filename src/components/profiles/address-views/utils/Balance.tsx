@@ -14,15 +14,15 @@ const M_LENGTH = 6 + 1;
 const K_LENGTH = 3 + 1;
 
 function format (value: Compact<any> | BN | string, currency: string, decimals: number, withSi?: boolean, _isShort?: boolean): React.ReactNode {
-  const [ prefix, productfix ] = formatBalance(value, { forceUnit: '-', withSi: false }).split('.');
+  const [ prefix, postfix ] = formatBalance(value, { forceUnit: '-', withSi: false }).split('.');
   const isShort = _isShort || (withSi && prefix.length >= K_LENGTH);
 
   if (prefix.length > M_LENGTH) {
-    // TODO Format with balance-productfix
+    // TODO Format with balance-postfix
     return formatBalance(value, { decimals });
   }
 
-  return <>{prefix}{!isShort && (<>.<span className='DfBalanceDecimals'>{`000${productfix || ''}`.slice(-3)}</span></>)}&nbsp;{currency}</>;
+  return <>{prefix}{!isShort && (<>.<span className='DfBalanceDecimals'>{`000${postfix || ''}`.slice(-3)}</span></>)}&nbsp;{currency}</>;
 }
 
 type FormatBalanceProps = BareProps & {

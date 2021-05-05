@@ -25,6 +25,7 @@ import { KusamaProposalView } from 'src/components/kusama/KusamaProposalDesc';
 const StatsPanel = dynamic(() => import('../ProductStats'), { ssr: false });
 import AddToCartLink from '../AddToCartLink'
 
+
 export type ProductDetailsProps = {
   productDetails: ProductWithAllDetails,
   statusCode?: number,
@@ -85,7 +86,7 @@ export const ProductPage: NextPage<ProductDetailsProps> = ({ productDetails: ini
         <KusamaProposalView proposal={content.ext?.proposal} />
 
         <div className='addtocartRow'>
-      <AddToCartLink storefront={storefrontStruct} product={productDetails} productdetails ={productDetails} title='Add to cart' />
+      <AddToCartLink storefront={storefrontStruct} product={productDetails.product} productdetails ={productDetails} title='Add to cart' />
       </div>
 
         <div className='DfProductContent'>

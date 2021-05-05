@@ -11,7 +11,7 @@ let darkdot!: DarkdotApi;
 let isLoadingDarkdot = false
 
 export const newDarkdotApi = (substrateApi: ApiPromise) => {
-  const useServer = useOffhainForIpfs ? {
+  const useServer = useOffhainForIpfs ? { // TODO : typo off C hain
     httpRequestMethod: dagHttpMethod as any
   } : undefined
 

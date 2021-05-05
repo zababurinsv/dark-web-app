@@ -1,5 +1,5 @@
 import BN from 'bn.js'
-import { Text, GenericAccountId, Option } from '@polkadot/types'
+import { Text, GenericAccountId, Option, Enum } from '@polkadot/types'
 import { AccountId } from '@polkadot/types/interfaces'
 import { AddressProps } from 'src/components/profiles/address-views/utils/types'
 import { toShortAddress, resolveBn } from 'src/components/utils'
@@ -60,6 +60,12 @@ export const getStorefrontId = async (idOrHandle: string, darkdot?: DarkdotApi):
     return resolveBn(idOrHandle)
   }
 }
+
+export const getAvgPricesOffchain = async ( darkdot?: DarkdotApi): Promise<any[]> => {
+  //const darkdot = await getDarkdotApi();
+  const { substrate } = darkdot || await getDarkdotApi()
+  return substrate.getPrices()
+};
 
 export function getNewIdFromEvent (txResult: SubmittableResult): BN | undefined {
   let id: BN | undefined;
