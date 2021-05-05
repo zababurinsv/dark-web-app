@@ -75,9 +75,7 @@ export const ProductPage: NextPage<ProductDetailsProps> = ({ productDetails: ini
           <h1 className='DfProductName'>{titleMsg}</h1>
           <ProductDropDownMenu productDetails={productDetails} storefront={storefrontStruct} withEditButton />
         </div>
-        <div className='addtocartRow'>
-      <AddToCartLink storefront={storefrontStruct} product={product} productdetails ={productDetails} title='Add to cart' />
-      </div>
+
 
         <div className='DfRow'>
           <ProductCreator productDetails={productDetails} withStorefrontName storefront={storefrontData} />
@@ -85,6 +83,10 @@ export const ProductPage: NextPage<ProductDetailsProps> = ({ productDetails: ini
         </div>
 
         <KusamaProposalView proposal={content.ext?.proposal} />
+
+        <div className='addtocartRow'>
+      <AddToCartLink storefront={storefrontStruct} product={productDetails} productdetails ={productDetails} title='Add to cart' />
+      </div>
 
         <div className='DfProductContent'>
           {ext

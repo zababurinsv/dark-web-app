@@ -4,13 +4,24 @@ import { IconWithLabel } from '../utils'
 import { isMyAddress } from '../auth/MyAccountContext'
 import { useAuth } from '../auth/AuthContext'
 import { ProductWithSomeDetails, ProductWithAllDetails, StorefrontData } from '@darkpay/dark-types'
+import { getDarkdotApi } from '../utils/DarkdotConnect';
 import { None, ProductExtension } from '@darkpay/dark-types/substrate/classes'
 import { ShoppingCartOutlined } from '@ant-design/icons'
 // import { ShareModal } from './ShareModal'
 import { isRegularProduct } from './view-product'
 import { Button, InputNumber, notification, Space } from 'antd';
 
+const CoinGecko = require('coingecko-api');
 
+const CoinGeckoClient = new CoinGecko();
+
+
+//3. Make calls
+var func = async() => {
+  let data = await CoinGeckoClient.ping();
+  console.log('****** GECKO data : '+data)
+  return data
+};
 
 
 type Props = {
@@ -20,6 +31,11 @@ type Props = {
   title?: string
   hint?: string
   className?: string
+}
+
+type ocwProps = {
+  lastPrice?: number
+  prices?: string[]
 }
 
 export const AddToCartLink = ({
@@ -50,6 +66,35 @@ const ShipCost = productdetails.product.content?.shipcost
 const ShipsTo = productdetails.product.content?.shipsto
 
 const isMyProduct = isMyAddress(productdetails.product.struct.owner);
+
+
+// const UsdToDark = async (): Promise<ocwProps> => {
+//   const darkdot = await getDarkdotApi();
+//   const { substrate } = darkdot
+//   const prices = await substrate.getPrices()
+
+//   const lastPrice = prices.slice(0, 1).toString()
+
+
+//   return {prices}
+// }
+
+const UsdToDark = async (): Promise<ocwProps> => {
+  const darkdot = await getDarkdotApi();
+  const { substrate } = darkdot
+  const prices = await substrate.getPrices()
+  
+  var sum = 0;
+for( var i = 0; i < prices.length; i++ ){
+    sum += parseInt( prices[i], 10 ); //don't forget to add the base
+}
+
+var lastPrice = sum/prices.length;
+
+  return {
+    lastPrice
+  }
+}
 
 
 const openNotification = () => {
@@ -121,7 +166,10 @@ const onQtyChanged = (qty: string | number | undefined) => {
 
 
 
-  // console.log('** Got price --> ' + ProductPrice)
+ 
+   (async () => {
+    console.log(await UsdToDark())
+  })()
 
   return <>
 
@@ -148,6 +196,17 @@ const onQtyChanged = (qty: string | number | undefined) => {
       }}
       onChange={onQtyChanged} 
     />
+          <InputNumber
+      name='toDark'
+      defaultValue={Number(UsdToDark)}
+      step='1'
+      prefix='DARKs: '
+      style={{
+        width: 60,
+        margin: 10
+      }}
+  //    onChange={onQtyChanged} 
+    />
 
   </div>
   <div className="addtocart-btn">
@@ -157,7 +216,7 @@ const onQtyChanged = (qty: string | number | undefined) => {
       title={title}
     >
       <IconWithLabel icon={<ShoppingCartOutlined />} label={title} />
-    </a>
+    </a> 
   </div>
   </>
 }

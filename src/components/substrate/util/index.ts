@@ -7,7 +7,7 @@ import { Codec } from '@polkadot/types/types'
 import { SubstrateId, AnyAccountId } from '@darkpay/dark-types'
 import { SubmittableResult } from '@polkadot/api'
 import { getDarkdotApi } from 'src/components/utils/DarkdotConnect';
-import { DarkdotApi } from '@darkpay/dark-api/darkdot';
+import { DarkdotApi } from '@darkpay/dark-api/api/darkdot';
 import { asAccountId } from '@darkpay/dark-api/utils'
 import { AbstractInt } from '@polkadot/types/codec/AbstractInt'
 export * from './getTxParams'
