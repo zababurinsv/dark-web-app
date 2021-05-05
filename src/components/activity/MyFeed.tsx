@@ -18,7 +18,7 @@ export const InnerMyFeed = (props: BaseActivityProps) => <FeedActivities
   {...props}
   loadMore={loadMoreFeed}
   loadingLabel={loadingLabel}
-  noDataDesc='Your feed is empty. Try to follow more storefronts ;)'
+  noDataDesc='Nothing to see here... Please subscribe to active storefronts.'
   getCount={getFeedCount}
 />
 

@@ -23,7 +23,7 @@ export const StorefrontShareLink = ({
   const { openSignInModal, state: { completedSteps: { isSignedIn } } } = useAuth()
   const [ open, setOpen ] = useState<boolean>()
   const productId = isRegularProduct(extension as ProductExtension) ? id : ext && ext.product.struct.id
-  const title = 'Write a product'
+  const title = 'Duplicate product'
 
   return <>
     <a

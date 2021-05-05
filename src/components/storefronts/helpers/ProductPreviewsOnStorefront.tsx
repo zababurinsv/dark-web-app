@@ -57,7 +57,7 @@ export const ProductPreviewsOnStorefront = (props: Props) => {
         <Pluralize count={publicProductsCount} singularText='Product'/>
       </span>
       {publicProductsCount > 0 &&
-        <CreateProductButton storefront={storefront} title={'Write Product'} className='mb-2' />
+        <CreateProductButton storefront={storefront} title={'Add Product'} className='mb-2' />
       }
     </div>
 

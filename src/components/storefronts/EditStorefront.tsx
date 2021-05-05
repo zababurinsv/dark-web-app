@@ -18,9 +18,9 @@ import DfMdEditor from '../utils/DfMdEditor'
 import { withLoadStorefrontFromUrl, CheckStorefrontPermissionFn, CanHaveStorefrontProps } from './withLoadStorefrontFromUrl'
 import { NAME_MIN_LEN, NAME_MAX_LEN, DESC_MAX_LEN, MIN_HANDLE_LEN, MAX_HANDLE_LEN } from 'src/config/ValidationsConfig'
 import { NewSocialLinks } from './SocialLinks/NewSocialLinks'
-import { UploadAvatar } from '../uploader'
+import { UploadCover } from '../uploader'
 import { MailOutlined } from '@ant-design/icons'
-import { DarkdotSubstrateApi } from '@darkpay/dark-api/substrate'
+import { DarkdotSubstrateApi } from '@darkpay/dark-api/api/substrate'
 import { resolveCidOfContent } from '@darkpay/dark-api/utils'
 import { getNonEmptyStorefrontContent } from '../utils/content'
 import messages from 'src/messages'
@@ -128,7 +128,7 @@ export function InnerForm (props: FormProps) {
   })
 
   const onFailed: TxFailedCallback = () => {
-    IpfsCid && ipfs.removeContent(IpfsCid).catch(err => new Error(err))
+    IpfsCid && ipfs.removeContent(IpfsCid).catch((err: string | undefined) => new Error(err))
   }
 
   const onSuccess: TxCallback = (txResult) => {
@@ -155,10 +155,10 @@ export function InnerForm (props: FormProps) {
     <DfForm form={form} validateTrigger={[ 'onBlur' ]} initialValues={initialValues}>
       <Form.Item
         name={fieldName('image')}
-        label='Avatar'
+        label='Storefront Cover'
         help={messages.imageShouldBeLessThanTwoMB}
       >
-        <UploadAvatar onChange={onAvatarChanged} img={initialValues.image} />
+        <UploadCover onChange={onAvatarChanged} img={initialValues.image} />
       </Form.Item>
 
       <Form.Item

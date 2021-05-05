@@ -149,7 +149,7 @@ type ProductCreatorProps = {
 }
 
 export const ProductCreator: React.FunctionComponent<ProductCreatorProps> = ({ productDetails, size, withStorefrontName, storefront }) => {
-  if (isEmpty(productDetails.product)) return null;
+  //if (isEmpty(productDetails.product)) return null;
   const { product: { struct, content }, owner } = productDetails;
   const { created: { time }, owner: productOwnerAddress } = struct;
 

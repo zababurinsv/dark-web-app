@@ -33,7 +33,7 @@ export const DropdownMenu = (props: Props) => {
         ? null
         : <Menu.Item key={`create-product-${storefrontKey}`}>
           <Link {...createNewProductLinkProps(struct)}>
-            <a className='item'>Write product</a>
+            <a className='item'>Add product</a>
           </Link>
         </Menu.Item>
       }

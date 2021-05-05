@@ -580,14 +580,14 @@ hr {
 
 .DfRow {
   display: flex;
-  justify-content: storefront-between;
+  justify-content: space-between;
 }
 
 .DfActionsPanel {
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: storefront-between;
+  justify-content: space-between;
 
   &.DfActionBorder {
     border-top: 1px solid rgba(34, 36, 38, .15);
@@ -747,7 +747,7 @@ hr {
 
   .viewstorefront-minipreview {
     display: flex;
-    justify-content: storefront-between;
+    justify-content: space-between;
     width: 70%;
   }
 
@@ -952,7 +952,7 @@ hr {
   z-index: 2;
   width: 100%;
   display: flex;
-  justify-content: storefront-between;
+  justify-content: space-between;
 
   /* Fix black background of top menu in prod mode: */
   &.ant-layout-header {
@@ -988,7 +988,7 @@ hr {
 
 .DfTitle--List {
   display: flex;
-  justify-content: storefront-between;
+  justify-content: space-between;
   width: 100%;
 }
 
@@ -1050,7 +1050,7 @@ hr {
 .DfTopBar {
   width: 100%;
   display: flex;
-  justify-content: storefront-between;
+  justify-content: space-between;
   align-items: center;
 
   .DfSearchIcon {
@@ -1112,12 +1112,12 @@ hr {
 
 .NavEditorWrapper {
   display: flex;
-  justify-content: storefront-between;
+  justify-content: space-between;
 }
 
 .NavigationEditor .NERow {
   display: flex;
-  justify-content: storefront-between;
+  justify-content: space-between;
   margin-left: 0;
   margin-bottom: $storefront_big;
   position: relative;
@@ -1551,7 +1551,7 @@ hr {
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: storefront-between;
+  justify-content: space-between;
 /*     background: #fff; */
   line-height: 0.6rem;
   padding: 1rem;

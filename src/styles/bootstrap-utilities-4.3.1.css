@@ -322,7 +322,7 @@
 }
 
 .justify-content-between {
-  justify-content: storefront-between !important;
+  justify-content: space-between !important;
 }
 
 .justify-content-around {
@@ -362,7 +362,7 @@
 }
 
 .align-content-between {
-  align-content: storefront-between !important;
+  align-content: space-between !important;
 }
 
 .align-content-around {
@@ -1293,7 +1293,7 @@
     justify-content: center !important;
   }
   .justify-content-sm-between {
-    justify-content: storefront-between !important;
+    justify-content: space-between !important;
   }
   .justify-content-sm-around {
     justify-content: storefront-around !important;
@@ -1323,7 +1323,7 @@
     align-content: center !important;
   }
   .align-content-sm-between {
-    align-content: storefront-between !important;
+    align-content: space-between !important;
   }
   .align-content-sm-around {
     align-content: storefront-around !important;
@@ -1884,7 +1884,7 @@
     justify-content: center !important;
   }
   .justify-content-md-between {
-    justify-content: storefront-between !important;
+    justify-content: space-between !important;
   }
   .justify-content-md-around {
     justify-content: storefront-around !important;
@@ -1914,7 +1914,7 @@
     align-content: center !important;
   }
   .align-content-md-between {
-    align-content: storefront-between !important;
+    align-content: space-between !important;
   }
   .align-content-md-around {
     align-content: storefront-around !important;
@@ -2475,7 +2475,7 @@
     justify-content: center !important;
   }
   .justify-content-lg-between {
-    justify-content: storefront-between !important;
+    justify-content: space-between !important;
   }
   .justify-content-lg-around {
     justify-content: storefront-around !important;
@@ -2505,7 +2505,7 @@
     align-content: center !important;
   }
   .align-content-lg-between {
-    align-content: storefront-between !important;
+    align-content: space-between !important;
   }
   .align-content-lg-around {
     align-content: storefront-around !important;
@@ -3066,7 +3066,7 @@
     justify-content: center !important;
   }
   .justify-content-xl-between {
-    justify-content: storefront-between !important;
+    justify-content: space-between !important;
   }
   .justify-content-xl-around {
     justify-content: storefront-around !important;
@@ -3096,7 +3096,7 @@
     align-content: center !important;
   }
   .align-content-xl-between {
-    align-content: storefront-between !important;
+    align-content: space-between !important;
   }
   .align-content-xl-around {
     align-content: storefront-around !important;

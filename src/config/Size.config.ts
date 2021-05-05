@@ -5,3 +5,5 @@ export const isBrowser = isBaseBrowser
 
 export const DEFAULT_AVATAR_SIZE = isMobileDevice ? 30 : 36;
 export const LARGE_AVATAR_SIZE = isMobileDevice ? 60 : 64;
+
+export const DEFAULT_BANNER_SIZE = 100;

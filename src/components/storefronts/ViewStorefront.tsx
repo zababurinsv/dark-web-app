@@ -23,7 +23,7 @@ import withLoadStorefrontDataById from './withLoadStorefrontDataById';
 import AboutStorefrontLink from './AboutStorefrontLink';
 import ViewStorefrontLink from './ViewStorefrontLink';
 import { PageContent } from '../main/PageWrapper';
-import { DropdownMenu, ProductPreviewsOnStorefront, StorefrontNotFound, HiddenStorefrontAlert, StorefrontAvatar, isMyStorefront } from './helpers';
+import { DropdownMenu, ProductPreviewsOnStorefront, StorefrontNotFound, HiddenStorefrontAlert, StorefrontBanner, isMyStorefront } from './helpers';
 import { ContactInfo } from './SocialLinks/ViewSocialLinks';
 import { MutedSpan } from '../utils/MutedText';
 import { BareProps } from '../utils/types';
@@ -73,7 +73,7 @@ export const ViewStorefront = (props: Props) => {
 
   const storefrontName = isEmptyStr(name) ? <MutedSpan>{'<Unnamed Storefront>'}</MutedSpan> : name
 
-  const Avatar = useCallback(() => <StorefrontAvatar storefront={storefront} address={owner} avatar={image} size={imageSize} />, [])
+  const Banner = useCallback(() => <StorefrontBanner storefront={storefront} address={owner} avatar={image} size={imageSize} />, [])
 
   const isMy = isMyStorefront(storefront)
 
@@ -89,7 +89,7 @@ export const ViewStorefront = (props: Props) => {
 
   const renderDropDownPreview = () =>
     <div className={`${primaryClass} DfPreview`}>
-      <Avatar />
+      <Banner />
       <div className='content'>
         <div className='handle'>{storefrontName}</div>
       </div>
@@ -98,7 +98,7 @@ export const ViewStorefront = (props: Props) => {
   const renderMiniPreview = () =>
     <div className={'viewstorefront-minipreview'}>
       <div onClick={onClick} className={primaryClass}>
-        <Avatar />
+        <Banner />
         <div className='content'>
           <div className='handle'>{storefrontName}</div>
         </div>
@@ -117,9 +117,11 @@ export const ViewStorefront = (props: Props) => {
 
   const renderPreview = () =>
     <div className={primaryClass}>
+  
       <div className='DfStorefrontBody'>
-        <Avatar />
+
         <div className='ml-2 w-100'>
+          
           <div className='d-flex justify-content-between'>
             {title}
             <span className='d-flex align-items-center'>
@@ -134,7 +136,9 @@ export const ViewStorefront = (props: Props) => {
               }
             </span>
           </div>
-
+          <div className='DfStorefrontBannerFull'>
+        <Banner />
+        </div>
           {nonEmptyStr(about) &&
             <div className='description mt-3'>
               <SummarizeMd md={about} more={

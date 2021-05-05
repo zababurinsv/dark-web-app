@@ -45,12 +45,11 @@ pre {
 }
 
 .DfSegment {
-/*   background-color: #fff; */
+   background-color: #141414; 
   padding: $storefront_normal;
   position: relative;
   border-radius: $border_radius_normal;
   border: 1px solid $color_light_border;
-  @extend .DfBoxShadow !optional;
 }
 
 .DfBalance {
@@ -60,6 +59,10 @@ pre {
 
 .DfBalanceDecimals {
   color: #999;
+}
+
+.DfAddressIcon, .DfIdentityIcon, .ui--AddressComponents-info .DfBlackLink  {
+  margin-right: .6rem;
 }
 
 .ant-modal-header,
@@ -107,6 +110,13 @@ pre {
   border-bottom: 1px solid $color_light_border;
 }
 
+
+
+
+.DfProductContent .markdown-body {
+  color: $color_font_normal !important;
+}
+
 .DfLinkOnHover {
   &:hover {
     color: $color_link !important;
@@ -133,9 +143,9 @@ pre {
 }
 
 .DfBoxShadow {
-  -moz-box-shadow: $shadow;
-  -webkit-box-shadow: $shadow;
-  box-shadow: $shadow;
+  // -moz-box-shadow: $shadow;
+  // -webkit-box-shadow: $shadow;
+  // box-shadow: $shadow;
 }
 
 .DfNoBoxShadow {
@@ -1598,4 +1608,48 @@ hr {
 .DfActivityMsg {
   display: flex;
   color: $color_font_normal !important;
+}
+
+.ant-layout-sider {
+  background: transparent !important;
+  padding-top: 2em;
+}
+
+.ant-menu {
+  background: transparent !important;
+}
+
+.DfStorefrontBannerFull {
+  margin: 1rem 0;
+}
+
+.DfBgBanner {
+  position: relative;
+  width: 100%  !important;
+  height: 12rem !important;
+  z-index: 999;
+  background-size: cover;
+}
+
+.DfBannerLink {
+  display: block;
+  border: 0;
+  width: 100% !important;
+}
+
+
+.addtocart {
+  font-size: larger;
+  float: right;
+}
+
+.addtocartRow {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 2em 0;
+}
+
+.cart-img {
+  width: 60px;
+  height: auto;
 }

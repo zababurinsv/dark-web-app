@@ -68,7 +68,7 @@ const InnerShareModal = (props: Props) => {
   };
 
   const newTxParams = (hash: IpfsCid) => {
-    return [ storefrontId, extension, new IpfsContent(hash) ];
+    return [ storefrontId, 0, extension, new IpfsContent(hash) ];
   };
 
   const renderTxButton = () => nonEmptyArr(storefrontIds)
