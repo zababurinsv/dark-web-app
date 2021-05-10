@@ -1,4 +1,4 @@
-# Darkdot DeCommerce Web UI
+#  ▼ DarkBay - DarkDot Network DeCommerce Web UI
 
 Darkdot is a set of Substrate pallets with web UI that allows anyone to launch their own decentralized censorship-resistant e-commerce shop aka storefront. 
 Darkdot developers aim to bring a real decentralized and easy to use e-commerce system people may enjoy.
@@ -6,25 +6,27 @@ Darkdot chain aims to become a parachain and wishes to connect with other commun
 
 To learn more about Darkdot, please visit [Darkdot Network](http://darkdot.network).
 
+
 ## Video demo
 
-Incoming
+![DarkBay preview](DarkDot-Github-Preview.gif)
+
 
 ## Run locally
 
-If you want to develop Subsocial's web UI or just check it out locally, there is an easy way to do it.
+If you want to develop Darkdot's web UI or just check it out locally, there is an easy way to do it.
 
 Clone this repo:
 
 ```sh
-git clone git@github.com:dappforce/dappforce-subsocial-ui.git
-cd dappforce-subsocial-ui
+git clone git@github.com:DarkPayCoin/dark-ui.git
+cd dark-ui
 ```
 
-Connect the app to Subsocial's server (Substrate node, IPFS):
+Connect the app to Darkdot's server (Substrate node, IPFS):
 
 ```sh
-cp subsocial-betanet.env .env
+cp darkdot-v2.env .env
 ```
 
 Install project dependencies:
@@ -54,40 +56,8 @@ yarn start
 
 Go to [localhost:3003](http://localhost:3003)
 
-## Build with Docker
 
-### Easy start
-
-To start Subsocial web UI containerized (you should have `docker` installed):
-
-```
-docker run -d --rm --name subsocial-webui -p 3003:3003 dappforce/subsocial-ui:latest
-```
-
-### Start with `docker-compose`
-
-This will start Subsocial web UI with an nginx support:
-
-- Proxy web UI to the port `80`
-- Proxy from `localhost/bc` to `localhost:3002` (where Polkadot.js Apps should be running)
-
-```
-docker-compose up -t docker/docker-compose.yml -d
-```
-
-
-### Build your own image
-
-If you want to build docker image from your local repository (it takes a while...), in your shell:
-
-```
-docker build -f docker/Dockerfile -t [your_nickname]/subsocial-ui .
-```
-
-### Start all parts of Subsocial at once with [Subsocial Starter](https://github.com/dappforce/dark-starter).
 
 ## License
-
-Darkdot is forked from the great Subsocial project by [DappForce](https://github.com/dappforce)
 
 Darkdot is [GPL 3.0](./LICENSE) licensed.

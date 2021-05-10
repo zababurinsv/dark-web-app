@@ -24,7 +24,7 @@ const InnerPanel = React.memo(() => {
 
   const msg = isMobile
     ? 'You are on Darkdot'
-    : 'You are on Darkdot – a social networking protocol on Polkadot & IPFS'
+    : 'You are on Darkdot – a De-Commerce protocol on Polkadot & IPFS'
 
   return <div className={styles.Wrapper}>
     <WarningPanel
