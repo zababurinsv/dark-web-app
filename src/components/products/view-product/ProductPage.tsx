@@ -23,7 +23,8 @@ import { mdToText } from 'src/utils';
 import { ViewStorefront } from 'src/components/storefronts/ViewStorefront';
 import { KusamaProposalView } from 'src/components/kusama/KusamaProposalDesc';
 const StatsPanel = dynamic(() => import('../ProductStats'), { ssr: false });
-import AddToCartLink from '../AddToCartLink'
+import AddToCartWidget from '../../cart/AddToCartWidget'
+import ProductPriceToDark from './ProductPriceToDark';
 
 
 export type ProductDetailsProps = {
@@ -67,6 +68,9 @@ export const ProductPage: NextPage<ProductDetailsProps> = ({ productDetails: ini
     ? renderResponseTitle(productDetails.ext?.product)
     : title
 
+const productPriceView = ((product.struct.price as any)/100).toFixed(2)
+
+
   return <>
     <PageContent>
       <HiddenProductAlert product={product.struct} />
@@ -84,9 +88,10 @@ export const ProductPage: NextPage<ProductDetailsProps> = ({ productDetails: ini
         </div>
 
         <KusamaProposalView proposal={content.ext?.proposal} />
-
+        <h3 className='fullProductViewPrice'>{productPriceView} $</h3>
+        <ProductPriceToDark product={productDetails.product} />
         <div className='addtocartRow'>
-      <AddToCartLink storefront={storefrontStruct} product={productDetails.product} productdetails ={productDetails} title='Add to cart' />
+      <AddToCartWidget storefront={storefrontStruct} product={productDetails.product} productdetails ={productDetails} title='Add to cart' />
       </div>
 
         <div className='DfProductContent'>

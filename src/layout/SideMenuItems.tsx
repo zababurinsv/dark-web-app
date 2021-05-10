@@ -1,5 +1,5 @@
 import { accountUrl } from 'src/components/urls'
-import { GlobalOutlined, BlockOutlined, BellOutlined, StarOutlined, UserOutlined, BookOutlined, PlusOutlined } from '@ant-design/icons'
+import { SearchOutlined, RadarChartOutlined, AlertOutlined, HeartOutlined, UserOutlined, ShopOutlined, ShoppingOutlined, ShoppingCartOutlined, PlusOutlined, AuditOutlined } from '@ant-design/icons'
 import { uiShowAdvanced, advancedUrl, uiShowNotifications } from 'src/components/utils/env'
 
 export type Divider = 'Divider'
@@ -26,15 +26,11 @@ export const isPageLink = (item: MenuItem): item is PageLink =>
   !isDivider(item)
 
 export const DefaultMenu: MenuItem[] = [
-  {
-    name: 'Explore',
-    page: [ '/storefronts/all' ],
-    icon: <GlobalOutlined />
-  },
+
   {
     name: 'Advanced',
     page: [ advancedUrl ],
-    icon: <BlockOutlined />,
+    icon: <RadarChartOutlined />,
     hidden: !uiShowAdvanced,
     isAdvanced: true
   }
@@ -47,32 +43,56 @@ export const buildAuthorizedMenu = (myAddress: string): MenuItem[] => {
     ? [{
         name: 'My notifications',
         page: [ '/notifications', '/notifications' ],
-        icon: <BellOutlined />,
+        icon: <AlertOutlined />,
         isNotifications: true
       }]
     : []
 
   return [
+    {
+      name: 'Explore',
+      page: [ '/storefronts/all' ],
+      icon: <SearchOutlined />
+    },
+
     ...notificationsItem,
+
     {
       name: 'My subscriptions',
       page: [ '/accounts/[address]/following', accountUrl(account, 'following') ],
-      icon: <StarOutlined />
+      icon: <HeartOutlined />
     },
+    {
+      name: 'My cart',
+      page: [ '/cart'],
+      icon: <ShoppingCartOutlined />
+    },
+    {
+      name: 'My orders',
+      page: [ '/accounts/[address]/orderings', accountUrl(account, 'orders') ],
+      icon: <ShoppingOutlined />
+    },
+    Divider,
     {
       name: 'My profile',
       page: [ '/accounts/[address]', accountUrl(account) ],
       icon: <UserOutlined />
     },
+ 
     {
       name: 'My storefronts',
       page: [ '/accounts/[address]/storefronts', accountUrl(account, 'storefronts') ],
-      icon: <BookOutlined />
+      icon: <ShopOutlined />
     },
     {
       name: 'New storefront',
       page: [ '/storefronts/new', '/storefronts/new' ],
       icon: <PlusOutlined />
+    },
+    {
+      name: 'Customers orders',
+      page: [ '/accounts/[address]/sales', accountUrl(account) ],
+      icon: <AuditOutlined />
     },
     Divider,
     ...DefaultMenu

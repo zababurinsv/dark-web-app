@@ -34,6 +34,8 @@ import { DfMd } from 'src/components/utils/DfMd';
 import { KusamaProposalView, ProposerTag } from 'src/components/kusama/KusamaProposalDesc';
 import { EntityStatusProps, HiddenEntityPanel } from 'src/components/utils/EntityStatusPanels';
 import MoveProductLink from '../MoveProductLink';
+import AddToCartWidgetPreview from 'src/components/cart/AddToCartWidgetPreview';
+import { useCart } from 'react-use-cart';
 
 type DropdownProps = {
   storefront: Storefront
@@ -298,6 +300,7 @@ export const ShareProductContent = (props: ProductPreviewProps) => {
 
     const originalProduct = ext.product.struct
 
+
     return <>
       {isVisible({ struct: originalProduct, address: originalProduct.owner })
         ? <RegularPreview productDetails={ext as ProductWithAllDetails} storefront={ext.storefront} />
@@ -319,6 +322,10 @@ export const InfoProductPreview: React.FunctionComponent<ProductPreviewProps> = 
   const { product: { struct, content } } = productDetails
   const isMobile = useIsMobileWidthOrDevice()
 
+  const { inCart } = useCart();
+const cartTitle = inCart((productDetails.product.struct.id).toString()) ? 'Add more' : 'Add to cart'
+
+
   if (!struct || !content) return null
 
   return <div className='DfInfo'>
@@ -332,6 +339,11 @@ export const InfoProductPreview: React.FunctionComponent<ProductPreviewProps> = 
         <ProductContent productDetails={productDetails} storefront={storefront.struct} withImage={withImage} />
         {withTags && <ViewTags tags={content?.tags} />}
         {/* {withStats && <StatsPanel id={product.id}/>} */}
+        {/* <AddToCartWidget storefront={storefront.struct} product={productDetails.product} productdetails={productDetails} /> */}
+
+
+      <AddToCartWidgetPreview storefront={storefront.struct} product={productDetails.product} productdetails ={productDetails} title={cartTitle} />
+      {/* <ProductPriceToDark product={productDetails.product} /> */}
       </div>
       {!isMobile && withImage && <ProductImage product={productDetails.product} storefront={storefront.struct} />}
     </div>

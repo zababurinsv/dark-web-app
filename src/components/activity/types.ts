@@ -1,5 +1,5 @@
 import { ParsedPaginationQuery } from "../utils/getIds"
-import { DarkdotApi } from "@darkpay/dark-api/darkdot"
+import { DarkdotApi } from "@darkpay/dark-api/api/darkdot"
 import { ActivityStore } from "./NotificationUtils"
 
 export type LoadMoreProps = ParsedPaginationQuery & {

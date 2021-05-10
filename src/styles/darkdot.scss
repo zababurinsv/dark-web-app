@@ -536,7 +536,7 @@ hr {
 }
 
 .asLink:hover {
-  color: #0d548a
+  color: $color_volcano;
 }
 
 .DfStorefrontStats {
@@ -952,6 +952,11 @@ hr {
     border-top-left-radius: 0 !important;
     border-bottom-left-radius: 0 !important;
   }
+}
+
+
+.ant-btn:hover {
+  color: $color_volcano
 }
 
 .DfBgColor {
@@ -1628,7 +1633,6 @@ hr {
   position: relative;
   width: 100%  !important;
   height: 12rem !important;
-  z-index: 999;
   background-size: cover;
 }
 
@@ -1640,17 +1644,136 @@ hr {
 
 
 .addtocart {
-  font-size: larger;
-  float: right;
+  font-size: 1.3rem !important;
+  // float: right;
+  // padding: .6rem 0;
+}
+
+.addtocart-btn a {
+  line-height: 180;
 }
 
 .addtocartRow {
   display: flex;
-  justify-content: space-evenly;
+   justify-content: space-evenly;
+  align-items: center;
+  // justify-content: center;
   margin: 2em 0;
+  
+}
+
+.ProductPriceToDark4Human {
+  color: $color_secondary;
+  font-size: 1.25rem;
+  text-align: right;
+  margin-top: -.5rem;
 }
 
 .cart-img {
   width: 60px;
   height: auto;
+}
+
+.fullProductViewPrice {
+  text-align: right;
+  font-size: 2rem;
+  color: $color_link;
+  margin: 1rem 0 0 0;
+}
+
+.addtocartPreview-btn{
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin: 2em 0;
+}
+
+.previewProductViewPrice {
+ color: $color_link;
+ font-size: 1.5rem;
+}
+
+.DfProductPreview .DfActionsPanel {
+  display: none;
+}
+
+.addtocartPreview:hover, .addtocart:hover {
+background-color: $color_volcano !important;
+border-color: $color_link !important;
+}
+
+h5.totalAddCart4Human {
+  font-size: .8rem;
+}
+
+.DfAccountMenu {
+  background: #121212;
+}
+
+body::-webkit-scrollbar {
+  width: 8px;               /* width of the entire scrollbar */
+}
+
+body::-webkit-scrollbar-track {
+  background: #000000;        /* color of the tracking area */
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #222;    /* color of the scroll thumb */
+  border-radius: 20px;       /* roundness of the scroll thumb */
+  border: 3px solid #000000;  /* creates padding around scroll thumb */
+}
+
+.DfCartImage {
+  width: 90px;
+  height: auto;
+}
+
+.ant-btn a:hover, .ant-btn:hover {
+  color: $color_volcano !important;
+  border-color: $color_volcano !important;
+}
+
+.view-cart-table {
+  width: 100%;
+}
+
+.cart-desc {
+  width: 35%;
+}
+
+.cart-cell {
+  font-size: 1.1rem;
+}
+
+.addOne {
+  color: green !important;
+  font-size: 1.2rem;
+}
+
+.removeOne {
+  color: orange !important;
+  font-size: 1.2rem;
+}
+
+.removeItem {
+  color: red !important;
+  font-size: 1.2rem;
+}
+
+.cart-product-escrow, .cart-product-shipcost, .cart-product-seller {
+  font-size: .9rem;
+  color: $color_secondary;
+  font-style: italic;
+}
+
+.cart-totals {
+  margin-top: 2rem;
+}
+
+.view-cart-total td {
+  font-size: 1.2rem;
+  padding: .3rem .8rem;
+  vertical-align: top;
+  text-align: right;
 }

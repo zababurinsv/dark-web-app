@@ -30,6 +30,7 @@ export const EditComment: React.FunctionComponent<EditCommentProps> = ({ struct,
       {
       // TODO setting new storefront_id will move the product to another storefront.
         storefront_id: new Option(registry, 'u64', null),
+        price:  new Option(registry, 'u32', null),
         content: new OptionIpfsContent(hash),
         hidden: new OptionBool(false) // TODO has no implementation on UI
       });

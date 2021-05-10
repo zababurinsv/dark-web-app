@@ -1,9 +1,9 @@
 import { useEffect, DependencyList } from 'react'
 import { useDarkdotApi } from '../utils/DarkdotApiContext'
 import { isFunction } from '@polkadot/util'
-import { DarkdotApi } from '@darkpay/dark-api/darkdot'
-import { DarkdotSubstrateApi } from '@darkpay/dark-api/substrate'
-import { DarkdotIpfsApi } from '@darkpay/dark-api/ipfs'
+import { DarkdotApi } from '@darkpay/dark-api/api/darkdot'
+import { DarkdotSubstrateApi } from '@darkpay/dark-api/api/substrate'
+import { DarkdotIpfsApi } from '@darkpay/dark-api/api/ipfs'
 
 type Apis = {
   darkdot: DarkdotApi

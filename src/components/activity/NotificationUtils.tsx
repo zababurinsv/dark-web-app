@@ -12,7 +12,7 @@ import messages from '../../messages'
 import { summarize } from 'src/utils';
 import { isSharedProduct } from '../products/view-product';
 import { SocialAccount, Product } from '@darkpay/dark-types/substrate/interfaces';
-import { DarkdotApi } from '@darkpay/dark-api/darkdot';
+import { DarkdotApi } from '@darkpay/dark-api/api/darkdot';
 import { Name } from '../profiles/address-views/Name';
 
 export type LoadMoreFn = (

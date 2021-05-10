@@ -4,7 +4,7 @@ import { LoadMoreFn } from './NotificationUtils';
 import { ProductWithAllDetails } from '@darkpay/dark-types';
 import ProductPreview from '../products/view-product/ProductPreview';
 import { LoadMoreProps, ActivityProps } from './types';
-import { DarkdotApi } from '@darkpay/dark-api/darkdot';
+import { DarkdotApi } from '@darkpay/dark-api/api/darkdot';
 import BN from 'bn.js'
 import { InnerActivities } from './InnerActivities';
 

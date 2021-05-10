@@ -33,7 +33,7 @@ type FormatBalanceProps = BareProps & {
 
 export const FormatBalance = ({
   value,
-  decimals: [ decimals ] = [],
+  decimals: [ decimals ] = [18],
   currency: [ currency ] = [], 
   ...bareProps
 }: FormatBalanceProps) => {

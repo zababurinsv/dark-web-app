@@ -8,6 +8,8 @@ import { SubstrateProvider, SubstrateWebConsole } from '../components/substrate'
 import { ResponsiveSizeProvider } from 'src/components/responsive';
 import { KusamaProvider } from 'src/components/kusama/KusamaContext';
 import { kusamaUrl } from 'src/components/utils/env';
+import { CartProvider } from "react-use-cart";
+
 
 const ClientLayout: React.FunctionComponent = ({ children }) => {
   return (
@@ -19,9 +21,11 @@ const ClientLayout: React.FunctionComponent = ({ children }) => {
           <DarkdotApiProvider>
             <MyAccountProvider>
               <AuthProvider>
-                <Navigation>
+                <CartProvider>
+                 <Navigation>
                   {children}
-                </Navigation>
+                 </Navigation>
+                </CartProvider>
               </AuthProvider>
             </MyAccountProvider>
           </DarkdotApiProvider>

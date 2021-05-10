@@ -31,7 +31,7 @@ const LatestUpdate = (props: Props) => {
     <PageContent>
       <HeadMeta
         title='Latest products and storefronts'
-        desc='Darkdot is an open decentralized social network'
+        desc='Darkdot is an open decentralized e-commerce network'
       />
       <LatestProducts {...props} productsData={productsData} type='product' />
       <LatestProducts {...props} productsData={commentData} type='comment' />
@@ -85,6 +85,8 @@ HomePage.getInitialProps = async (): Promise<Props> => {
 
   const productsData = publicProductsData.slice(0, LAST_ITEMS_SIZE)
   const commentData = publicCommentData.slice(0, LAST_ITEMS_SIZE)
+
+
 
   return {
     storefrontsData,

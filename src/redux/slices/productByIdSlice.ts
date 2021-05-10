@@ -1,7 +1,7 @@
-import { createSlice, CaseReducer, PayloadAction } from '@reduxjs/toolkit';
-import { ProductData, ProductWithSomeDetails } from '@darkpay/dark-types';
-import { Store, ProductsStoreType } from '../types';
-import { Profile, Storefront } from '@darkpay/dark-types/substrate/interfaces';
+import { createSlice, CaseReducer, PayloadAction } from '@reduxjs/toolkit'
+import { ProductData, ProductWithSomeDetails } from '@darkpay/dark-types'
+import { Store, ProductsStoreType } from '../types'
+import { Profile, Storefront } from '@darkpay/dark-types/substrate/interfaces'
 
 export type ProductState = Record<string, any>
 
@@ -14,9 +14,9 @@ type AddReducerType = CaseReducer<ProductState, PayloadAction<AddActionType>>
 const serialize = (object?: any) => object ? JSON.parse(JSON.stringify(object)) : undefined
 
 const serializeProductWithExt = (item: ProductWithSomeDetails): ProductWithSomeDetails => {
-  const { product, ext, storefront } = item
-  let owner = item.owner
-  
+  // eslint-disable-next-line prefer-const
+  let { product, ext, owner, storefront } = item
+
   if (owner) {
     let profile = owner.profile
     profile = { ...profile, content: serialize(profile?.content) } as Profile
@@ -88,9 +88,9 @@ export const productSlice = createSlice({
     editProductReducer,
     removeProductReducer
   }
-});
+})
 
-export const getProduct = (state: Store) => state.productById;
+export const getProduct = (state: Store) => state.productById
 
 export const {
   addProductReducer: addProduct,
@@ -98,4 +98,4 @@ export const {
   removeProductReducer: removeProduct
 } = productSlice.actions
 
-export default productSlice.reducer;
+export default productSlice.reducer
