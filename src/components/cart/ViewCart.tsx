@@ -1,4 +1,5 @@
 import { DeleteOutlined, MinusCircleOutlined, PlusCircleOutlined } from "@ant-design/icons";
+import Link from "next/link";
 import React from "react";
 import { useCart } from "react-use-cart";
 import { resolveIpfsUrl } from "src/ipfs";
@@ -140,11 +141,13 @@ export const ViewCart = ({ }: ViewCartProps) => {
                 </td>
                 </tr>
               </table>
+              </div>
+              <Link href='/cart/checkout'>
+      <a className={'checkout-link'} title={'checkout'}>{'Checkout'}</a>
+    </Link>
                 
-                
-                
-             </div>
-            <div>       {!isEmpty && <button onClick={emptyCart}>Empty cart</button>}</div>
+          
+            <div>{!isEmpty && <button onClick={emptyCart}>Empty cart</button>}</div>
             </Section>
             </PageContent>
         </>
