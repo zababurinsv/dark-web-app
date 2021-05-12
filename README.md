@@ -1,9 +1,14 @@
 ![](https://darkdot.network/sites/default/files/2021-02/dark-dot-token-banner-d4rk-news.png)
 
-# ▼ DARK DOT 
+# ▼ DarkBay - DarkDot Network DeCommerce Web UI
 
-This repository holds development code for DARK parachain built with Substrate.
+This repository holds development code for DarkBay front-end DApp.
 
+![DarkBay preview](DarkDot-Github-Preview.gif)
+
+demo : [coming soon](https://app.darkdot.network)
+
+/!\ you will need Polkadot JS extension in your browser and a Polkadot account to test the app.
 
 Purpose
 =============
@@ -88,61 +93,54 @@ Inflation & rewards decrease yearly as voted by community in 2019
 Setup & run
 =============
 
-## Local Development
+## Run locally
 
-Follow these steps to prepare a local Substrate development environment :hammer_and_wrench:
+If you want to develop Darkdot's web UI or just check it out locally, there is an easy way to do it.
 
-### Simple Setup
+Clone this repo:
 
-Install all the required dependencies with a single command (be patient, this can take up to 30
-minutes).
-
-```bash
-curl https://getsubstrate.io -sSf | bash -s -- --fast
+```sh
+git clone git@github.com:DarkPayCoin/dark-ui.git
+cd dark-ui
 ```
 
-### Manual Setup
+Connect the app to Darkdot's server (Substrate node, IPFS):
 
-Find manual setup instructions at the
-[Substrate Developer Hub](https://substrate.dev/docs/en/knowledgebase/getting-started/#manual-installation).
-
-### Build
-
-Once the development environment is set up, build the node template. This command will build the
-[Wasm](https://substrate.dev/docs/en/knowledgebase/advanced/executor#wasm-execution) and
-[native](https://substrate.dev/docs/en/knowledgebase/advanced/executor#native-execution) code:
-
-```bash
-cargo build --release
+```sh
+cp darkdot-v2.env .env
 ```
 
-## Run
+Install project dependencies:
 
-### Single Node Development Chain
-
-Purge any existing dev chain state:
-
-```bash
-./target/release/dark-node purge-chain --dev
+```sh
+yarn
 ```
 
-Start a dev chain:
+### Option A: Run in a DEV mode
 
-```bash
-./target/release/dark-node --dev
+A dev mode supports hot reloads – this is very helpful when developing UI bacuse you can see changes in your browser without restarting the app. But it takes some time (in seconds) compile updated parts of the app, after you made changes to the source code.
+
+```sh
+./run-dev.sh
 ```
 
-Or, start a dev chain with detailed logging:
+Go to [localhost:3003](http://localhost:3003)
 
-```bash
-RUST_LOG=debug RUST_BACKTRACE=1 ./target/release/dark-node -lruntime=debug --dev
+### Option B: Run in a PROD mode
+
+A prod mode doesn't support hot reloads, but works super fast, because UI gets compiled by Next.js before running.
+
+```sh
+yarn build
+yarn start
 ```
 
-### Multi-Node Local Testnet
-
-If you want to see the multi-node consensus algorithm in action, refer to
-[our Start a Private Network tutorial](https://substrate.dev/docs/en/tutorials/start-a-private-network/).
+Go to [localhost:3003](http://localhost:3003)
 
 Credits
 =============
 To avoid reinventing the wheel, we forked te great [Subsocial](https://subsocial.network/) project as a development basis. We learnt a lot about Substrate thanks to their very professional work. Kudos to their team.
+
+Licence
+=============
+Darkdot is [GPL 3.0](./LICENSE) licensed.
