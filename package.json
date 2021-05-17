@@ -65,8 +65,8 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.2.1",
-    "@darkpay/dark-api": "^0.4.3-7.10",
-    "@darkpay/dark-types": "^0.4.3-6.9",
+    "@darkpay/dark-api": "^0.4.3-7.13",
+    "@darkpay/dark-types": "^0.4.3-6.11",
     "@darkpay/dark-utils": "^0.4.3-9.2",
     "@polkadot/api": "^3.8.1",
     "@polkadot/extension-dapp": "^0.24.1",

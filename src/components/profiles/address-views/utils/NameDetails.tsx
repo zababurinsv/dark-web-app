@@ -8,7 +8,7 @@ import MyEntityLabel from 'src/components/utils/MyEntityLabel';
 import { AddressProps } from './types';
 import { CopyAddress, useExtensionName } from '.';
 import Name from '../Name';
-import { KusamaRolesTags } from 'src/components/kusama/KusamaRoles';
+// import { KusamaRolesTags } from 'src/components/kusama/KusamaRoles';
 import { InfoPanel } from '../InfoSection';
 import { Balance } from './Balance';
 
@@ -46,7 +46,7 @@ export const NameDetails = ({
       <span>
         <Name owner={owner} address={address} />
         {withLabel && <MyEntityLabel isMy={isMyAccount}>Me</MyEntityLabel>}
-        <KusamaRolesTags address={address} />
+        {/* <KusamaRolesTags address={address} /> */}
       </span>
       {withFollowButton && <FollowAccountButton address={address} className='ml-3 float-right' />}
     </div>

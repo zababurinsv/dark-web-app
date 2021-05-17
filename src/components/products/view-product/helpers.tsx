@@ -31,7 +31,7 @@ import { productUrl, editProductUrl, HasStorefrontIdOrHandle, HasProductId } fro
 import { ShareDropdown } from '../share/ShareDropdown';
 import { ButtonLink } from 'src/components/utils/ButtonLink';
 import { DfMd } from 'src/components/utils/DfMd';
-import { KusamaProposalView, ProposerTag } from 'src/components/kusama/KusamaProposalDesc';
+// import { KusamaProposalView, ProposerTag } from 'src/components/kusama/KusamaProposalDesc';
 import { EntityStatusProps, HiddenEntityPanel } from 'src/components/utils/EntityStatusPanels';
 import MoveProductLink from '../MoveProductLink';
 import AddToCartWidgetPreview from 'src/components/cart/AddToCartWidgetPreview';
@@ -165,7 +165,7 @@ export const ProductCreator: React.FunctionComponent<ProductCreatorProps> = ({ p
       isShort={true}
       isPadded={false}
       size={size}
-      afterName={<ProposerTag address={productOwnerAddress} proposalIndex={content?.ext?.proposal?.proposalIndex} />}
+      // afterName={<ProposerTag address={productOwnerAddress} proposalIndex={content?.ext?.proposal?.proposalIndex} />}
       details={<div>
         {withStorefrontName && storefront && <>
           <div className='DfGreyLink'>
@@ -335,7 +335,7 @@ const cartTitle = inCart((productDetails.product.struct.id).toString()) ? 'Add m
           <ProductCreator productDetails={productDetails} storefront={storefront} withStorefrontName />
           <ProductDropDownMenu productDetails={productDetails} storefront={storefront.struct} withEditButton />
         </div>
-        <KusamaProposalView proposal={content.ext?.proposal} />
+        {/* <KusamaProposalView proposal={content.ext?.proposal} /> */}
         <ProductContent productDetails={productDetails} storefront={storefront.struct} withImage={withImage} />
         {withTags && <ViewTags tags={content?.tags} />}
         {/* {withStats && <StatsPanel id={product.id}/>} */}

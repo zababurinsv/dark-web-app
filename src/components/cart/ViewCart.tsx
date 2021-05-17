@@ -4,6 +4,7 @@ import React from "react";
 import { useCart } from "react-use-cart";
 import { resolveIpfsUrl } from "src/ipfs";
 import { PageContent } from "../main/PageWrapper";
+import ButtonLink from "../utils/ButtonLink";
 import Section from "../utils/Section";
 import CartPriceToDark from './CartPriceToDark';
 
@@ -141,13 +142,13 @@ export const ViewCart = ({ }: ViewCartProps) => {
                 </td>
                 </tr>
               </table>
-              </div>
-              <Link href='/cart/checkout'>
-      <a className={'checkout-link'} title={'checkout'}>{'Checkout'}</a>
-    </Link>
+                   </div>
+              <ButtonLink className='checkout-btn' href='/cart/checkout'>
+      Checkout
+    </ButtonLink>
                 
           
-            <div>{!isEmpty && <button onClick={emptyCart}>Empty cart</button>}</div>
+            {!isEmpty && <ButtonLink className='empty-cart-btn' href='#' onClick={emptyCart}>Empty cart</ButtonLink>}
             </Section>
             </PageContent>
         </>

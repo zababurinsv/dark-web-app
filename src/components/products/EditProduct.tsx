@@ -6,7 +6,7 @@ import HeadMeta from '../utils/HeadMeta'
 import Section from '../utils/Section'
 import { getNewIdFromEvent, equalAddresses, getTxParams } from '../substrate'
 import { TxFailedCallback, TxCallback } from 'src/components/substrate/SubstrateTxButton'
-import { ProductExtension, ProductUpdate, OptionId, OptionBool, OptionIpfsContent, IpfsContent, OptionPrice } from '@darkpay/dark-types/substrate/classes'
+import { ProductExtension, ProductUpdate, OptionId, OptionBool, OptionIpfsContent, IpfsContent, OptionPrice, None } from '@darkpay/dark-types/substrate/classes'
 import { IpfsCid } from '@darkpay/dark-types/substrate/interfaces'
 import { ProductContent, ProductData, ProductExt } from '@darkpay/dark-types'
 import { registry } from '@darkpay/dark-types/substrate/registry'
@@ -25,9 +25,9 @@ import { UploadCover } from '../uploader'
 import { getNonEmptyProductContent } from '../utils/content'
 import messages from 'src/messages'
 import { PageContent } from '../main/PageWrapper'
-import { useKusamaContext } from '../kusama/KusamaContext'
+// import { useKusamaContext } from '../kusama/KusamaContext'
 import Input from 'antd/lib/input/Input'
-import { KusamaProposalForm } from '../kusama/KusamaEditProduct'
+// import { KusamaProposalForm } from '../kusama/KusamaEditProduct'
 
 const { TabPane } = Tabs
 
@@ -328,7 +328,7 @@ export const ProductForms = (props: ProductFormProps) => {
 
   return <Tabs className='mb-0' defaultActiveKey={defaultKey}>
     <TabPane tab='Kusama proposal' key='proposal'>
-      <KusamaProposalForm {...props} />
+      {/* <KusamaProposalForm {...props} /> */}
     </TabPane>
     <TabPane tab='Regular product' key='regular'>
       <ProductForm {...props} />
@@ -338,7 +338,8 @@ export const ProductForms = (props: ProductFormProps) => {
 
 export function FormInSection (props: ProductFormProps) {
   const { storefront, product } = props
-  const { hasKusamaConnection } = useKusamaContext()
+//  const { hasKusamaConnection } = useKusamaContext()
+const useKusama = false
 
   const pageTitle = product ? `Edit product` : `New product`
 
@@ -348,7 +349,8 @@ export function FormInSection (props: ProductFormProps) {
   return <PageContent>
     <HeadMeta title={pageTitle} />
     <Section className='EditEntityBox' title={sectionTitle}>
-      {hasKusamaConnection
+      {/* {hasKusamaConnection */}
+      {useKusama
         ? <ProductForms {...props} />
         : <ProductForm {...props} />}
     </Section>

@@ -38,8 +38,8 @@ import { StorefrontId } from '@darkpay/dark-types/substrate/interfaces';
 import { InfoSection } from './address-views/InfoSection';
 import { AccountActivity } from '../activity/AccountActivity';
 import { PageContent } from '../main/PageWrapper';
-import { KusamaRolesTags } from '../kusama/KusamaRoles';
-import { KusamaIdentity } from '../kusama/KusamaIdentity';
+// import { KusamaRolesTags } from '../kusama/KusamaRoles';
+// import { KusamaIdentity } from '../kusama/KusamaIdentity';
 
 const FollowAccountButton = dynamic(() => import('../utils/FollowAccountButton'), { ssr: false });
 
@@ -125,7 +125,7 @@ const Component = (props: Props) => {
               <span className='d-flex align-items-center'>
                 <Name owner={owner} address={address} className='mr-3' />
                 <MyEntityLabel isMy={isMyAccount}>Me</MyEntityLabel>
-                <KusamaRolesTags address={address} />
+                {/* <KusamaRolesTags address={address} /> */}
               </span>
               <DropDownMenu />
             </>}
@@ -148,7 +148,7 @@ const Component = (props: Props) => {
           />
           <div className='about'>
             {about && <DfMd className='mt-3' source={about} />}
-            <KusamaIdentity address={address} withSection />
+            {/* <KusamaIdentity address={address} withSection /> */}
           </div>
           <div className='mt-3'>
             <span onClick={() => hasFollowers && setFollowersOpen(true)} className={`${!hasFollowers && 'disable'} DfProfileModalLink`}>{followersText}</span>

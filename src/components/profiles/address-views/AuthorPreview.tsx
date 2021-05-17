@@ -8,7 +8,7 @@ import { ExtendedAddressProps } from './utils/types';
 import BN from 'bn.js'
 import { Balance } from './utils/Balance';
 import { Name } from './Name';
-import { KusamaIdentityTooltip } from 'src/components/kusama/KusamaIdentity';
+// import { KusamaIdentityTooltip } from 'src/components/kusama/KusamaIdentity';
 import { AccountId } from '@polkadot/types/interfaces';
 
 export type InfoProps = {
@@ -69,7 +69,7 @@ export const AuthorPreview = (props: ExtendedAddressProps) => {
               {afterName && <span className='ml-2'>{afterName}</span>}
             </span>
           </Popover>
-          <KusamaIdentityTooltip address={address} />
+          {/* <KusamaIdentityTooltip address={address} /> */}
         </span>
         <InfoDetails details={details}/>
       </div>

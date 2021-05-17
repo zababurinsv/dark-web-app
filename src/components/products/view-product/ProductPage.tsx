@@ -21,7 +21,7 @@ import { resolveIpfsUrl } from 'src/ipfs';
 import { useResponsiveSize } from 'src/components/responsive';
 import { mdToText } from 'src/utils';
 import { ViewStorefront } from 'src/components/storefronts/ViewStorefront';
-import { KusamaProposalView } from 'src/components/kusama/KusamaProposalDesc';
+// import { KusamaProposalView } from 'src/components/kusama/KusamaProposalDesc';
 const StatsPanel = dynamic(() => import('../ProductStats'), { ssr: false });
 import AddToCartWidget from '../../cart/AddToCartWidget'
 import ProductPriceToDark from './ProductPriceToDark';
@@ -87,7 +87,7 @@ const productPriceView = ((product.struct.price as any)/100).toFixed(2)
           {isNotMobile && <StatsPanel id={struct.id} goToCommentsId={goToCommentsId} />}
         </div>
 
-        <KusamaProposalView proposal={content.ext?.proposal} />
+        {/* <KusamaProposalView proposal={content.ext?.proposal} /> */}
         <h3 className='fullProductViewPrice'>{productPriceView} $</h3>
         <ProductPriceToDark product={productDetails.product} />
         <div className='addtocartRow'>

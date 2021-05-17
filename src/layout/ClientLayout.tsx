@@ -6,8 +6,8 @@ import SidebarCollapsedProvider from '../components/utils/SideBarCollapsedContex
 import { AuthProvider } from '../components/auth/AuthContext';
 import { SubstrateProvider, SubstrateWebConsole } from '../components/substrate';
 import { ResponsiveSizeProvider } from 'src/components/responsive';
-import { KusamaProvider } from 'src/components/kusama/KusamaContext';
-import { kusamaUrl } from 'src/components/utils/env';
+// import { KusamaProvider } from 'src/components/kusama/KusamaContext';
+// import { kusamaUrl } from 'src/components/utils/env';
 import { CartProvider } from "react-use-cart";
 
 
@@ -16,7 +16,7 @@ const ClientLayout: React.FunctionComponent = ({ children }) => {
     <ResponsiveSizeProvider >
       <SidebarCollapsedProvider>
         <SubstrateProvider>
-          <KusamaProvider endpoint={kusamaUrl}>
+          {/* <KusamaProvider endpoint={kusamaUrl}> */}
           <SubstrateWebConsole />
           <DarkdotApiProvider>
             <MyAccountProvider>
@@ -29,7 +29,7 @@ const ClientLayout: React.FunctionComponent = ({ children }) => {
               </AuthProvider>
             </MyAccountProvider>
           </DarkdotApiProvider>
-          </KusamaProvider>
+          {/* </KusamaProvider> */}
         </SubstrateProvider>
       </SidebarCollapsedProvider>
     </ResponsiveSizeProvider>

@@ -6,7 +6,7 @@ import { withLoadedOwner } from './utils/withLoadedOwner';
 import ViewProfileLink from '../ViewProfileLink';
 import { useExtensionName } from './utils';
 import { MutedSpan } from 'src/components/utils/MutedText';
-import { KusamaIdentityTooltip } from 'src/components/kusama/KusamaIdentity';
+// import { KusamaIdentityTooltip } from 'src/components/kusama/KusamaIdentity';
 
 type Props = AddressProps & {
   isShort?: boolean,
@@ -44,7 +44,7 @@ export const Name = ({
     {asLink
       ? <ViewProfileLink account={{ address }} title={title} className={nameClass} />
       : <>{title}</>}
-      {withKusama && <KusamaIdentityTooltip address={address} />}
+      {/* {withKusama && <KusamaIdentityTooltip address={address} />} */}
     </span>
 }
 
