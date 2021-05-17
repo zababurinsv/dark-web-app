@@ -7,6 +7,7 @@ import { PageContent } from "../main/PageWrapper";
 import ButtonLink from "../utils/ButtonLink";
 import Section from "../utils/Section";
 import CartPriceToDark from './CartPriceToDark';
+import EmptyCart from './EmptyCart';
 
 type ViewCartProps = {
 
@@ -25,7 +26,7 @@ export const ViewCart = ({ }: ViewCartProps) => {
         emptyCart
     } = useCart();
 
-    if (isEmpty) return <p>Your cart is empty</p>;
+    if (isEmpty) return <EmptyCart />
 
 
  
@@ -143,9 +144,9 @@ export const ViewCart = ({ }: ViewCartProps) => {
                 </tr>
               </table>
                    </div>
-              <ButtonLink className='checkout-btn' href='/cart/checkout'>
-      Checkout
-    </ButtonLink>
+                <ButtonLink className='checkout-btn' href='/cart/checkout'>
+                 Checkout
+                </ButtonLink>
                 
           
             {!isEmpty && <ButtonLink className='empty-cart-btn' href='#' onClick={emptyCart}>Empty cart</ButtonLink>}
