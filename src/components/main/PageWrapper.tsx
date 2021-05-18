@@ -11,11 +11,11 @@ export const PageContent: React.FunctionComponent<Props> = ({ leftPanel, rightPa
   const { isNotMobile } = useResponsiveSize()
   const isPanels = leftPanel || rightPanel
   return isNotMobile
-    ? <div className='d-flex w-100'>
+    ? <Section className='d-flex w-100'>
       {isPanels && <div className='DfLeftPanel DfPanel'>{leftPanel}</div>}
       <Section className={`DfMainContent ${className}`}>{children}</Section>
       {isPanels && <div className='DfRightPanel DfPanel'>{rightPanel}</div>}
-    </div>
+    </Section>
     : <>
       {children}
       {/* {showOnBoarding && <Affix offsetBottom={5}><OnBoardingMobileCard /></Affix>} */}

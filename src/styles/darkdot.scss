@@ -1777,3 +1777,21 @@ body::-webkit-scrollbar-thumb {
   vertical-align: top;
   text-align: right;
 }
+
+/* Checkout / clear cart btns */
+
+.checkout-btn, .checkout-btn a {
+  font-size: 1.2rem;
+  padding: .3rem .8rem !important;
+  color: green !important;
+  border-color: green !important;
+  height: auto !important;
+  vertical-align: middle !important;
+}
+
+.empty-cart-btn, .empty-cart-btn a {
+  font-size: 1.2rem;
+  padding: .3rem .8rem !important;
+  height: auto !important;
+  vertical-align: middle !important;
+}

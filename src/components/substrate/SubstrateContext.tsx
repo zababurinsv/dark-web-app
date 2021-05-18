@@ -11,9 +11,9 @@ import { cacheSubstrateMetadata, getSubstrateMetadataRecord as getCachedSubstrat
 import registry from '@darkpay/dark-types/substrate/registry'
 import { formatBalance } from '@polkadot/util';
 
-const DEFAULT_DECIMALS = [ 12 ];
-const DEFAULT_TOKEN = [ 'SMN' ]
-const DEFAULT_SS58 = registry.createType('u32', 28);
+const DEFAULT_DECIMALS = [ 11 ];
+const DEFAULT_TOKEN = [ 'DARK' ]
+const DEFAULT_SS58 = registry.createType('u32', 17);
 
 const log = newLogger('SubstrateContext')
 

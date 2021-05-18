@@ -1,7 +1,7 @@
-import React, { useReducer, createContext, useContext, useEffect, useState } from 'react';
-import { DarkdotApi } from '@darkpay/dark-api/darkdot';
-import { DarkdotSubstrateApi } from '@darkpay/dark-api/substrate';
-import { DarkdotIpfsApi } from '@darkpay/dark-api/ipfs';
+import React, { useReducer, createContext, useContext, useEffect } from 'react';
+import { DarkdotApi } from '@darkpay/dark-api/api/darkdot';
+import { DarkdotSubstrateApi } from '@darkpay/dark-api/api/substrate';
+import { DarkdotIpfsApi } from '@darkpay/dark-api/api/ipfs';
 import { newDarkdotApi } from './DarkdotConnect';
 import { ApiPromise } from '@polkadot/api';
 import { newLogger } from '@darkpay/dark-utils';
@@ -81,22 +81,22 @@ export const DarkdotApiContext = createContext<DarkdotApiContextProps>(contextSt
 const message = controlledMessage({ message: 'Connecting to the network...', type: 'info', duration: 0 })
 
 export function DarkdotApiProvider (props: React.PropsWithChildren<{}>) {
-  const { api } = useSubstrate()
-  const [ state, dispatch ] = useReducer(reducer, createDarkdotState(api))
-  const [ isApiReady, setIsApiReady ] = useState(false)
+  const { api, apiState } = useSubstrate()
+  const [ state, dispatch ] = useReducer(reducer, emptyState)
+  const isApiReady = apiState === 'READY'
+
 
   useEffect(() => {
-    if (!api || isApiReady) return message.open()
+    if (!api || !isApiReady) return message.open()
 
     const load = async () => {
       await api.isReady
-      setIsApiReady(true)
       message.close()
       dispatch({ type: 'init', api: api as ApiPromise })
     }
 
     load()
-  }, [ api, isApiReady ])
+  }, [ isApiReady ])
 
   const contextValue: DarkdotApiContextProps = {
     state,
