@@ -26,21 +26,32 @@ export const ViewCart = ({ }: ViewCartProps) => {
         emptyCart
     } = useCart();
 
+    // Buyer escrow total
+    const totalBescrow = items.reduce(function(prev, cur) 
+    {
+         return (prev + ((cur.price * (cur.bescrow / 100) * cur.quantity)) );
+    }, 0); 
+    // Shipping total
+    const totalShipping = items
+    .filter((item) => item.shipcost === 0)
+    .reduce(function(prev, cur) 
+    {
+         return (prev + ((cur.shipcost * cur.quantity)) );
+    }, 0); 
+
+    const grandTotal = cartTotal + totalBescrow + totalShipping;
+
+
+    // if empty cart
     if (isEmpty) return <EmptyCart />
 
-
- 
-
+    // cart
     return (
         <>
         <PageContent>
             <Section className='mb-3'>
             <div className='about'>
                 <h1>My Cart </h1>
-
-
-
-     
 
             <table className='ant-table view-cart-table'>
                 <thead className='ant-table-thead'>
@@ -114,7 +125,7 @@ export const ViewCart = ({ }: ViewCartProps) => {
                         Items total : 
                 </td>
                 <td className='ant-table-cell cart-cell'>
-                {(cartTotal.toFixed(2)).toLocaleString()}$
+                $ {(cartTotal.toFixed(2)).toLocaleString()}
                 </td>
                 </tr>
                 <tr>
@@ -122,15 +133,15 @@ export const ViewCart = ({ }: ViewCartProps) => {
                         Shipping total : 
                 </td>
                 <td className='ant-table-cell cart-cell'>
-                {(cartTotal.toFixed(2)).toLocaleString()}$
+                $ {(totalShipping.toFixed(2)).toLocaleString()}
                 </td>
                 </tr>
                 <tr>
                 <td className='ant-table-cell cart-cell'>
-                        Escrow : 
+                        Escrow  : 
                 </td>
                 <td className='ant-table-cell cart-cell'>
-   
+                $ {totalBescrow.toFixed(2).toLocaleString()}
                 </td>
                 </tr>
                 <tr>
@@ -138,8 +149,8 @@ export const ViewCart = ({ }: ViewCartProps) => {
                         Order total : 
                 </td>
                 <td className='ant-table-cell cart-cell'>
-                {(cartTotal.toFixed(2)).toLocaleString()}$<br />
-                        <CartPriceToDark price={cartTotal} />
+                $ {(grandTotal.toFixed(2)).toLocaleString()}<br />
+                        <CartPriceToDark price={grandTotal} />
                 </td>
                 </tr>
               </table>
