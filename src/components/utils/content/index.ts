@@ -1,4 +1,4 @@
-import { StorefrontContent, ProductContent, NamedLink } from "@darkpay/dark-types"
+import { StorefrontContent, ProductContent, OrderingContent, NamedLink } from "@darkpay/dark-types"
 import { nonEmptyStr } from "@darkpay/dark-utils"
 
 export const getNonEmptyStorefrontContent = (content: StorefrontContent): StorefrontContent => {
@@ -10,6 +10,16 @@ export const getNonEmptyStorefrontContent = (content: StorefrontContent): Storef
   }
 }
 
+export const getNonEmptyOrderingContent = (content: OrderingContent): OrderingContent => {
+  const {  address1, ...rest } = content
+  return {
+    address1: address1,
+    ...rest
+  }
+}
+
+
+
 export const getNonEmptyProductContent = (content: ProductContent): ProductContent => {
   const { tags, ...rest } = content
   return {
@@ -17,6 +27,9 @@ export const getNonEmptyProductContent = (content: ProductContent): ProductConte
     ...rest
   }
 }
+
+
+
 
 const getNonEmptyStrings = (inputArr: string[] = []): string[] => {
   const res: string[] = []

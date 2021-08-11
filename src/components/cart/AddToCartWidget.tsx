@@ -41,6 +41,7 @@ export const AddToCartWidget = ({
   
 const { openSignInModal, state: { completedSteps: { isSignedIn } } } = useAuth()
 
+
 const ProductTitle = product.content?.title
 const ProductId = productdetails.product.struct.id
 const ProductImage = productdetails.product.content?.image
@@ -48,12 +49,12 @@ const ProductSf = productdetails.product.struct.storefront_id
 const ProductSeller = productdetails.product.struct.owner
 
 
-const ProductPrice = Number(productdetails.product.struct.price)/100
+const ProductPrice = Number(productdetails.product.struct.price_usd)/100
 // console.log('DEBUG PRICE **** '+productdetails.product.struct.price)
 
 const BuyerEscrow = productdetails.product.content?.bescrow
 const SellerEscrow = productdetails.product.content?.sescrow
-const ShipCost = productdetails.product.content?.shipcost
+const ShipCost = Number(productdetails.product.struct.ship_cost)/100
 const ShipsTo = productdetails.product.content?.shipsto
 
 
@@ -96,7 +97,7 @@ const onQtyChanged = (qty: string | number | undefined) => {
 }
 
 
-  const addToCart = (data: { id: ProductId; img: string | undefined; name: string | undefined; qty: string | number | undefined; price: number; sfId: Option<StorefrontId>; seller: AccountId; bescrow: string | undefined; sescrow: string | undefined; shipcost: string | undefined; shipsto: string | undefined }) => {
+  const addToCart = (data: { id: ProductId; img: string | undefined; name: string | undefined; qty: number; price: number; sfId: Option<StorefrontId>; seller: AccountId; bescrow: string | undefined; sescrow: string | undefined; shipcost: number ; shipsto: string | undefined }) => {
     console.log('***** ADD TO CART TRIGGERED ****')
 
 

@@ -89,11 +89,11 @@ export const buildAuthorizedMenu = (myAddress: string): MenuItem[] => {
       page: [ '/storefronts/new', '/storefronts/new' ],
       icon: <PlusOutlined />
     },
-    {
-      name: 'Customers orders',
-      page: [ '/accounts/[address]/sales', accountUrl(account) ],
-      icon: <AuditOutlined />
-    },
+    // {
+    //   name: 'Customers orders',
+    //   page: [ '/accounts/[address]/sales', accountUrl(account) ],
+    //   icon: <AuditOutlined />
+    // },
     Divider,
     ...DefaultMenu
   ]

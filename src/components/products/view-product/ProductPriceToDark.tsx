@@ -18,7 +18,7 @@ export const ProductPriceToDark: React.FunctionComponent<ProductPriceToDarkProps
   
   const [usdPerDark, setusdPerDark] = useState<string | number | undefined>()
 
-  const productPrice = Number(product.struct.price)
+  const productPrice = Number(product.struct.price_usd)
   // 1 Dark to 1 USD from Offchain
   const getAvgPrice = new Promise<number>(async (resolve, reject) => {
     const darkdot = await getDarkdotApi();

@@ -68,7 +68,7 @@ export const ProductPage: NextPage<ProductDetailsProps> = ({ productDetails: ini
     ? renderResponseTitle(productDetails.ext?.product)
     : title
 
-const productPriceView = ((product.struct.price as any)/100).toFixed(2)
+const productPriceView = ((product.struct.price_usd as any)/100).toFixed(2)
 
 
   return <>

@@ -5,9 +5,7 @@ import { HeadMeta } from '../../utils/HeadMeta';
 import Section from '../../utils/Section';
 import { ProductData, ProductWithAllDetails } from '@darkpay/dark-types/dto';
 import ViewTags from '../../utils/ViewTags';
-import ViewProductLink from '../ViewProductLink';
 import { CommentSection } from '../../comments/CommentsSection';
-import { ProductDropDownMenu, ProductCreator, HiddenProductAlert, ProductNotFound, ProductActionsPanel, isComment, ShareProductContent, useSubscribedProduct } from './helpers';
 import Error from 'next/error'
 import { NextPage } from 'next';
 import { getDarkdotApi } from 'src/components/utils/DarkdotConnect';
@@ -21,9 +19,8 @@ import { resolveIpfsUrl } from 'src/ipfs';
 import { useResponsiveSize } from 'src/components/responsive';
 import { mdToText } from 'src/utils';
 import { ViewStorefront } from 'src/components/storefronts/ViewStorefront';
-import { KusamaProposalView } from 'src/components/kusama/KusamaProposalDesc';
-const StatsPanel = dynamic(() => import('../ProductStats'), { ssr: false });
-import AddToCartLink from '../AddToCartLink'
+
+
 
 export type ProductDetailsProps = {
   productDetails: ProductWithAllDetails,

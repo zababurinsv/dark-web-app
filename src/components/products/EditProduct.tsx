@@ -6,7 +6,7 @@ import HeadMeta from '../utils/HeadMeta'
 import Section from '../utils/Section'
 import { getNewIdFromEvent, equalAddresses, getTxParams } from '../substrate'
 import { TxFailedCallback, TxCallback } from 'src/components/substrate/SubstrateTxButton'
-import { ProductExtension, ProductUpdate, OptionId, OptionBool, OptionIpfsContent, IpfsContent, OptionPrice, None } from '@darkpay/dark-types/substrate/classes'
+import { ProductExtension, ProductUpdate, OptionId, OptionBool, OptionIpfsContent, IpfsContent, OptionPrice} from '@darkpay/dark-types/substrate/classes'
 import { IpfsCid } from '@darkpay/dark-types/substrate/interfaces'
 import { ProductContent, ProductData, ProductExt } from '@darkpay/dark-types'
 import { registry } from '@darkpay/dark-types/substrate/registry'
@@ -17,7 +17,7 @@ import { useMyAddress } from '../auth/MyAccountContext'
 import { DfForm, DfFormButtons, minLenError, maxLenError } from '../forms'
 import { Loading } from '../utils'
 import NoData from '../utils/EmptyList'
-import { Null } from '@polkadot/types'
+import { i32, Null } from '@polkadot/types'
 import DfMdEditor from '../utils/DfMdEditor/client'
 import StorefrontgedSectionTitle from '../storefronts/StorefrontdSectionTitle'
 import { withLoadStorefrontFromUrl, CanHaveStorefrontProps } from '../storefronts/withLoadStorefrontFromUrl'
@@ -27,6 +27,7 @@ import messages from 'src/messages'
 import { PageContent } from '../main/PageWrapper'
 // import { useKusamaContext } from '../kusama/KusamaContext'
 import Input from 'antd/lib/input/Input'
+import { Countries } from '../utils/Countries'
 // import { KusamaProposalForm } from '../kusama/KusamaEditProduct'
 
 const { TabPane } = Tabs
@@ -49,6 +50,11 @@ type FormValues = Partial<Content & {
   bescrow?: number
   sescrow?: number
   shipcost?: number
+  taxpct?: number
+  discountpct?: number
+  shipsto?: string[]
+  size?: string
+  color?: string
 }>
 
 type FieldName = keyof FormValues
@@ -77,10 +83,12 @@ export function ProductForm (props: ProductFormProps) {
   const [ form ] = Form.useForm()
   const { ipfs } = useDarkdotApi()
   const [ IpfsCid, setIpfsCid ] = useState<IpfsCid>()
-  const [ price, setPrice ] = useState<string | number | undefined>()
-  const [ bescrow, setBescrow ] = useState<string | number | undefined>()
-  const [ sescrow, setSescrow ] = useState<string | number | undefined>()
-  const [ shipcost, setShipcost ] = useState<string | number | undefined>()
+  const [ price, setPrice ] = useState<i32 | number | undefined>()
+  const [ bescrow, setBescrow ] = useState<i32 | number | undefined>()
+  const [ sescrow, setSescrow ] = useState<i32 | number | undefined>()
+  const [ shipcost, setShipcost ] = useState<i32 | number | undefined>()
+  const [ taxpct, setTaxpct ] = useState<i32 | number |undefined>()
+  const [ discountpct, setDiscountpct ] = useState<i32 | number | undefined>()
 
   if (!storefront) return <NoData description='Storefront not found' />
 
@@ -88,10 +96,12 @@ export function ProductForm (props: ProductFormProps) {
   const initialValues = getInitialValues(props)
 
   const tags = initialValues.tags || []
-  const orig_price = Number(props.product?.struct.price) || 0
-  const orig_bescrow =  initialValues.bescrow || 50
-  const orig_sescrow =  initialValues.bescrow || 50
-  const orig_shipcost =  initialValues.shipcost || 0
+  const orig_price = Number(props.product?.struct.price_usd) || 0
+  const orig_bescrow =  Number(props.product?.struct.buyer_esc_pct)/100 || 50
+  const orig_sescrow =  Number(props.product?.struct.seller_esc_pct)/100 || 50
+  const orig_shipcost =  Number(props.product?.struct.ship_cost)/100 || 0
+  const orig_taxpct =   Number(props.product?.struct.tax_pct)/100 || 0
+  const orig_discountpct =   Number(props.product?.struct.discount_pct)/100 || 0
   //const orig_variations = initialValues.variations || []
 
   const getFieldValues = (): FormValues => {
@@ -101,8 +111,13 @@ export function ProductForm (props: ProductFormProps) {
   const newTxParams = (cid: IpfsCid) => {
     if (!product) {
       //console.log(form.getFieldValue([fieldName('price')]))
+      //   price_usd: Option<i32>,
+        // tax_pct: Option<i32>,
+        // discount_pct: Option<i32>,
+        // buyer_esc_pct: Option<i32>,
+        // seller_esc_pct: Option<i32>,
       // If creating a new product.
-      return [ storefrontId,  Number(price)*100, RegularProductExt, new IpfsContent(cid) ]
+      return [ storefrontId, RegularProductExt, new IpfsContent(cid), Number(price)*100, Number(taxpct)*100, Number(discountpct)*100, Number(bescrow)*100, Number(sescrow)*100, Number(shipcost)*100]
     } else {
 
       // TODO Update only changed values.
@@ -110,13 +125,23 @@ export function ProductForm (props: ProductFormProps) {
       const update = new ProductUpdate({
         // If we provide a new storefront_id in update, it will move this product to another storefront.
         storefront_id: new OptionId(),
-        price: Number(price)*100, // new OptionPrice('10000'),// new OptionPrice(registry, 'u32', Number(price)*100),
         content: new OptionIpfsContent(cid),
+        price_usd: new OptionPrice(convertPrice(price)),
+        tax_pct: new OptionPrice(convertPrice(taxpct)),
+        discount_pct: new OptionPrice(convertPrice(discountpct)),
+        buyer_esc_pct: new OptionPrice(convertPrice(bescrow)),
+        seller_esc_pct: new OptionPrice(convertPrice(sescrow)),
+        ship_cost: new OptionPrice(convertPrice(shipcost)),
         hidden: new OptionBool(false), // TODO has no implementation on UI
       })
       return [ product.struct.id, update ]
     }
   }
+
+
+  const convertPrice = (price: any): any => {
+    return (price * 100);
+  };
 
   const fieldValuesToContent = (): Content =>
     getNonEmptyProductContent({ ...getFieldValues(), ext } as Content)
@@ -159,24 +184,33 @@ export function ProductForm (props: ProductFormProps) {
   const onPriceChanged = (price: string | number | undefined) => {
     form.setFieldsValue({ [fieldName('price')]: price })
     console.log('Price is ---> '+price)
-    setPrice(price)
+    setPrice(Number(price))
   }
 
   const onBescrowChanged = (bescrow: string | number | undefined) => {
     form.setFieldsValue({ [fieldName('bescrow')]: bescrow })
-    setBescrow(bescrow)
+    setBescrow(Number(bescrow))
   }
 
   const onSescrowChanged = (sescrow: string | number | undefined) => {
     form.setFieldsValue({ [fieldName('sescrow')]: sescrow })
-    setBescrow(sescrow)
+    setSescrow(Number(sescrow))
   }
 
   const onShipcostChanged = (shipcost: string | number | undefined) => {
     form.setFieldsValue({ [fieldName('shipcost')]: shipcost })
-    setShipcost(shipcost)
+    setShipcost(Number(shipcost))
+  }
+  
+  const onTaxpctChanged = (taxpct: string | number | undefined) => {
+    form.setFieldsValue({ [fieldName('taxpct')]: taxpct })
+    setTaxpct(Number(taxpct))
   }
 
+  const onDiscountpctChanged = (discountpct: string | number | undefined) => {
+    form.setFieldsValue({ [fieldName('discountpct')]: taxpct })
+    setDiscountpct(Number(discountpct))
+  }
 
   return <>
     <DfForm form={form} initialValues={initialValues}>
@@ -247,6 +281,21 @@ export function ProductForm (props: ProductFormProps) {
       </Form.Item>
 
       <Form.Item
+        name={fieldName('shipsto')}
+            label='Ships to'
+            rules={[{ required: true, message: 'Country is required' }]}
+          >
+            <Select style={{ width: '50%' }} mode="multiple" placeholder="Select countries">
+          {Object.keys(Countries).map(key => (
+          <option key={key} value={key}>
+            {key}
+          </option>
+        ))}
+            </Select>
+            
+      </Form.Item>
+
+      <Form.Item
       label='Shipping Cost (USD)'
       >
       <InputNumber
@@ -283,6 +332,36 @@ export function ProductForm (props: ProductFormProps) {
             defaultValue={Number(orig_sescrow)}
             onChange={onSescrowChanged}
           />
+      </Form.Item>
+
+      <Form.Item
+      label='Tax %'
+      >
+      <InputNumber
+      name={fieldName('taxpct')}
+      formatter={value => `% ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+      defaultValue={orig_taxpct}
+      step='0.01'
+      style={{
+        width: 200,
+      }}
+      onChange = {onTaxpctChanged}
+    />
+      </Form.Item>
+
+      <Form.Item
+      label='Discount %'
+      >
+      <InputNumber
+      name={fieldName('discountpct')}
+      formatter={value => `% ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+      defaultValue={orig_discountpct}
+      step='0.01'
+      style={{
+        width: 200,
+      }}
+      onChange = {onDiscountpctChanged}
+    />
       </Form.Item>
 
 
@@ -381,7 +460,7 @@ function LoadProductThenEdit (props: ProductFormProps) {
   if (!product) return <NoData description='Product not found' />
 
   const productOwner = product.struct?.owner
-  const price = product.struct?.price
+  // const price = product.struct?.price_usd
   console.log('************ Loaded product : '+product.struct.content)
   const isOwner = equalAddresses(myAddress, productOwner)
   if (!isOwner) return <NoData description='You do not have permission to edit this product' />

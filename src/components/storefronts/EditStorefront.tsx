@@ -26,6 +26,7 @@ import { getNonEmptyStorefrontContent } from '../utils/content'
 import messages from 'src/messages'
 import { Option } from '@polkadot/types'
 import registry from '@darkpay/dark-types/substrate/registry'
+import { Countries } from '../utils/Countries'
 
 const log = newLogger('EditStorefront')
 
@@ -99,14 +100,15 @@ export function InnerForm (props: FormProps) {
     }
 
     if (!storefront) {
-      return [ new OptionId(), new OptionText(fieldValues.handle), new IpfsContent(cid) ]
+      return [ new OptionId(), new OptionText(fieldValues.handle), new IpfsContent(cid), new OptionBool(false) ]
     } else {
       // Update only dirty values.
 
       // TODO seems like we cannot set a handle to None.
 
-      // TODO uupdate StorefrontUpdate class
+      // TODO update StorefrontUpdate class
       const update = new StorefrontUpdate({
+        parent_id: new Option(registry, 'StorefrontId'),
         handle: new OptionOptionText(getValueIfChanged('handle')),
         content: new OptionIpfsContent(getCidIfChanged()),
         hidden: new OptionBool(),
@@ -235,6 +237,67 @@ export function InnerForm (props: FormProps) {
         ]}>
         <Input type='email' placeholder='Email address' />
       </Form.Item>
+
+      <Form.Item label="Delivery Address">
+
+        <Input.Group>
+        <Form.Item
+            name={fieldName('address1')}
+            noStyle
+            rules={[{ required: true, message: 'A delivery address is mandatory !' }]}
+          >
+            <Input style={{ width: '100%' }} placeholder="Number, Street, Apt." />
+          </Form.Item>
+          <Form.Item
+            name={fieldName('address2')}
+            noStyle
+            rules={[{ required: false, message: 'Enter State or any relevant address info' }]}
+          >
+            <Input style={{ width: '100%' }} placeholder="State or any other relevant address info" />
+          </Form.Item>
+        <Form.Item
+        name={fieldName('postal_code')}
+        label='Postal Code'
+        noStyle
+        hasFeedback
+        rules={[
+          { required: true, message: 'Postal Code is required.' },
+          { min: NAME_MIN_LEN, message: minLenError('Name', NAME_MIN_LEN) },
+          { max: NAME_MAX_LEN, message: maxLenError('Name', NAME_MAX_LEN) }
+        ]}
+      >
+        <Input style={{ width: '50%' }}  placeholder='Your zip/postal code' />
+      </Form.Item>
+      <Form.Item
+        name={fieldName('city')}
+        label='City'
+        noStyle
+        hasFeedback
+        rules={[
+          { required: true, message: 'City is required.' },
+        ]}
+      >
+        <Input style={{ width: '50%' }}  placeholder='Your city' />
+      </Form.Item>    
+          <Form.Item
+        name={fieldName('country')}
+            label='Country'
+            noStyle
+            rules={[{ required: true, message: 'Country is required' }]}
+          >
+            <Select style={{ width: '50%' }} placeholder="Select country">
+          {Object.keys(Countries).map(key => (
+          <option key={key} value={key}>
+            {key}
+          </option>
+        ))}
+            </Select>
+          </Form.Item>
+  
+        </Input.Group>
+      </Form.Item>
+      
+
 
       <NewSocialLinks name='links' links={links} collapsed={!links} />
 

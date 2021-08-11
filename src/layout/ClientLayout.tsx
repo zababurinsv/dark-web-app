@@ -1,6 +1,6 @@
 import React from 'react';
 import { DarkdotApiProvider } from '../components/utils/DarkdotApiContext';
-import { MyAccountProvider } from '../components/auth/MyAccountContext';
+import { MyAccountProvider, readMyAddress } from '../components/auth/MyAccountContext';
 import { Navigation } from './Navigation'
 import SidebarCollapsedProvider from '../components/utils/SideBarCollapsedContext';
 import { AuthProvider } from '../components/auth/AuthContext';

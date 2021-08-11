@@ -1,4 +1,4 @@
-import { Storefront, Product, StorefrontId } from '@darkpay/dark-types/substrate/interfaces'
+import { Storefront, Product, StorefrontId, Ordering, OrderingId } from '@darkpay/dark-types/substrate/interfaces'
 import { stringifyNumber, AnyAddress, AnyText, stringifyAddress } from '../substrate'
 import { newLogger, notDef } from '@darkpay/dark-utils'
 import BN from 'bn.js'
@@ -101,4 +101,31 @@ function urlWithAccount (baseUrl: string, account: HasAddressOrHandle, ...subUrl
 /** /accounts/[address] */
 export function accountUrl (account: HasAddressOrHandle, ...subUrls: string[]): string {
   return urlWithAccount('accounts', account, ...subUrls)
+}
+
+
+// Ordering URLs
+// --------------------------------------------------
+
+export type HasOrderingId = Pick<Ordering, 'id'>
+
+export function orderingIdForUrl ({ id }: HasOrderingId): string {
+  if (notDef(id)) {
+    log.warn(`${orderingIdForUrl.name}: Ordering Id isundefined`)
+    return ''
+  }
+
+  return stringifyNumber(id) as string
+}
+
+/** /[orderingId] */
+export function orderingUrl (ordering: HasOrderingId, ...subUrls: string[]): string {
+  const idForUrl = orderingIdForUrl(ordering)
+  const ending = stringifySubUrls(...subUrls)
+  return '/' + idForUrl + ending
+}
+
+/** /[orderingId]/edit */
+export function editOrderingUrl (ordering: HasOrderingId): string {
+  return orderingUrl(ordering, 'edit')
 }

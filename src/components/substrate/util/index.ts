@@ -61,6 +61,10 @@ export const getStorefrontId = async (idOrHandle: string, darkdot?: DarkdotApi):
   }
 }
 
+export const getOrderingId = async (idOrHandle: string, darkdot?: DarkdotApi): Promise<BN | undefined> => {
+    return resolveBn(idOrHandle)
+}
+
 export const getAvgPricesOffchain = async ( darkdot?: DarkdotApi): Promise<any[]> => {
   //const darkdot = await getDarkdotApi();
   const { substrate } = darkdot || await getDarkdotApi()

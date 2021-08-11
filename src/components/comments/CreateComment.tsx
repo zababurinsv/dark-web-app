@@ -1,5 +1,5 @@
 import React from 'react';
-import { ProductExtension, Comment, OptionId, IpfsContent } from '@darkpay/dark-types/substrate/classes';
+import { ProductExtension, Comment, OptionId, IpfsContent, None } from '@darkpay/dark-types/substrate/classes';
 import { useDarkdotApi } from '../utils/DarkdotApiContext';
 import { IpfsCid, Product } from '@darkpay/dark-types/substrate/interfaces';
 import dynamic from 'next/dynamic';
@@ -41,7 +41,7 @@ export const NewComment: React.FunctionComponent<NewCommentProps> = ({ product, 
 
   const newExtension = new ProductExtension({ Comment: commentExt })
 
-  const newTxParams = (cid: IpfsCid) => [ new OptionId(), newExtension, new IpfsContent(cid) ];
+  const newTxParams = (cid: IpfsCid) => [ new OptionId(), 0, newExtension, new IpfsContent(cid), None, None, None, None, None ];
 
   const onFailedReduxAction = (id: string) =>
     useRemoveReplyFromStore(dispatch, { replyId: id, parentId: parentIdStr })

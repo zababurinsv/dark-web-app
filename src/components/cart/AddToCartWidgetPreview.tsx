@@ -45,12 +45,12 @@ const ProductSf = productdetails.product.struct.storefront_id
 const ProductSeller = productdetails.product.struct.owner
 
 
-const ProductPrice = Number(productdetails.product.struct.price)/100
+const ProductPrice = Number(productdetails.product.struct.price_usd)/100
 // console.log('DEBUG PRICE **** '+productdetails.product.struct.price)
 
 const BuyerEscrow = productdetails.product.content?.bescrow
 const SellerEscrow = productdetails.product.content?.sescrow
-const ShipCost = productdetails.product.content?.shipcost
+const ShipCost = Number(productdetails.product.struct.ship_cost)/100
 const ShipsTo = productdetails.product.content?.shipsto
 
 
@@ -106,7 +106,7 @@ const data = {
 
   }
 
-  const productPriceView = ((product.struct.price as any)/100).toFixed(2)
+  const productPriceView = ((product.struct.price_usd as any)/100).toFixed(2)
 
 
   // console.log('** Got price --> ' + ProductPrice)
