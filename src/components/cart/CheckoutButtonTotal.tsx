@@ -1,6 +1,5 @@
 //import store from 'store2'
 import React from 'react';
-import { InputNumber } from 'antd';
 import { useCart } from "react-use-cart";
 
 
@@ -18,14 +17,14 @@ type CheckoutButtonTotalProps = {
     const { isEmpty } = useCart();
     const { totalItems } = useCart();
     const { cartTotal } = useCart();
-
+    const cartTotalRounded = cartTotal.toFixed(2)
 
 
   return <>
     {!isEmpty
       ? <>
 
-<span>{totalItems}</span> items | <span>{cartTotal} $</span>
+<span>{totalItems}</span> items | <span>{cartTotalRounded} $</span>
       </>
       :
 <span>Cart is empty</span>

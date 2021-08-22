@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ProductData, ProductWithAllDetails } from '@darkpay/dark-types/dto';
+import { ProductData } from '@darkpay/dark-types/dto';
 import { getDarkdotApi } from 'src/components/utils/DarkdotConnect';
 
 
@@ -19,7 +19,7 @@ export const AddToCartTotal: React.FunctionComponent<AddToCartTotalProps> = Reac
   
   const [usdPerDark, setusdPerDark] = useState<string | number | undefined>()
 
-  const productPrice = Number(product.struct.price)
+  const productPrice = Number(product.struct.price_usd)
   // 1 Dark to 1 USD from Offchain
   const getAvgPrice = new Promise<number>(async (resolve, reject) => {
     const darkdot = await getDarkdotApi();
@@ -42,12 +42,12 @@ export const AddToCartTotal: React.FunctionComponent<AddToCartTotalProps> = Reac
   });
 
 
-  const avgPrice = getAvgPrice.then((price) => {
+  getAvgPrice.then((price) => {
     setusdPerDark(price)
     console.log('******* NowgetAvgPrice : ' + price)
-    return (price) // Succès !
+    return (price) // Success !
   }, (err) => {
-    console.log('******* NowgetAvgPrice ERROR: ' + err) // Erreur !
+    console.log('******* NowgetAvgPrice ERROR: ' + err) // Error !
   });
 
 

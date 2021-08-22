@@ -14,7 +14,7 @@ import { AnyAccountId } from '@darkpay/dark-types'
 import { return404 } from '../utils/next'
 import { getPageOfIds } from '../utils/getIds'
 import { useRouter } from 'next/router'
-import DataList from '../lists/DataList'
+
 
 export type LoadOrderingsType = {
   orderingsData: OrderingData[]
@@ -69,17 +69,17 @@ const OrderingPreview = (ordering: OrderingData) =>
   />
 
 const PublicOrderings = (props: LoadOrderingsProps) => {
-  const { orderingsData, myOrderingIds, address, withTitle } = props
+  const { orderingsData, myOrderingIds, address } = props
   const noOrderings = !myOrderingIds.length
   const totalCount = myOrderingIds.length
   const isMy = isMyAddress(address)
 
-  const title = withTitle
-    ? <span className='d-flex justify-content-between align-items-center w-100 my-2'>
-      <span>{`Public Orderings (${totalCount})`}</span>
-      {!noOrderings && isMy }
-    </span>
-    : null
+  // const title = withTitle
+  //   ? <span className='d-flex justify-content-between align-items-center w-100 my-2'>
+  //     <span>{`Public Orderings (${totalCount})`}</span>
+  //     {!noOrderings && isMy }
+  //   </span>
+  //   : null
 
   return <PaginatedList
     title={'My Orderings'}

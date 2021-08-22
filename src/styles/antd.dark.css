@@ -26408,5 +26408,13 @@ div.ant-typography-edit-content.ant-typography-rtl {
   padding: 0;
 }
 
+.addtocartPreview {
+
+}
+
+.addtocartPreview:hover, .addtocartPreview:hover span {
+  color: #fff !important;
+}
+
 
 /*# sourceMappingURL=antd.dark.css.map*/

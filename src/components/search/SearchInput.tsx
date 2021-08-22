@@ -33,7 +33,7 @@ const SearchInput = () => {
   return (
     <div className={'DfSearch'}>
       <Search
-        placeholder="Search for storefronts, products or comments"
+        placeholder="Search for spaces, posts or comments"
         onSearch={onSearch}
         value={searchValue}
         autoFocus={isMobileDevice}

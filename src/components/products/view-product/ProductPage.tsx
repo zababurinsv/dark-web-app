@@ -25,6 +25,9 @@ import { ViewStorefront } from 'src/components/storefronts/ViewStorefront';
 const StatsPanel = dynamic(() => import('../ProductStats'), { ssr: false });
 import AddToCartWidget from '../../cart/AddToCartWidget'
 import ProductPriceToDark from './ProductPriceToDark';
+import ViewShipCountries from 'src/components/utils/ViewShipCountries';
+import ViewShipCost from 'src/components/utils/ViewShipCost';
+import { Descriptions, Space } from 'antd';
 
 
 export type ProductDetailsProps = {
@@ -82,17 +85,15 @@ const productPriceView = ((product.struct.price_usd as any)/100).toFixed(2)
         </div>
 
 
-        <div className='DfRow'>
-          <ProductCreator productDetails={productDetails} withStorefrontName storefront={storefrontData} />
-          {isNotMobile && <StatsPanel id={struct.id} goToCommentsId={goToCommentsId} />}
-        </div>
-
         {/* <KusamaProposalView proposal={content.ext?.proposal} /> */}
-        <h3 className='fullProductViewPrice'>{productPriceView} $</h3>
-        <ProductPriceToDark product={productDetails.product} />
-        <div className='addtocartRow'>
-      <AddToCartWidget storefront={storefrontStruct} product={productDetails.product} productdetails ={productDetails} title='Add to cart' />
-      </div>
+        <Space direction="horizontal" style={{width: '100%', justifyContent: 'center'}}>
+          <div> <h3 className='fullProductViewPrice'>{productPriceView} $</h3>
+           <ProductPriceToDark product={productDetails.product} /></div>
+         
+          <div className='addtocartRow'>
+            <AddToCartWidget storefront={storefrontStruct} product={productDetails.product} productdetails ={productDetails} title='Add to cart' />
+          </div>
+        </Space>
 
         <div className='DfProductContent'>
           {ext
@@ -102,15 +103,35 @@ const productPriceView = ((product.struct.price_usd as any)/100).toFixed(2)
                 <img src={resolveIpfsUrl(image)} className='DfProductImage' /* add onError handler */ />
               </div>}
               {body && <DfMd source={body} />}
-              <ViewTags tags={tags} className='mt-2' />
+              <ViewTags tags={tags} className='mt-1' />
+              {/* <ViewShipCost shipcost={(parseFloat(struct.ship_cost.toString())/100)} />
+              <ViewShipCountries countries={content?.shipsto} /> */}
             </>}
         </div>
-        
-        <div className='DfRow'>
+        <div className='DfProductContent'>
+                 <Descriptions title="Additional info" bordered>
+                   <Descriptions.Item label="Taxes" span={3}>20 %</Descriptions.Item>
+                   <Descriptions.Item label="Shipping cost" span={3}><ViewShipCost shipcost={(parseFloat(struct.ship_cost.toString())/100)} /></Descriptions.Item>
+                   <Descriptions.Item label="Ships to" span={3}><ViewShipCountries countries={content?.shipsto} /></Descriptions.Item>
+                   <Descriptions.Item label="Buyer escrow" span={3}>50%</Descriptions.Item>
+                   <Descriptions.Item label="Seller escrow" span={3}>50%</Descriptions.Item>
+                 </Descriptions>
+        </div>
+        <div className='DfProductContent'>
+        <div className="ant-descriptions-header"><div className="ant-descriptions-title">Feedback & comments</div></div>
+
+          { <ProductCreator productDetails={productDetails} withStorefrontName storefront={storefrontData} /> }
+          {isNotMobile && <StatsPanel id={struct.id} goToCommentsId={goToCommentsId} />}
+          <CommentSection product={productDetails} hashId={goToCommentsId} replies={replies} storefront={storefrontStruct} />
+
+        </div>
+        <div className='DfProductContent'>
           <ProductActionsPanel productDetails={productDetails} storefront={storefront.struct} />
         </div>
 
-        <div className='DfStorefrontPreviewOnProductPage'>
+        <div className='DfProductContent'>
+        <div className="ant-descriptions-header"><div className="ant-descriptions-title">Related storefront</div></div>
+
           <ViewStorefront
             storefrontData={storefrontData}
             withFollowButton
@@ -120,7 +141,6 @@ const productPriceView = ((product.struct.price_usd as any)/100).toFixed(2)
           />
         </div>
 
-        <CommentSection product={productDetails} hashId={goToCommentsId} replies={replies} storefront={storefrontStruct} />
       </Section>
     </PageContent>
   </>

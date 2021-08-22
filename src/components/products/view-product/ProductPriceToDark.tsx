@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ProductData, ProductWithAllDetails } from '@darkpay/dark-types/dto';
+import { ProductData } from '@darkpay/dark-types/dto';
 import { getDarkdotApi } from 'src/components/utils/DarkdotConnect';
 
 
@@ -41,13 +41,16 @@ export const ProductPriceToDark: React.FunctionComponent<ProductPriceToDarkProps
   });
 
 
-  const avgPrice = getAvgPrice.then((price) => {
+  function avgPrice() { getAvgPrice.then((price) => {
     setusdPerDark(price)
     console.log('******* NowgetAvgPrice : ' + price)
     return (price) // Succès !
   }, (err) => {
     console.log('******* NowgetAvgPrice ERROR: ' + err) // Erreur !
-  });
+  })
+}
+
+avgPrice()
 
  const priceUsdX100 = productPrice/100
  const ProductPriceToDarkDark = (priceUsdX100/(usdPerDark as any)).toFixed(2)

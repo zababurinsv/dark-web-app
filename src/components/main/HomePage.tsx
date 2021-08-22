@@ -42,18 +42,19 @@ const LatestUpdate = (props: Props) => {
 
 const TabsHomePage = (props: Props) => {
   const isSignedIn = useIsSignedIn()
-  const defaultKey = isSignedIn ? 'feed' : 'latest'
+  // const defaultKey = isSignedIn ? 'feed' : 'latest'
+  const defaultKey = 'latest'
   const [ key, setKey ] = useState<string>(defaultKey)
 
   useEffect(() => setKey(defaultKey), [ isSignedIn ])
 
   return <Section className='m-0'>
     <Tabs activeKey={key} onChange={setKey}>
+    <TabPane tab='Latest' key='latest'>
+        <LatestUpdate {...props} />
+      </TabPane>
       <TabPane tab='My feed' key='feed'>
         <MyFeed />
-      </TabPane>
-      <TabPane tab='Latest' key='latest'>
-        <LatestUpdate {...props} />
       </TabPane>
     </Tabs>
   </Section>

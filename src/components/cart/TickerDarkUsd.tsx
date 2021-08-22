@@ -38,14 +38,17 @@ export const TickerDarkUsd: React.FunctionComponent<TickerDarkUsdProps> = React.
   });
 
 
-  const avgPrice = getAvgPrice.then((price) => {
+  function avgPrice() {
+    getAvgPrice.then((price) => {
     settickerDarkUsd(price)
     console.log('******* NowgetAvgPrice : ' + price)
     return (price) // Succès !
   }, (err) => {
     console.log('******* NowgetAvgPrice ERROR: ' + err) // Erreur !
-  });
-
+  })
+}
+  
+avgPrice()
 
   return <Section className={`DfTickerDarkUsd`}>
 

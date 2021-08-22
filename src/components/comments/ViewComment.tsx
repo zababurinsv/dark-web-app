@@ -18,7 +18,7 @@ import { CommentBody } from './helpers';
 import { equalAddresses } from '../substrate';
 import { productUrl } from '../urls';
 import { ShareDropdown } from '../products/share/ShareDropdown';
-// import { ProposerTag } from '../kusama/KusamaProposalDesc';
+//import { ProposerTag } from '../kusama/KusamaProposalDesc';
 
 type Props = {
   rootProduct?: ProductWithSomeDetails,
@@ -41,7 +41,7 @@ export const ViewComment: FunctionComponent<Props> = ({
 
   if (isHidden(comment.product) || !rootProduct) return null
 
-  const { product: { struct: rootProductStruct, content: rootProductContent } } = rootProduct
+  const { product: { struct: rootProductStruct, } } = rootProduct
 
   const {
     id,
@@ -114,7 +114,6 @@ export const ViewComment: FunctionComponent<Props> = ({
           isPadded={false}
           size={32}
           afterName={<>
-            {/* <ProposerTag address={commentOwnerAddress} proposalIndex={rootProductContent?.ext?.proposal?.proposalIndex} /> */}
             {isRootProductOwner
               ? <Tag color='blue'><NotificationOutlined /> Product author</Tag>
               : undefined}

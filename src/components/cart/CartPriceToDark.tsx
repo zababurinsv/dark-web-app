@@ -38,16 +38,24 @@ export const CartPriceToDark: React.FunctionComponent<CartPriceToDarkProps> = Re
     }
   });
 
-
-  const avgPrice = getAvgPrice.then((price) => {
+  function getavgPrice() { getAvgPrice.then((price) => {
     setusdPerDark(price)
     console.log('******* NowgetAvgPrice : ' + price)
     return (price) // Succès !
   }, (err) => {
     console.log('******* NowgetAvgPrice ERROR: ' + err) // Erreur !
-  });
+  })
+}
+  // const avgPrice = getAvgPrice.then((price) => {
+  //   setusdPerDark(price)
+  //   console.log('******* NowgetAvgPrice : ' + price)
+  //   return (price) // Succès !
+  // }, (err) => {
+  //   console.log('******* NowgetAvgPrice ERROR: ' + err) // Erreur !
+  // });
 
-
+  getavgPrice()
+  
  const CartPriceToDarkDark = (price/(usdPerDark as any)).toFixed(2)
 
   return <Section className={`DfCartPriceToDark`}>

@@ -1,4 +1,4 @@
-import { Storefront, Product, StorefrontId, Ordering, OrderingId } from '@darkpay/dark-types/substrate/interfaces'
+import { Storefront, Product, StorefrontId, Ordering } from '@darkpay/dark-types/substrate/interfaces'
 import { stringifyNumber, AnyAddress, AnyText, stringifyAddress } from '../substrate'
 import { newLogger, notDef } from '@darkpay/dark-utils'
 import BN from 'bn.js'

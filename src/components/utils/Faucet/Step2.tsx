@@ -4,30 +4,30 @@ export const Step2ButtonName = 'I understand Token. Next'
 
 export const Step2Content = React.memo(() => <>
   <p>
-    Please note, that this is the beta version of our Platform, which is under constant development and maintenance. The main purpose of this beta version is to give our users the experience of the Platform’s functionality as well as an opportunity to identify defects and obtain feedback on its performance.
+    Please note, that this is an early version, which is under constant development and maintenance.
   </p>
   <p>
-    Since Token is an inherent feature of our technology, all transactions on the Platform require Darkdot Tokens to be successfully conducted or executed. The tokens are used to allocate resources of the Platform so that decentralized applications can self-execute in a secured fashion.
+    All transactions on the Platform require Dark Tokens to be successfully conducted or executed. The tokens are used to allocate resources of the Platform so that decentralized applications can self-execute in a secured fashion.
   </p>
   <p>
-    You can request the designated amount of Darkdot Tokens for free on our Token Faucet for the purpose of this beta version of the Platform as described above.
+    You can request the designated amount of Dark test tokens for testing purposes.
   </p>
   <p>
-    By proceeding to the Token Facet you acknowledge and irrevocably accept that:
+    By proceeding you acknowledge and irrevocably accept that:
   </p>
   <p>
     <ol>
       <li>
-        The current version of Darkdot tokens are utility tokens in the meaning of the applicable legislation, provided to you so that you could enjoy the user experience on the Platform such as personal storefront creation; products and comments creation, following storefronts of other users, etc;
+        The current version of Darkdot tokens are utility test tokens in the meaning of the applicable legislation, provided to you so that you could try the Platform;
       </li>
       <li>
-        Current version of Darkdot tokens shall not be considered as payment tokens, cryptocurrency, or security tokens of any kind;
+        Current version of Dark tokens in this platform is test tokens and shall not be considered as payment tokens, cryptocurrency, or security tokens of any kind;
       </li>
       <li>
-        The balance of the current version of Darkdot tokens, that you will obtain after token request on the Token Faucet, can be alternated without any prior notices as a result of any system adjustment, runtime upgrade, relaunch of the whole network, the token denomination for the purpose of blockchain optimization and security adjustment, a new version of token creation, etc.
+        The balance of the current version of Dark tokens, that you will obtain after token request, can be alternated without any prior notices as a result of any system adjustment, runtime upgrade, relaunch of the whole network, etc.
       </li>
       <li>
-        In the event of such balance alteration we shall bear no obligation to refund, return, reimburse, compensate or otherwise indemnify you any amount of the Darkdot tokens or any equivalent of Darkdot Tokens in any form.
+        In the event of such balance alteration we shall bear no obligation to refund, return, compensate or otherwise indemnify you any amount of the Dark tokens or any equivalent of Dark in any form.
       </li>
     </ol>
   </p>

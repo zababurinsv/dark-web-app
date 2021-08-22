@@ -96,7 +96,7 @@ const InnerInfiniteList = <T extends any>(props: InnerInfiniteListProps<T>) => {
     setLoading(true)
     const newData = await loadMore(page, DEFAULT_PAGE_SIZE)
     data.push(...newData)
-
+    console.warn('data results recieved from search : '+data.length)
     setData([ ...data ])
 
     if (!canHaveMoreData(newData, page)) {

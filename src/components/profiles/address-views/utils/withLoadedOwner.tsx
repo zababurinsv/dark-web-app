@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import { newLogger } from '@darkpay/dark-utils';
-import useDarkdotEffect from 'src/components/api/useDarkdotEffect';
-import { ProfileData } from '@darkpay/dark-types';
+import { newLogger } from '@darkpay/dark-utils'
+import useDarkdotEffect from 'src/components/api/useDarkdotEffect'
+import { ProfileData } from '@darkpay/dark-types'
 import { ExtendedAddressProps } from './types'
-import { Loading } from '../../../utils';
-import { useMyAccount } from 'src/components/auth/MyAccountContext';
+import { Loading } from '../../../utils'
+import { useMyAccount } from 'src/components/auth/MyAccountContext'
 
 const log = newLogger(withLoadedOwner.name)
 

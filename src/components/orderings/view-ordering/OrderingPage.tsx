@@ -1,5 +1,4 @@
 import React from 'react';
-import dynamic from 'next/dynamic';
 import { DfMd } from '../../utils/DfMd';
 import { HeadMeta } from '../../utils/HeadMeta';
 import Section from '../../utils/Section';
@@ -16,9 +15,11 @@ import { PageContent } from 'src/components/main/PageWrapper';
 import { isHidden, Loading } from 'src/components/utils';
 import { useLoadUnlistedStorefront, isHiddenStorefront } from 'src/components/storefronts/helpers';
 import { resolveIpfsUrl } from 'src/ipfs';
-import { useResponsiveSize } from 'src/components/responsive';
+//import { useResponsiveSize } from 'src/components/responsive';
 import { mdToText } from 'src/utils';
 import { ViewStorefront } from 'src/components/storefronts/ViewStorefront';
+import { HiddenProductAlert, isComment, ProductActionsPanel, ProductCreator, ProductDropDownMenu, ProductNotFound, ShareProductContent, useSubscribedProduct } from 'src/components/products/view-product';
+import ViewProductLink from 'src/components/products/ViewProductLink';
 
 
 
@@ -40,7 +41,7 @@ export const ProductPage: NextPage<ProductDetailsProps> = ({ productDetails: ini
 
   if (!content) return null;
 
-  const { isNotMobile } = useResponsiveSize()
+  //const { isNotMobile } = useResponsiveSize()
   const struct = useSubscribedProduct(initStruct)
   const productDetails = { ...initialProduct, product: { struct, content } }
 
@@ -73,15 +74,13 @@ export const ProductPage: NextPage<ProductDetailsProps> = ({ productDetails: ini
           <ProductDropDownMenu productDetails={productDetails} storefront={storefrontStruct} withEditButton />
         </div>
         <div className='addtocartRow'>
-      <AddToCartLink storefront={storefrontStruct} product={product} productdetails ={productDetails} title='Add to cart' />
       </div>
 
         <div className='DfRow'>
           <ProductCreator productDetails={productDetails} withStorefrontName storefront={storefrontData} />
-          {isNotMobile && <StatsPanel id={struct.id} goToCommentsId={goToCommentsId} />}
         </div>
 
-        <KusamaProposalView proposal={content.ext?.proposal} />
+
 
         <div className='DfProductContent'>
           {ext

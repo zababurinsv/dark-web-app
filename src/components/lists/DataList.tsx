@@ -36,6 +36,7 @@ export function DataList<T extends any> (props: DataListProps<T>) {
 
   const total = totalCount || dataSource.length
 
+
   const hasData = total > 0;
 
   const list = hasData

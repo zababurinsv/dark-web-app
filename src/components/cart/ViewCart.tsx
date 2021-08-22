@@ -1,10 +1,8 @@
 import { DeleteOutlined, MinusCircleOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import { notification } from "antd";
-import Link from "next/link";
 import React from "react";
 import { useCart } from "react-use-cart";
 import { resolveIpfsUrl } from "src/ipfs";
-import { PageContent } from "../main/PageWrapper";
 import ButtonLink from "../utils/ButtonLink";
 import Section from "../utils/Section";
 import CartPriceToDark from './CartPriceToDark';
@@ -20,7 +18,6 @@ export const ViewCart = ({ }: ViewCartProps) => {
     const {
         isEmpty,
         cartTotal,
-        totalUniqueItems,
         items,
         updateItemQuantity,
         updateCartMetadata,

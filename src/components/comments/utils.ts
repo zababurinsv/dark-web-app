@@ -3,7 +3,7 @@ import { addProduct, removeProduct, editProduct } from 'src/redux/slices/product
 import { Dispatch } from '@reduxjs/toolkit';
 import { ProductsStoreType } from 'src/redux/types';
 import { ProductData, ProductWithSomeDetails, CommentContent, ProductContent, ProfileData } from '@darkpay/dark-types';
-import { DarkdotIpfsApi } from '@darkpay/dark-api/ipfs';
+import { DarkdotIpfsApi } from '@darkpay/dark-api/';
 import { IpfsCid } from '@darkpay/dark-types/substrate/interfaces';
 import { TxFailedCallback, TxCallback } from 'src/components/substrate/SubstrateTxButton';
 import { FVoid } from '../utils/types';
@@ -46,7 +46,13 @@ type MockComment = {
   fakeId: string,
   address: string,
   owner?: ProfileData,
-  content: CommentContent
+  content: CommentContent,
+  price_usd: null,
+  tax_pct: null,
+  discount_pct: null,
+  buyer_esc_pct: null,
+  seller_esc_pct: null,
+  ship_cost: null,
 }
 
 export type CommentTxButtonType = {
@@ -77,6 +83,12 @@ export const buildMockComment = ({ fakeId, address, owner, content }: MockCommen
         storefront_id: null,
         extension: { Comment: {} },
         content: { None: null },
+        price_usd: null,
+        tax_pct: null,
+        discount_pct: null,
+        buyer_esc_pct: null,
+        seller_esc_pct: null,
+        ship_cost: null,
         hidden: false
       },
       content: content

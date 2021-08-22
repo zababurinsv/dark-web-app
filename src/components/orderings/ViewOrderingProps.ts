@@ -1,4 +1,3 @@
-import BN from 'bn.js'
 import { GenericAccountId as AccountId } from '@polkadot/types'
 import { OrderingData, ProductWithSomeDetails, ProfileData } from '@darkpay/dark-types/dto'
 import { OrderingId, ProductId } from '@darkpay/dark-types/substrate/interfaces'

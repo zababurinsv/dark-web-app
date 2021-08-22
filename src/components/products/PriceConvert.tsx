@@ -1,25 +1,4 @@
-import React, { useState } from 'react'
-import { HasStorefrontIdOrHandle,  productUrl } from '../urls'
-import { IconWithLabel } from '../utils'
-import { isMyAddress } from '../auth/MyAccountContext'
-import { useAuth } from '../auth/AuthContext'
-import { ProductContent, ProductWithSomeDetails, ProductWithAllDetails, StorefrontData } from '@darkpay/dark-types'
-import { getDarkdotApi } from '../utils/DarkdotConnect';
-import { None, ProductExtension } from '@darkpay/dark-types/substrate/classes'
-import { PropertySafetyFilled, ShoppingCartOutlined } from '@ant-design/icons'
-// import { ShareModal } from './ShareModal'
-import { isRegularProduct } from './view-product'
-import { Button, InputNumber, notification, Space } from 'antd';
-import Segment from '../utils/Segment'
 
-
-import { toShortAddress } from 'src/components/utils';
-import { ProfileData } from '@darkpay/dark-types';
-import { nonEmptyStr } from '@darkpay/dark-utils';
-import dynamic from 'next/dynamic';
-
-
-import MyEntityLabel from 'src/components/utils/MyEntityLabel';
 import { getAvgPricesOffchain } from '../substrate'
 
 
@@ -27,9 +6,7 @@ import { getAvgPricesOffchain } from '../substrate'
 export const PriceConvert = (props: { productprice: any, qty: any, lastPrice: any }) => {
     console.log(props);//undefined
    // console.log(prices);//{}
-   return (
-     <div></div>
-   );
+   return null
   };
   
   

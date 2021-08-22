@@ -32,6 +32,7 @@ import { editStorefrontUrl } from '../urls';
 import ButtonLink from '../utils/ButtonLink';
 import { EditOutlined } from '@ant-design/icons';
 import { EntityStatusGroup, PendingStorefrontOwnershipPanel } from '../utils/EntityStatusPanels';
+import ViewStorefrontCountry from '../utils/ViewStorefrontCountry';
 
 // import { StorefrontHistoryModal } from '../utils/ListsEditHistory';
 const FollowStorefrontButton = dynamic(() => import('../utils/FollowStorefrontButton'), { ssr: false });
@@ -82,6 +83,9 @@ export const ViewStorefront = (props: Props) => {
   const StorefrontNameAsLink = (props: BareProps) =>
     <ViewStorefrontLink storefront={storefront} title={storefrontName} {...props} />
 
+  const country = storefrontData.content?.country
+  
+
   const renderNameOnly = () =>
     withLink
       ? <StorefrontNameAsLink />
@@ -115,6 +119,7 @@ export const ViewStorefront = (props: Props) => {
     </>
   );
 
+
   const renderPreview = () =>
     <div className={primaryClass}>
   
@@ -123,7 +128,7 @@ export const ViewStorefront = (props: Props) => {
         <div className='ml-2 w-100'>
           
           <div className='d-flex justify-content-between'>
-            {title}
+            {title} 
             <span className='d-flex align-items-center'>
               <DropdownMenu className='mx-2' storefrontData={storefrontData} />
               {isMy &&
@@ -148,6 +153,8 @@ export const ViewStorefront = (props: Props) => {
           }
 
           {withTags && <ViewTags tags={tags} className='mt-2' />}
+
+        <ViewStorefrontCountry country={country} />
 
           {withStats && <span className='d-flex justify-content-between flex-wrap mt-3'>
             <StorefrontStatsRow storefront={storefront} />

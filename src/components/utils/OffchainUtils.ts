@@ -111,7 +111,8 @@ export const getActivityCounts = async (address: string): Promise<Counts> => {
       commentsCount: 0,
       storefrontsCount: 0,
       reactionsCount: 0,
-      followsCount: 0
+      followsCount: 0,
+      orderingsCount: 0
     }
   }
 }
@@ -119,7 +120,7 @@ export const getActivityCounts = async (address: string): Promise<Counts> => {
 // TODO require refactor
 export const clearNotifications = async (myAddress: string): Promise<void> =>{
   try {
-    const res = await axios.product(getOffchainUrl(`/notifications/${myAddress}/readAll`));
+    const res = await axios.post(getOffchainUrl(`/notifications/${myAddress}/readAll`));
     if (res.status !== 200) {
       console.warn('Failed to mark all notifications as read for account:', myAddress, 'res.status:', res.status)
     }
@@ -132,6 +133,7 @@ export const queryElasticSearch = async (params: ElasticQueryParams): Promise<an
   try {
     const res = await axios.get(getOffchainUrl(`/search`), { params })
     if (res.status === 200) {
+      console.warn(res.data)
       return res.data
     }
   } catch (err) {

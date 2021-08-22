@@ -1,21 +1,15 @@
 import { GenericAccountId as AccountId } from '@polkadot/types';
 import { OrderingContent } from '@darkpay/dark-types/offchain';
-import { nonEmptyStr, isEmptyStr, newLogger } from '@darkpay/dark-utils';
-import BN from 'bn.js';
-import { mdToText } from 'src/utils';
+import { isEmptyStr } from '@darkpay/dark-utils';
 import { NextPage } from 'next';
-import dynamic from 'next/dynamic';
 import Error from 'next/error';
 import React, { useCallback } from 'react';
 import { Segment } from 'src/components/utils/Segment';
-import { isHidden, resolveBn } from '../utils';
+import { resolveBn } from '../utils';
 import { HeadMeta } from '../utils/HeadMeta';
-import { SummarizeMd } from '../utils/md';
-import MyEntityLabel from '../utils/MyEntityLabel';
 import { return404 } from '../utils/next';
 import Section from '../utils/Section';
 import { getDarkdotApi } from '../utils/DarkdotConnect';
-import ViewTags from '../utils/ViewTags';
 //import OrderingStatsRow from './OrderingStatsRow';
 import { ViewOrderingProps } from './ViewOrderingProps';
 //import withLoadOrderingDataById from './withLoadOrderingDataById';
@@ -27,11 +21,12 @@ import { DropdownMenu, ProductPreviewsOnOrdering, OrderingNotFound, OrderingBann
 import { MutedSpan } from '../utils/MutedText';
 import { BareProps } from '../utils/types';
 import { getPageOfIds } from '../utils/getIds';
-import { editOrderingUrl, orderingIdForUrl } from '../urls';
+import { orderingIdForUrl } from '../urls';
 import ButtonLink from '../utils/ButtonLink';
 import { EditOutlined } from '@ant-design/icons';
 import { getOrderingId } from '../substrate';
 import { withLoadOrderingDataById } from './withLoadOrderingDataById';
+import { Badge } from 'antd';
 //import { EntityStatusGroup, PendingOrderingOwnershipPanel } from '../utils/EntityStatusPanels';
 
 // import { OrderingHistoryModal } from '../utils/ListsEditHistory';
@@ -53,11 +48,8 @@ export const ViewOrdering = (props: Props) => {
   const {
     preview = false,
     nameOnly = false,
-    withLink = false,
+    withLink = true,
     miniPreview = false,
-    withFollowButton = true,
-    withStats = true,
-    withTags = true,
     dropdownPreview = false,
     productIds = [],
     products = [],
@@ -68,15 +60,19 @@ export const ViewOrdering = (props: Props) => {
   const ordering = orderingData.struct;
 
   const {
-    id,
+  // id,
     owner
   } = ordering;
 
-  const { address1, address2, postal_code, city, country, orderingcontent_total, orderingcontent_state} = orderingData?.content || {} as OrderingContent
+  // const { address1, address2, postal_code, city, country, orderingcontent_total, orderingcontent_state} = orderingData?.content || {} as OrderingContent
 
-  const orderingState = orderingData.struct.id
+  const { } = orderingData?.content || {} as OrderingContent
 
-  const orderingName = isEmptyStr(orderingState) ? <MutedSpan>{'<Unnamed Ordering>'}</MutedSpan> : orderingState
+
+  const order_total = parseFloat(orderingData.struct.ordering_total.toString()).toFixed(2)
+
+
+  const orderingName = isEmptyStr(ordering.id) ? <MutedSpan>{'<Unnamed Ordering>'}</MutedSpan> : 'Order #' + (ordering.id)
 
   const Banner = useCallback(() => <OrderingBanner ordering={ordering} address={owner} size={imageSize} />, [])
 
@@ -110,16 +106,6 @@ export const ViewOrdering = (props: Props) => {
       </div>
     </div>
 
-  const title = React.createElement(
-    preview ? 'span' : 'h1',
-    { className: 'header'},
-    <>
-      <OrderingNameAsLink className='mr-3' />
-      <MyEntityLabel isMy={isMy}>{orderingData.struct.id} - {orderingData.struct.storefront_id} | $ {orderingData.struct.ordering_total} | {orderingData.content?.address1} - {orderingData.content?.country}</MyEntityLabel>
-      <MyEntityLabel isMy={isMy}>{orderingData.struct.ordering_state}</MyEntityLabel>
-
-    </>
-  );
 
   const renderPreview = () =>
     <div className={primaryClass}>
@@ -129,7 +115,7 @@ export const ViewOrdering = (props: Props) => {
         <div className='ml-2 w-100'>
           
           <div className='d-flex justify-content-between'>
-            {title}
+            {orderingName}
             <span className='d-flex align-items-center'>
               <DropdownMenu className='mx-2' orderingData={orderingData} />
               {isMy &&
@@ -141,8 +127,17 @@ export const ViewOrdering = (props: Props) => {
             </span>
           </div>
           <div className='DfOrderingBannerFull'>
-        <Banner />
+          <Badge status="processing" text={orderingData.struct.ordering_state.toString()} />
+
         </div>
+        <h5 className='header'>Ordering Total :</h5>
+        <div className='d-flex justify-content-between'>$ {order_total}</div>
+        <h5 className='header'>Delivery address :</h5>
+        <span className='d-flex align-items-center'>{orderingData.content?.address1}</span>
+        <span className='d-flex align-items-center'>{orderingData.content?.address2}</span>
+        <span className='d-flex align-items-center'>{orderingData.content?.postal_code} - {orderingData.content?.city}</span>
+        <span className='d-flex align-items-center'>{orderingData.content?.country}</span>
+
 
         </div>
       </div>
@@ -171,7 +166,7 @@ export const ViewOrdering = (props: Props) => {
   </>
 }
 
-const log = newLogger('ViewOrdering.tsx')
+//const log = newLogger('ViewOrdering.tsx')
 // TODO extract getInitialProps, this func is similar in AboutOrdering
 
 const ViewOrderingPage: NextPage<Props> = (props) => {
@@ -184,7 +179,8 @@ const ViewOrderingPage: NextPage<Props> = (props) => {
   }
 
   const id = resolveBn(orderingData.struct.id)
-  const {  address1, address2, postal_code, city, country, ...contactInfo } = orderingData.content
+  // const {  address1, address2, postal_code, city, country,  } = orderingData.content
+  const {  } = orderingData.content
 
   // Simple check (should be imroved later)
   const isPolkaProject = id.eqn(1) || (id.gtn(1000) && id.ltn(1218))
@@ -209,7 +205,7 @@ ViewOrderingPage.getInitialProps = async (props): Promise<Props> => {
   }
 
   const darkdot = await getDarkdotApi()
-  const { substrate } = darkdot
+ //const { substrate } = darkdot
 
   const orderingData = id && await darkdot.findOrdering(id)
   

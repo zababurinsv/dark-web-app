@@ -176,6 +176,7 @@ export const useAccountSelector = ({ injectedAddresses }: AccountSelectorProps) 
         } else {
           localAddresses.push(address)
         } */
+        // empty cart
         return address
       })
 

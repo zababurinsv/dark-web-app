@@ -13,12 +13,12 @@ const { Step } = Steps
 
 const steps = [
   {
-    title: 'Follow Darkdot',
+    title: 'Follow Dark',
     button: Step1ButtonName,
     content: <Step1Content />
   },
   {
-    title: 'Understand Tokens',
+    title: 'Understand Project',
     button: Step2ButtonName,
     content: <Step2Content />
   },
@@ -40,10 +40,10 @@ export const Faucet = () => {
     setCurrent(current + 1)
   }
 
-  const title = 'Darkdot Token Faucet (SMN)'
+  const title = 'Dark Test Token Request'
 
   return <PageContent>
-    <HeadMeta title={title} desc='Get free tokens for a decentralized social network.' />
+    <HeadMeta title={title} desc='Get test tokens to try decentralized e-commerce.' />
     <Section className={`DfContentPage ${styles.Faucet}`} title={title}>
       <Steps current={current} className='mt-3'>
         {steps.map(item => (
@@ -65,7 +65,7 @@ export const Faucet = () => {
           </Button>
         )}
         {current === steps.length - 1 && (
-          <ButtonLink type='primary' href='https://t.me/joinchat/MDeWpRoYQtab1URrwit12Q' target='_blank'>
+          <ButtonLink type='primary' href='https://t.me/D4rkPay' target='_blank'>
             {steps[current].button}
           </ButtonLink>
         )}

@@ -1,4 +1,4 @@
-import React, { CSSProperties } from 'react'
+import React from 'react'
 import { nonEmptyStr } from '@darkpay/dark-utils';
 import IdentityIcon from 'src/components/utils/IdentityIcon';
 import { AnyAccountId } from '@darkpay/dark-types/substrate';

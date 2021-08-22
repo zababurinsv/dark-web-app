@@ -1,4 +1,4 @@
-import React, { CSSProperties } from 'react';
+import React from 'react';
 import { resolveIpfsUrl } from 'src/ipfs';
 import Link, { LinkProps } from 'next/link';
 
@@ -12,7 +12,7 @@ export type BgBannerProps = {
 };
 
 export function DfBgBanner (props: BgBannerProps) {
-  const { src, size, height = 'auto', width = '100%', rounded = false, className='DfBannerLink'} = props;
+  const { src, className='DfBannerLink'} = props;
 
   const fullClass = 'DfBgBanner ' + className;
 
@@ -30,10 +30,9 @@ export function DfBgBanner (props: BgBannerProps) {
 
 type DfBgBannerLinkProps = BgBannerProps & LinkProps
 
-export const DfBgBannerLink = ({ href, as, ...props }: DfBgBannerLinkProps) => <div>
+export const DfBgBannerLink = ({ href, as, ...props }: DfBgBannerLinkProps) => 
     <Link href={href} as={as}>
       <a>
         <DfBgBanner {...props}/>
       </a>
     </Link>
-  </div>

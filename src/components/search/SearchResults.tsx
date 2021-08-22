@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react'
-import { ViewStorefront } from '../storefronts/ViewStorefront'
+import { DynamicViewStorefront } from '../storefronts/ViewStorefront'
 import { Segment } from 'src/components/utils/Segment'
 import { Tabs } from 'antd'
 import { ElasticIndex, ElasticIndexTypes } from '@darkpay/dark-types/offchain/search'
@@ -9,14 +9,18 @@ import { ProfilePreviewWithOwner } from '../profiles/address-views'
 import { DataListOptProps } from '../lists/DataList'
 import { queryElasticSearch } from 'src/components/utils/OffchainUtils'
 import { InfiniteListByData, InnerLoadMoreFn, RenderItemFn } from '../lists/InfiniteList'
-import ProductPreview from '../products/view-product/ProductPreview'
-import { AnyDarkdotData, ProductWithAllDetails, ProfileData, StorefrontData } from '@darkpay/dark-types'
+import { AnyDarkdotData, ProductWithAllDetails } from '@darkpay/dark-types'
+import BN from 'bn.js';
+import { DynamicProductPreview } from '../products/view-product/DynamicProductPreview'
+import registry from '@darkpay/dark-types/substrate/registry'
+import { GenericAccountId as AccountId } from '@polkadot/types';
+
 
 const { TabPane } = Tabs
 
 type DataResults = {
-  index: string
-  id: string
+  _index: string
+  _id: string
   data: (AnyDarkdotData | ProductWithAllDetails)[]
 }
 
@@ -41,24 +45,34 @@ const panes = [
   }
 ]
 
-const resultToPreview = ({ data, index, id }: DataResults, i: number) => {
-  const unknownData = data as unknown
-  switch (index) {
+const resultToPreview = ({ _index, _id, data }: DataResults, i: number) => {
+
+  switch (_index) {
     case ElasticIndex.storefronts:
-      return <ViewStorefront key={`${id}-${i}`} storefrontData={unknownData as StorefrontData} preview withFollowButton />
+    //  return <ViewStorefront key={`${id}-${i}`} storefrontData={unknownData as StorefrontData} preview withFollowButton />
+   return <DynamicViewStorefront id={new BN(_id)} preview withFollowButton />
+
+     return <div>Storefront :${_id}-${i} </div>
     case ElasticIndex.products: {
-      const productData = unknownData as ProductWithAllDetails
-      return <ProductPreview key={productData.product.struct.id.toString()} productDetails={productData} withActions />
+     // const productData = unknownData as ProductWithAllDetails
+     // return <ProductPreview key={productData.product.struct.id.toString()} productDetails={productData} withActions />
+     //return <div>Product :${_id}-${i} </div>
+     return <DynamicProductPreview id={new BN(_id)} withTags />
+
     }
     case ElasticIndex.profiles:
       return (
-        <Segment>
-          <ProfilePreviewWithOwner key={`${id}-${i}`} address={id} owner={unknownData as ProfileData} />
-        </Segment>
+         <Segment>
+             <ProfilePreviewWithOwner key={_id} address={new AccountId(registry, _id)} />
+         </Segment>
+        // <ProfilePreviewWithOwner key={`${_id}-${i}`} address={_id} owner={unknownData as ProfileData} />
+       // <div>Profile :${_id}-${i} </div>
       )
     default:
-      return <></>
-  }
+     // return <ViewStorefront key={`${_id}-${i}`} storefrontData={unknownData as StorefrontData} preview withFollowButton />
+      return <div>Object :${_id}-${i} </div>
+
+    }
 }
 
 type InnerSearchResultListProps<T> = DataListOptProps & {
@@ -70,6 +84,7 @@ const InnerSearchResultList = <T extends DataResults>(props: InnerSearchResultLi
   const router = useRouter()
 
   const getReqParam = (param: 'tab' | 'q' | 'tags') => {
+    console.warn('ROuter query param : '+router.query[param])
     return router.query[param]
   }
 
@@ -86,8 +101,8 @@ const InnerSearchResultList = <T extends DataResults>(props: InnerSearchResultLi
       offset,
       limit: size,
     })
-
-    return res
+ console.warn(res)
+    return res || []
   }
 
   const List = useCallback(() =>

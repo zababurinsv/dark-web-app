@@ -31,7 +31,7 @@ const InnerMoveModal = (props: Props) => {
   const { open, onClose, product, product: { id: productId } } = props
   let { storefrontIds } = props
 
-  if (product.storefront_id.isSome && storefrontIds) {
+  if (product.storefront_id?.isSome && storefrontIds) {
     const productStorefrontId = product.storefront_id.unwrap()
     storefrontIds = storefrontIds.filter(storefrontId => !storefrontId.eq(productStorefrontId))
   }

@@ -34,13 +34,13 @@ type DarkdotApiAction = {
 function reducer (_state: DarkdotApiState, action: DarkdotApiAction): DarkdotApiState {
   switch (action.type) {
     case 'init': {
-      const darkdot = newDarkdotApi(action.api)
-      const { substrate, ipfs } = darkdot
+      const initialState = createDarkdotState(action.api)
+     
       log.info('Darkdot API is ready')
       if (window) {
-        (window as any).darkdot = darkdot
+        (window as any).darkdot = initialState.darkdot
       }
-      return { darkdot, substrate, ipfs, isApiReady: true }
+      return initialState
     }
     default: {
       throw new Error(`Unsupported type of action: ${action?.type}`)
@@ -62,7 +62,7 @@ export type DarkdotApiProps = {
   api: ApiPromise
 }
 
-const createDarkdotState = (api?: ApiPromise) => {
+const createDarkdotState = (api?: ApiPromise) : DarkdotApiState => {
   if (!api) return emptyState;
 
   const darkdot = newDarkdotApi(api)

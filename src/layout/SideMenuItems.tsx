@@ -1,5 +1,5 @@
 import { accountUrl } from 'src/components/urls'
-import { SearchOutlined, RadarChartOutlined, AlertOutlined, HeartOutlined, UserOutlined, ShopOutlined, ShoppingOutlined, ShoppingCartOutlined, PlusOutlined, AuditOutlined } from '@ant-design/icons'
+import { SearchOutlined, RadarChartOutlined, AlertOutlined, HeartOutlined, UserOutlined, ShopOutlined, ShoppingOutlined, ShoppingCartOutlined, PlusOutlined } from '@ant-design/icons'
 import { uiShowAdvanced, advancedUrl, uiShowNotifications } from 'src/components/utils/env'
 
 export type Divider = 'Divider'
@@ -69,7 +69,7 @@ export const buildAuthorizedMenu = (myAddress: string): MenuItem[] => {
     },
     {
       name: 'My orders',
-      page: [ '/accounts/[address]/orderings', accountUrl(account, 'orders') ],
+      page: [ '/accounts/[address]/orderings', accountUrl(account, 'orderings') ],
       icon: <ShoppingOutlined />
     },
     Divider,

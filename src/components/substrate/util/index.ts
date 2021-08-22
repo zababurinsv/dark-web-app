@@ -1,5 +1,5 @@
 import BN from 'bn.js'
-import { Text, GenericAccountId, Option, Enum } from '@polkadot/types'
+import { Text, GenericAccountId, Option } from '@polkadot/types'
 import { AccountId } from '@polkadot/types/interfaces'
 import { AddressProps } from 'src/components/profiles/address-views/utils/types'
 import { toShortAddress, resolveBn } from 'src/components/utils'

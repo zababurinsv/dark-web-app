@@ -1,17 +1,17 @@
-import React from 'react';
-import { ProductExtension, Comment, OptionId, IpfsContent, None } from '@darkpay/dark-types/substrate/classes';
-import { useDarkdotApi } from '../utils/DarkdotApiContext';
-import { IpfsCid, Product } from '@darkpay/dark-types/substrate/interfaces';
-import dynamic from 'next/dynamic';
-import { getNewIdFromEvent, getTxParams } from '../substrate';
+import React from 'react'
+import { ProductExtension, Comment, OptionId, IpfsContent, OptionPrice } from '@darkpay/dark-types/substrate/classes'
+import { useDarkdotApi } from '../utils/DarkdotApiContext'
+import { IpfsCid, Product } from '@darkpay/dark-types/substrate/interfaces'
+import dynamic from 'next/dynamic'
+import { getNewIdFromEvent, getTxParams } from '../substrate'
 import BN from 'bn.js'
-import { useDispatch } from 'react-redux';
-import { useMyAccount } from '../auth/MyAccountContext';
-import { useSetReplyToStore, useRemoveReplyFromStore, useChangeReplyToStore, buildMockComment, CommentTxButtonType } from './utils';
-import { isHiddenProduct, HiddenProductAlert } from '../products/view-product';
+import { useDispatch } from 'react-redux'
+import { useMyAccount } from '../auth/MyAccountContext'
+import { useSetReplyToStore, useRemoveReplyFromStore, useChangeReplyToStore, buildMockComment, CommentTxButtonType } from './utils'
+import { isHiddenProduct, HiddenProductAlert } from '../products/view-product'
 
-const CommentEditor = dynamic(() => import('./CommentEditor'), { ssr: false });
-const TxButton = dynamic(() => import('../utils/TxButton'), { ssr: false });
+const CommentEditor = dynamic(() => import('./CommentEditor'), { ssr: false })
+const TxButton = dynamic(() => import('../utils/TxButton'), { ssr: false })
 
 type NewCommentProps = {
   product: Product
@@ -21,8 +21,8 @@ type NewCommentProps = {
 }
 
 export const NewComment: React.FunctionComponent<NewCommentProps> = ({ product, callback, withCancel, asStub }) => {
-  const { id: parentId, extension } = product;
-  const dispatch = useDispatch();
+  const { id: parentId, extension } = product
+  const dispatch = useDispatch()
   const { darkdot } = useDarkdotApi()
   const { state: { address, account } } = useMyAccount()
 
@@ -41,7 +41,7 @@ export const NewComment: React.FunctionComponent<NewCommentProps> = ({ product, 
 
   const newExtension = new ProductExtension({ Comment: commentExt })
 
-  const newTxParams = (cid: IpfsCid) => [ new OptionId(), 0, newExtension, new IpfsContent(cid), None, None, None, None, None ];
+  const newTxParams = (cid: IpfsCid) => [ new OptionId(), newExtension, new IpfsContent(cid), new OptionPrice(), new OptionPrice(), new OptionPrice(), new OptionPrice(), new OptionPrice(), new OptionPrice()  ]
 
   const onFailedReduxAction = (id: string) =>
     useRemoveReplyFromStore(dispatch, { replyId: id, parentId: parentIdStr })
@@ -63,7 +63,7 @@ export const NewComment: React.FunctionComponent<NewCommentProps> = ({ product, 
     address && useSetReplyToStore(dispatch,
       {
         reply: { replyId: fakeId, parentId: parentIdStr },
-        comment: buildMockComment({ fakeId, address, owner: account, content: { body } })
+        comment: buildMockComment({ fakeId, address, owner: account, content: { body },price_usd: null, tax_pct: null, discount_pct: null, buyer_esc_pct: null, seller_esc_pct: null, ship_cost: null, })
       })
 
   const buildTxButton = ({ disabled, json, fakeId, ipfs, setIpfsCid, onClick, onFailed, onSuccess }: CommentTxButtonType) =>
@@ -79,11 +79,12 @@ export const NewComment: React.FunctionComponent<NewCommentProps> = ({ product, 
       })}
       tx='products.createProduct'
       onFailed={(txResult) => {
+        console.error('Comment err ===>'+fakeId+ ' = '+txResult?.dispatchError?.toString)
         fakeId && onFailedReduxAction(fakeId)
         onFailed && onFailed(txResult)
       }}
       onSuccess={(txResult) => {
-        const id = getNewIdFromEvent(txResult);
+        const id = getNewIdFromEvent(txResult)
         id && fakeId && onSuccessReduxAction(id, fakeId)
         onSuccess && onSuccess(txResult)
       }}

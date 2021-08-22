@@ -36,6 +36,7 @@ import { EntityStatusProps, HiddenEntityPanel } from 'src/components/utils/Entit
 import MoveProductLink from '../MoveProductLink';
 import AddToCartWidgetPreview from 'src/components/cart/AddToCartWidgetPreview';
 import { useCart } from 'react-use-cart';
+import ViewShipCountries from 'src/components/utils/ViewShipCountries';
 
 type DropdownProps = {
   storefront: Storefront
@@ -151,9 +152,9 @@ type ProductCreatorProps = {
 }
 
 export const ProductCreator: React.FunctionComponent<ProductCreatorProps> = ({ productDetails, size, withStorefrontName, storefront }) => {
-  //if (isEmpty(productDetails.product)) return null;
-  const { product: { struct, content }, owner } = productDetails;
-  const { created: { time }, owner: productOwnerAddress } = struct;
+  if (isEmpty(productDetails.product)) return null;
+  const { product,  owner } = productDetails;
+  const { created: { time }, owner: productOwnerAddress } = product.struct;
 
   // TODO replace on loaded storefront after refactor this components
 
@@ -172,7 +173,7 @@ export const ProductCreator: React.FunctionComponent<ProductCreatorProps> = ({ p
             <ViewStorefront storefrontData={storefront} nameOnly withLink />
           </div>{' • '}</>
         }
-        {storefront && <Link href='/[storefrontId]/products/[productId]' as={productUrl(storefront.struct, struct)}>
+        {storefront && <Link href='/[storefrontId]/products/[productId]' as={productUrl(storefront.struct, product.struct)}>
           <a className='DfGreyLink'>
             {formatUnixDate(time)}
           </a>
@@ -337,13 +338,18 @@ const cartTitle = inCart((productDetails.product.struct.id).toString()) ? 'Add m
         </div>
         {/* <KusamaProposalView proposal={content.ext?.proposal} /> */}
         <ProductContent productDetails={productDetails} storefront={storefront.struct} withImage={withImage} />
+        
         {withTags && <ViewTags tags={content?.tags} />}
         {/* {withStats && <StatsPanel id={product.id}/>} */}
         {/* <AddToCartWidget storefront={storefront.struct} product={productDetails.product} productdetails={productDetails} /> */}
 
-
       <AddToCartWidgetPreview storefront={storefront.struct} product={productDetails.product} productdetails ={productDetails} title={cartTitle} />
       {/* <ProductPriceToDark product={productDetails.product} /> */}
+      <div className='DfRow'>
+        <h3>Ships to</h3>
+      <ViewShipCountries countries={productDetails.product.content?.shipsto} />
+      </div>
+
       </div>
       {!isMobile && withImage && <ProductImage product={productDetails.product} storefront={storefront.struct} />}
     </div>

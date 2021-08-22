@@ -1,24 +1,21 @@
 import React, { useState } from 'react'
-import { HasStorefrontIdOrHandle, productUrl } from '../urls'
+import { HasStorefrontIdOrHandle } from '../urls'
 import { IconWithLabel } from '../utils'
 import { useAuth } from '../auth/AuthContext'
-import { ProductWithSomeDetails, ProductWithAllDetails, StorefrontData, ProductData } from '@darkpay/dark-types'
-import { None, ProductExtension } from '@darkpay/dark-types/substrate/classes'
+import { ProductWithSomeDetails, ProductData } from '@darkpay/dark-types'
 import { ShoppingCartOutlined } from '@ant-design/icons'
 // import { ShareModal } from './ShareModal'
-import { Button, InputNumber, notification, Space } from 'antd';
-import TickerDarkUsd from '../cart/TickerDarkUsd'
-import AddToCartTotal from '../cart/AddToCartTotal'
+import { InputNumber, notification} from 'antd';
+
 //import { add, total } from './localstore' 
 //import { Cart,} from './CartUtils
 import { ProductId, StorefrontId } from '@darkpay/dark-types/substrate/interfaces'
 import { Option } from '@polkadot/types'
 import { AccountId } from '@polkadot/types/interfaces'
 // import { addShopping } from './action'
-import { CartProvider, useCart } from "react-use-cart";
+import { useCart } from "react-use-cart";
 
 
-import { stringify } from 'query-string'
 
 type Props = {
   storefront: HasStorefrontIdOrHandle
@@ -40,7 +37,6 @@ export const AddToCartWidget = ({
 
   
 const { openSignInModal, state: { completedSteps: { isSignedIn } } } = useAuth()
-
 
 const ProductTitle = product.content?.title
 const ProductId = productdetails.product.struct.id
@@ -98,7 +94,7 @@ const onQtyChanged = (qty: string | number | undefined) => {
 
 
   const addToCart = (data: { id: ProductId; img: string | undefined; name: string | undefined; qty: number; price: number; sfId: Option<StorefrontId>; seller: AccountId; bescrow: string | undefined; sescrow: string | undefined; shipcost: number ; shipsto: string | undefined }) => {
-    console.log('***** ADD TO CART TRIGGERED ****')
+    console.log( addToCart)
 
 
     openNotification(data.name)
@@ -116,7 +112,6 @@ const onQtyChanged = (qty: string | number | undefined) => {
   return <>
 
   <div className="addtocart-price">
-<h2></h2>
 Qty.
       <InputNumber
       name='qty'

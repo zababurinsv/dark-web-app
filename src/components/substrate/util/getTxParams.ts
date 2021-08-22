@@ -1,7 +1,7 @@
 import { newLogger } from '@darkpay/dark-utils';
 import { CommonContent } from '@darkpay/dark-types';
 import { IpfsCid } from '@darkpay/dark-types/substrate/interfaces';
-import { DarkdotIpfsApi } from '@darkpay/dark-api/ipfs';
+import { DarkdotIpfsApi } from '@darkpay/dark-api/';
 
 const log = newLogger('BuildTxParams')
 

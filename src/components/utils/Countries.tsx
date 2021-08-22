@@ -1,4 +1,5 @@
 export enum Countries {
+  Wolrdwide = 'ALL',
   Afghanistan = 'AF',
   AlandIslands = 'AX',
   Albania = 'AL',

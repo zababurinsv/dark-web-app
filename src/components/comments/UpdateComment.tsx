@@ -1,5 +1,5 @@
 import React from 'react';
-import { ProductUpdate, OptionBool, OptionIpfsContent } from '@darkpay/dark-types/substrate/classes';
+import { ProductUpdate, OptionBool, OptionIpfsContent, OptionPrice } from '@darkpay/dark-types/substrate/classes';
 import { IpfsCid, Product } from '@darkpay/dark-types/substrate/interfaces';
 import dynamic from 'next/dynamic';
 import { CommentContent, ProductContent } from '@darkpay/dark-types';
@@ -30,9 +30,14 @@ export const EditComment: React.FunctionComponent<EditCommentProps> = ({ struct,
       {
       // TODO setting new storefront_id will move the product to another storefront.
         storefront_id: new Option(registry, 'u64', null),
-        price:  new Option(registry, 'u32', null),
         content: new OptionIpfsContent(hash),
-        hidden: new OptionBool(false) // TODO has no implementation on UI
+        price_usd: new OptionPrice(),
+        tax_pct: new OptionPrice(),
+        discount_pct: new OptionPrice(),
+        buyer_esc_pct: new OptionPrice(),
+        seller_esc_pct: new OptionPrice(),
+        ship_cost: new OptionPrice(), 
+        hidden: new OptionBool(false),
       });
     return [ struct.id, update ];
   }

@@ -238,20 +238,18 @@ export function InnerForm (props: FormProps) {
         <Input type='email' placeholder='Email address' />
       </Form.Item>
 
-      <Form.Item label="Delivery Address">
+      <Form.Item label="Shop Address">
 
         <Input.Group>
         <Form.Item
             name={fieldName('address1')}
             noStyle
-            rules={[{ required: true, message: 'A delivery address is mandatory !' }]}
           >
             <Input style={{ width: '100%' }} placeholder="Number, Street, Apt." />
           </Form.Item>
           <Form.Item
             name={fieldName('address2')}
             noStyle
-            rules={[{ required: false, message: 'Enter State or any relevant address info' }]}
           >
             <Input style={{ width: '100%' }} placeholder="State or any other relevant address info" />
           </Form.Item>
@@ -261,7 +259,6 @@ export function InnerForm (props: FormProps) {
         noStyle
         hasFeedback
         rules={[
-          { required: true, message: 'Postal Code is required.' },
           { min: NAME_MIN_LEN, message: minLenError('Name', NAME_MIN_LEN) },
           { max: NAME_MAX_LEN, message: maxLenError('Name', NAME_MAX_LEN) }
         ]}
@@ -272,10 +269,6 @@ export function InnerForm (props: FormProps) {
         name={fieldName('city')}
         label='City'
         noStyle
-        hasFeedback
-        rules={[
-          { required: true, message: 'City is required.' },
-        ]}
       >
         <Input style={{ width: '50%' }}  placeholder='Your city' />
       </Form.Item>    
@@ -283,7 +276,6 @@ export function InnerForm (props: FormProps) {
         name={fieldName('country')}
             label='Country'
             noStyle
-            rules={[{ required: true, message: 'Country is required' }]}
           >
             <Select style={{ width: '50%' }} placeholder="Select country">
           {Object.keys(Countries).map(key => (

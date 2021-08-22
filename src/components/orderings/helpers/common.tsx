@@ -5,7 +5,7 @@ import React from 'react'
 import { isMyAddress } from 'src/components/auth/MyAccountContext'
 
 import NoData from 'src/components/utils/EmptyList'
-import { EntityStatusProps, HiddenEntityPanel } from 'src/components/utils/EntityStatusPanels'
+//import { EntityStatusProps } from 'src/components/utils/EntityStatusPanels'
 
 export type OrderingProps = {
   ordering: Ordering
@@ -17,9 +17,9 @@ export const isMyOrdering = (ordering?: Ordering) =>
 
 
 
-type StatusProps = EntityStatusProps & {
-  ordering: Ordering
-}
+// type StatusProps = EntityStatusProps & {
+//   ordering: Ordering
+// }
 
 
 export const OrderingNotFound = () =>

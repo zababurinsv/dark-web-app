@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import {  PlusCircleOutlined, MinusCircleOutlined, DeleteOutlined } from '@ant-design/icons'
 import { useCart } from "react-use-cart";
 import { resolveIpfsUrl } from 'src/ipfs';
@@ -12,16 +12,16 @@ item?: any
 
 export const CartItem = ({ item }: ViewCartProps) => {
     const {
-        isEmpty,
-        cartTotal,
-        totalUniqueItems,
-        items,
         updateItemQuantity,
         removeItem,
     } = useCart();
 
-    function gotImg(string) {  return resolveIpfsUrl(item.img) }
-
+ //   function gotImg(string) {  return resolveIpfsUrl(item.img) }
+ let  gotImg: (itemImg: string) => string = function (
+    itemImg: string
+  ): string {
+    return resolveIpfsUrl(item.img)
+  };
   
 
     return ( 

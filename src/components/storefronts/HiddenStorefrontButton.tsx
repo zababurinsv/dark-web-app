@@ -15,6 +15,7 @@ export function HiddenStorefrontButton (props: HiddenStorefrontButtonProps) {
   const hidden = storefront.hidden.valueOf()
 
   const update = new StorefrontUpdate({
+    parent_id: new Option(registry, 'StorefrontId'),
     handle: new OptionOptionText(),
     content: new OptionIpfsContent(),
     hidden: new OptionBool(!hidden), // TODO has no implementation on UI

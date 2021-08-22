@@ -20,7 +20,7 @@ export const RegularPreview: ComponentType = (props) => {
     ? <>
       <InfoProductPreview productDetails={productDetails} storefront={storefront} withTags={withTags} />
       {withActions && <ProductActionsPanel productDetails={productDetails} storefront={storefront.struct} toogleCommentSection={() => setCommentsSection(!commentsSection) } preview withBorder />}
-      {/* {commentsSection && <CommentSection product={productDetails} replies={replies} storefront={storefront.struct} withBorder />} */}
+      {commentsSection && <CommentSection product={productDetails} replies={replies} storefront={storefront.struct} withBorder />}
     </>
     : <ProductNotFound />
 }

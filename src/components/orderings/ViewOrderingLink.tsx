@@ -1,9 +1,9 @@
 import React from 'react'
 import Link from 'next/link'
-import { HasOrderingIdOrHandle, orderingUrl } from '../urls'
+import { HasOrderingId, orderingUrl } from '../urls'
 
 type Props = {
-  ordering: HasOrderingIdOrHandle
+  ordering: HasOrderingId
   title?: React.ReactNode
   hint?: string
   className?: string

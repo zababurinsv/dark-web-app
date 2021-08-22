@@ -1,7 +1,6 @@
 import { ProductWithSomeDetails, OrderingData } from '@darkpay/dark-types/dto';
 import { ProductId, Ordering } from '@darkpay/dark-types/substrate/interfaces';
 import React, { useCallback } from 'react';
-import DataList from 'src/components/lists/DataList';
 import { InfiniteListByPage } from 'src/components/lists/InfiniteList';
 import ProductPreview from 'src/components/products/view-product/ProductPreview';
 import { resolveBn } from 'src/components/utils';
@@ -9,7 +8,6 @@ import { getPageOfIds } from 'src/components/utils/getIds';
 import { Pluralize } from 'src/components/utils/Plularize';
 import { useDarkdotApi } from 'src/components/utils/DarkdotApiContext';
 import { isMyOrdering } from './common';
-import { useLoadUnlistedProductsByOwner } from './useLoadUnlistedProductsByOwner';
 
 type Props = {
   orderingData: OrderingData
